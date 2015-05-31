@@ -1,0 +1,29 @@
+{% raw %}
+
+<script id="wishlist-button" data="product" type="text/template">
+    <a href=""
+       class="wishlist-toggle-button"
+       data-product="{{ product.id }}">{% if product.in_wishlist %}Remove from wish list{% else %}Add to wish list{% endif %}</a>
+</script>
+
+<script id="wishlist" data="wishlist" type="text/template">
+    <div>
+        <h1>Wish List ({{ wishlist.products.length }})</h1>
+
+        {% for product in wishlist.products %}
+        <h3>{{ product.title }} - {{ product.first_available_variant.title }}</h3>
+        <a href=""
+           class="wishlist-remove-button"
+           data-wishlist-item="{{ product.wishlist_item_id }}">Remove Item</a>
+        {% endfor %}
+
+        {% if wishlist.products.length %}
+        <div>
+            <a href=""
+               class="wishlist-clear-button">Clear Wishlist</a>
+        </div>
+        {% endif %}
+    </div>
+</script>
+
+{% endraw %}

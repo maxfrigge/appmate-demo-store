@@ -1,0 +1,163 @@
+{% if settings.slide_1 != false or settings.slide_2 != false or settings.slide_3 != false or settings.slide_4 != false %}
+<!-- Begin slider -->
+<div class="span12 border-bottom p30">
+  <div class="flexslider-container">
+    <div class="flexslider">
+      <ul class="slides">
+        {% for i in (1..4) %}
+          {% capture show_slide %}slide_{{ i }}{% endcapture %}
+          {% capture image %}slideshow_{{ i }}.jpg{% endcapture %}
+          {% capture link %}slide_{{ i }}_link{% endcapture %}
+          {% capture alt %}slide_{{ i }}_alt{% endcapture %}
+          {% if settings[show_slide] %}
+          <li>
+            <a href="{{ settings[link] }}">
+              <img src="{{ image | asset_url }}" alt="{{ settings[alt] | escape }}" />
+            </a>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <div class="flex-controls"></div>
+    </div>
+  </div>
+</div>
+<!-- End slider -->
+{% endif %}
+
+<!-- Start products -->
+{% if settings.frontpage_collection != '' %}
+
+  <div class="clearfix helper-section">
+
+    {% if collections[settings.frontpage_collection].products.size == 0 %}
+
+      {% include 'helper-homepage-products' %}
+
+    {% else %}
+
+      {% assign grid_started = false %}
+
+      {% for product in collections[settings.frontpage_collection].products %}
+
+        {% assign product_layout = "grid" %}
+        {% if forloop.length == 1 %}
+          {% assign product_layout = "full-product" %}
+        {% elsif forloop.length <= 3 %}
+          {% assign product_layout = "row" %}
+        {% elsif forloop.length > 3 and forloop.index == 1 %}
+          {% assign product_layout = "row" %}
+        {% endif %}
+
+        {% if settings.frontpage_collection_layout == "grid" %}
+          {% assign product_layout = "grid" %}
+        {% endif %}
+
+        {% if product_layout == "full-product" %}
+
+          {% include 'product' with product %}
+          {% assign test_product = product %}
+
+        {% elsif product_layout == "row" %}
+
+        <!-- Full-row product -->
+        <div class="display-table featured-product span12">
+          <div class="p30">
+            {% if forloop.index == 2 %}
+              <div class="display-table-cell featured-product-image">
+                {% if product.images.size > 0 %}
+                <a href="{{ product.url }}">
+                  <img alt="featured product" src="{{ product.featured_image | product_img_url: 'grande' }}">
+                </a>
+                {% else %}
+                {% endif %}
+              </div>
+            {% endif %}
+            <div class="display-table-cell featured-product-description">
+              <h2>{{ product.title }}</h2>
+              <span class="price">
+                {% if product.available %}
+                {% if product.compare_at_price_max > product.price %}
+                <del>{{ product.compare_at_price | money }}</del>
+                {% endif %}
+                {% if product.price_varies %}
+                <small><em>from</em></small>
+                {% endif %}
+                {{ product.price | money }}
+                {% else %}
+                {{ product.price | money }} Sold Out
+                {% endif %}
+              </span>
+              <div class="featured-product-description">{{ product.description}}</div>
+              <a class="btn" href="collections/{{ settings.frontpage_collection }}{{ product.url }}">View product</a>
+            </div>
+            {% if forloop.index != 2 %}
+              <div class="display-table-cell featured-product-image">
+                {% if product.images.size > 0 %}
+                <a href="{{ product.url }}">
+                  <img alt="featured product" src="{{ product.featured_image | product_img_url: 'grande' }}">
+                </a>
+                {% else %}
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        {% elsif product_layout == "grid" %}
+
+          {% unless grid_started %}
+            <!-- Grid-style product -->
+            <div class="products">
+            {% assign grid_started = "true" %}
+          {% endunless %}
+
+          {% include 'product-loop' with settings.frontpage_collection %}
+
+          {% if forloop.last %}
+            </div>
+          {% endif %}
+
+        {% endif %}
+
+      {% endfor %}
+
+      <!-- End -->
+      <div class="span12 border-bottom p30"></div>
+
+    {% endif %}
+
+  </div>
+{% endif %}
+<!-- End products -->
+
+<!-- start content page -->
+{% if settings.homepage != '' %}
+  {% assign helper_welcome = false %}
+  
+  {% if pages[settings.homepage].content contains 'where users go when first trying to determine a level of trust' %}
+    {% assign helper_welcome = true %}
+  {% endif %}
+
+  {% if pages[settings.homepage].content contains 'Write a few sentences to tell people about your store' %}
+    {% assign helper_welcome = true %}
+  {% endif %}
+
+  <div class="span12 clearfix {% if helper_welcome %}helper-section{% endif %}">
+    {% if helper_welcome %}
+    <div class="note helper-note helper-homepage-page">
+      <i class="icon-pages helper-icon"></i>
+      <h3>How to change this section</h3>
+      <p>You can change this content by editing the <em>"Frontpage"</em> page in your the pages section. You can also replace this content with content from another page in your theme settings.</p>
+      <p><a href="/admin/pages" class="admin-btn-primary">Edit "Frontpage" page</a><a class="secondary-action" href="/admin/themes/current/settings">View theme settings</a></p>
+    </div>
+    {% endif %}
+    <div class="p30 clearfix  {% if helper_welcome %}helper-content{% endif %}">
+      <div class="intro clearfix">
+        <h2>{{ pages[settings.homepage].title }}</h2>
+        {{ pages[settings.homepage].content }}
+      </div>
+    </div>
+  </div>
+{% endif %}
+<!-- end content page -->

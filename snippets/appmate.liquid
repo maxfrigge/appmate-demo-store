@@ -1,0 +1,59 @@
+{{ '//toolkit-appmate.pagekite.me/appmate-loader.js' | script_tag }}
+
+<script type="text/javascript">
+    ;(function(){
+        if (typeof Appmate === 'undefined') return; // In case lib didn't load.
+
+        Appmate.config({
+            shop: {
+                domain: '{{ shop.domain }}',
+                affiliate: 'my-affiliate-key'
+            },
+            session: {
+                customer: ""
+            }
+        });
+        // Flavor: Extended with callbacks
+        Appmate.on({
+            'click .wishlist-remove-button': function(){
+                e.preventDefault();
+
+                var item = this.getAttribute('data-wishlist-item');
+
+                Appmate.wishlist.removeItem(item)
+                    .then(function(){
+                        console.log('Item removed.');
+                    })
+                    .catch(function(error){
+                        console.error(error);
+                    });
+
+                return false;
+            },
+            'click .wishlist-toggle-button': function(e){
+                e.preventDefault();
+
+                var product = this.getAttribute('data-product');
+
+                Appmate.wishlist.toggleProduct(product)
+                    .then(function(){
+                        console.log('Item toggled.');
+                    })
+                    .catch(function(error){
+                        console.error(error);
+                    });
+
+            }
+        });
+
+        // Flavor: Compact
+        // Appmate.on({
+        //     'click .wishlist-remove-button': 'wishlist.removeItem',
+        //     'click .wishlist-toggle-button': 'wishlist.toggleProduct'
+        // });
+
+    })();
+
+</script>
+
+{% include 'appmate-wishlist' %}
