@@ -1,29 +1,125 @@
 {% raw %}
 
-<script id="wishlist-button" data="product" type="text/template">
+<script id="wishlist-toolbar" data="wishlist" type="text/template">
+  <li class="toolbar-wishlist {% if wishlist.item_count != 0 %}has-items{% endif %}">
+    <a href="{{ wishlist.url }}" class="wishlist" title="Wish List">
+      <span class="icon-wishlist"></span>
+      Wish List <span class="wishlist-count">({{ wishlist.item_count }})</span>
+    </a>
+  </li>
+</script>
+
+<script id="wishlist-button-toggle" data="product" type="text/template">
     <a href=""
        class="wishlist-toggle-button"
        data-product="{{ product.id }}">{% if product.in_wishlist %}Remove from wish list{% else %}Add to wish list{% endif %}</a>
 </script>
 
+<script id="wishlist-button-clear" data="wishlist" type="text/template">
+    <a href=""
+       data-wishlist="{{ wishlist.id }}"
+       class="wishlist-clear-button">Clear Wish List</a>
+</script>
+
+<script id="wishlist-button-remove" data="product" type="text/template">
+    <a href=""
+       class="wishlist-remove-button"
+       data-wishlist-item="{{ product.wishlist_item_id }}">Remove from wish list</a>
+</script>
+
 <script id="wishlist" data="wishlist" type="text/template">
-    <div>
-        <h1>Wish List ({{ wishlist.products.length }})</h1>
-
-        {% for product in wishlist.products %}
-        <h3>{{ product.title }} - {{ product.first_available_variant.title }}</h3>
-        <a href=""
-           class="wishlist-remove-button"
-           data-wishlist-item="{{ product.wishlist_item_id }}">Remove Item</a>
-        {% endfor %}
-
-        {% if wishlist.products.length %}
-        <div>
-            <a href=""
-               class="wishlist-clear-button">Clear Wishlist</a>
-        </div>
-        {% endif %}
+  <!-- Begin empty wish list -->
+  {% if wishlist.item_count == 0 %}
+  <div class="row">
+    <div class="span12 expanded-message">
+      <br>
+      <br>
+      <h2 class="tc">Your wish list is empty!</h2>
     </div>
+  </div>
+  <!-- End empty wish list -->
+
+  <!-- Begin wish list -->
+  {% else %}
+  <div class="row">
+    <div class="span12">
+      {% include 'wishlist-button-clear' %}
+    </div>
+  </div>
+  <div class="row">
+    {% for product in wishlist.products %}
+      <div class="span4">
+        <a href="{{ product.url }}">
+          <strong>{{ product.title }}</strong>
+          {% if product.variants.size > 1 %}
+            <span class="variant_title">{{ product.variant.title }}</span>
+          {% endif %}
+        </a>
+        <div class="product_image">
+          <a href="{{ product.url }}">
+            <img src="{{ product | img_url: 'medium' }}"  alt="{{ product.title }}" />
+          </a>
+        </div>
+        <!-- Wish list controls -->
+        <div class="wishlist_controls">
+          {% include 'wishlist-button-remove' with product %}
+        </div>
+
+        <!-- Variants and add to cart button -->
+        {% assign variant = product.selected_or_first_available_variant %}
+        <div class="purchase">
+          <h2 class="price" id="price-preview">{{ variant.price | money }}{% if variant.price < variant.compare_at_price %} <del>{{ variant.compare_at_price | money }}</del>{% endif %}</h2>
+        </div>
+
+        {% assign hide_default_title = false %}
+        {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+          {% assign hide_default_title = true %}
+        {% endif %}
+
+        <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix">
+
+          <!-- Begin product options -->
+          <div class="product-options {% if hide_default_title %}no-options {% endif %}">
+
+            <div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
+              <select id="product-select-{{ product.id }}" name="id">
+                {% for variant in product.variants %}
+                <option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            {% if settings.display_quantity_dropdown %}
+            <div class="selector-wrapper">
+              <label>Quantity</label>
+              <input id="quantity-{{ product.id }}" type="number" name="quantity" value="1" class="tc item-quantity" />
+            </div>
+            {% endif %}
+
+            <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
+              <div class="purchase">
+                {% unless product.available %}
+                <p>Sold Out</p>
+                {% else %}
+
+                <input type="submit" id="add-to-cart-{{ product.id }}" class="btn addtocart" name="add" value="Add to cart" />
+
+                <!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
+
+                <div id="cart-animation-{{ product.id }}" style="display:none">1</div>
+                {% endunless %}
+              </div>
+            </div>
+
+          </div>
+          <!-- End product options -->
+
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- End wish list -->
+  {% endif %}
 </script>
 
 {% endraw %}

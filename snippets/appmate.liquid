@@ -15,7 +15,7 @@
         });
         // Flavor: Extended with callbacks
         Appmate.on({
-            'click .wishlist-remove-button': function(){
+            'click .wishlist-remove-button': function(e){
                 e.preventDefault();
 
                 var item = this.getAttribute('data-wishlist-item');
@@ -28,7 +28,6 @@
                         console.error(error);
                     });
 
-                return false;
             },
             'click .wishlist-toggle-button': function(e){
                 e.preventDefault();
@@ -38,6 +37,18 @@
                 Appmate.wishlist.toggleProduct(product)
                     .then(function(){
                         console.log('Item toggled.');
+                    })
+                    .catch(function(error){
+                        console.error(error);
+                    });
+
+            },
+            'click .wishlist-clear-button': function(e){
+                e.preventDefault();
+
+                Appmate.wishlist.clear()
+                    .then(function(){
+                        console.log('Wish list cleared.');
                     })
                     .catch(function(error){
                         console.error(error);

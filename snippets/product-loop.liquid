@@ -38,9 +38,9 @@
       </span>
       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
     </a>
-    <!-- include 'wishlist-button' with '{{ product.id }}' -->
+    <!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
   </div>
-  
+
 </div>
 
 {% if product_span_size == 'span4' %}{% cycle 'clear-product-loop': '', '', '<div style="clear:both;"></div>' %}{% endif %}
