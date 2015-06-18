@@ -1,6 +1,6 @@
 {% raw %}
 
-<script id="wishlist-toolbar" data="wishlist" type="text/template">
+<script id="wishlist-toolbar" data="wishlist" type="text/x-template">
   <li class="toolbar-wishlist {% if wishlist.item_count != 0 %}has-items{% endif %}">
     <a href="{{ wishlist.url }}" class="wishlist" title="Wish List">
       <span class="icon-wishlist"></span>
@@ -9,25 +9,25 @@
   </li>
 </script>
 
-<script id="wishlist-button-toggle" data="product" type="text/template">
+<script id="wishlist-button-toggle" data="product" type="text/x-template">
     <a href=""
        class="wishlist-toggle-button"
        data-product="{{ product.id }}">{% if product.in_wishlist %}Remove from wish list{% else %}Add to wish list{% endif %}</a>
 </script>
 
-<script id="wishlist-button-clear" data="wishlist" type="text/template">
+<script id="wishlist-button-clear" data="wishlist" type="text/x-template">
     <a href=""
        data-wishlist="{{ wishlist.id }}"
        class="wishlist-clear-button">Clear Wish List</a>
 </script>
 
-<script id="wishlist-button-remove" data="product" type="text/template">
+<script id="wishlist-button-remove" data="product" type="text/x-template">
     <a href=""
        class="wishlist-remove-button"
        data-wishlist-item="{{ product.wishlist_item_id }}">Remove from wish list</a>
 </script>
 
-<script id="wishlist" data="wishlist" type="text/template">
+<script id="wishlist" data="wishlist" type="text/x-template">
   <!-- Begin empty wish list -->
   {% if wishlist.item_count == 0 %}
   <div class="row">
@@ -48,78 +48,132 @@
   </div>
   <div class="row">
     {% for product in wishlist.products %}
-      <div class="span4">
-        <a href="{{ product.url }}">
-          <strong>{{ product.title }}</strong>
-          {% if product.variants.size > 1 %}
-            <span class="variant_title">{{ product.variant.title }}</span>
-          {% endif %}
-        </a>
-        <div class="product_image">
-          <a href="{{ product.url }}">
-            <img src="{{ product | img_url: 'medium' }}"  alt="{{ product.title }}" />
-          </a>
-        </div>
-        <!-- Wish list controls -->
-        <div class="wishlist_controls">
-          {% include 'wishlist-button-remove' with product %}
-        </div>
-
-        <!-- Variants and add to cart button -->
-        {% assign variant = product.selected_or_first_available_variant %}
-        <div class="purchase">
-          <h2 class="price" id="price-preview">{{ variant.price | money }}{% if variant.price < variant.compare_at_price %} <del>{{ variant.compare_at_price | money }}</del>{% endif %}</h2>
-        </div>
-
-        {% assign hide_default_title = false %}
-        {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-          {% assign hide_default_title = true %}
+    <div id="wishlist-item-{{ product.wishlist_item_id }}" class="span4" data-wishlist-item="{{ product.wishlist_item_id }}">
+      <a href="{{ product.url }}">
+        <strong>{{ product.title }}</strong>
+        {% if product.variants.size > 1 %}
+          <span class="variant_title">{{ product.variant.title }}</span>
         {% endif %}
-
-        <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix">
-
-          <!-- Begin product options -->
-          <div class="product-options {% if hide_default_title %}no-options {% endif %}">
-
-            <div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
-              <select id="product-select-{{ product.id }}" name="id">
-                {% for variant in product.variants %}
-                <option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            {% if settings.display_quantity_dropdown %}
-            <div class="selector-wrapper">
-              <label>Quantity</label>
-              <input id="quantity-{{ product.id }}" type="number" name="quantity" value="1" class="tc item-quantity" />
-            </div>
-            {% endif %}
-
-            <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
-              <div class="purchase">
-                {% unless product.available %}
-                <p>Sold Out</p>
-                {% else %}
-
-                <input type="submit" id="add-to-cart-{{ product.id }}" class="btn addtocart" name="add" value="Add to cart" />
-
-                <!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
-
-                <div id="cart-animation-{{ product.id }}" style="display:none">1</div>
-                {% endunless %}
-              </div>
-            </div>
-
-          </div>
-          <!-- End product options -->
-
-        </form>
+      </a>
+      <div class="product_image">
+        <a href="{{ product.url }}">
+          <img src="{{ product | img_url: 'medium' }}"  alt="{{ product.title }}" />
+        </a>
       </div>
+      <!-- Wish list controls -->
+      <div class="wishlist_controls">
+        {% include 'wishlist-button-remove' with product %}
+      </div>
+
+      <!-- Variants and add to cart button -->
+      {% assign variant = product.selected_or_first_available_variant %}
+      <div class="purchase">
+        <h2 class="price price-preview">{{ variant.price | money }}{% if variant.price < variant.compare_at_price %} <del>{{ variant.compare_at_price | money }}</del>{% endif %}</h2>
+      </div>
+
+      {% assign hide_default_title = false %}
+      {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+        {% assign hide_default_title = true %}
+      {% endif %}
+
+      <form id="add-item-form-{{ product.wishlist_item_id }}" action="/cart/add" method="post" class="variants clearfix">
+
+        <!-- Begin product options -->
+        <div class="product-options {% if hide_default_title %}no-options {% endif %}">
+
+          <div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
+            <select id="product-select-{{ product.wishlist_item_id }}" class="product-select" name="id">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          {% if settings.display_quantity_dropdown %}
+          <div class="selector-wrapper">
+            <label>Quantity</label>
+            <input class="quantity-{{ product.id }}" type="number" name="quantity" value="1" class="tc item-quantity" />
+          </div>
+          {% endif %}
+
+          <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
+            <div class="purchase">
+              {% unless product.available %}
+              <p>Sold Out</p>
+              {% else %}
+
+              <input type="submit" class="add-to-cart btn addtocart" name="add" value="Add to cart" />
+
+              <!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
+
+              <div class="cart-animation" style="display:none">1</div>
+              {% endunless %}
+            </div>
+          </div>
+        </div>
+        <!-- End product options -->
+
+      </form>
+
+    </div>
     {% endfor %}
   </div>
   <!-- End wish list -->
+
   {% endif %}
 </script>
 
 {% endraw %}
+
+<script>
+var appmateSelectCallback = function(variant, selector) {
+
+  var product = {};
+  var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
+
+  console.log(selector.variantIdField);
+
+  var containerId = '#wishlist-item-' + itemId;
+  var shop = {};
+  var settings = {};
+
+  if (variant && variant.available) {
+    jQuery(containerId + ' .add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
+    if(variant.price < variant.compare_at_price){
+      jQuery(containerId + ' .price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
+    } else {
+      jQuery(containerId + ' .price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
+    }
+  } else {
+    jQuery(containerId + ' .add-to-cart').addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
+    var message = variant ? "Sold Out" : "Unavailable";
+    jQuery(containerId + ' .price-preview').text(message);
+  }
+
+  console.log('Variant changed!', variant, selector);
+};
+
+var initProductSelect = function(el){
+  var id = el.getAttribute('id');
+  // var itemId = el.getAttribute('data-wishlist-item');
+  var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
+
+  console.log(itemId);
+
+  Appmate.wishlist.getItem(itemId)
+    .then(function(product){
+      console.log('INIT PRODUCT SELECT', product);
+
+      new Shopify.OptionSelectors(id, {
+        product: product,
+        onVariantSelected: appmateSelectCallback,
+        enableHistoryState: false
+      });
+
+      // Add label if only one product option and it isn't 'Title'.
+      if (product.options.size == 1 && product.options.first != 'Title') {
+        $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
+      }
+    });
+};
+</script>

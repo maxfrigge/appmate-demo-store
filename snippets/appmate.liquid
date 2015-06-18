@@ -10,13 +10,13 @@
                 affiliate: 'my-affiliate-key'
             },
             session: {
-                customer: ""
-            }
+                customer: ''
+            },
         });
         // Flavor: Extended with callbacks
         Appmate.on({
-            'click .wishlist-remove-button': function(e){
-                e.preventDefault();
+            'click .wishlist-remove-button': function(event){
+                event.preventDefault();
 
                 var item = this.getAttribute('data-wishlist-item');
 
@@ -29,8 +29,8 @@
                     });
 
             },
-            'click .wishlist-toggle-button': function(e){
-                e.preventDefault();
+            'click .wishlist-toggle-button': function(event){
+                event.preventDefault();
 
                 var product = this.getAttribute('data-product');
 
@@ -43,8 +43,8 @@
                     });
 
             },
-            'click .wishlist-clear-button': function(e){
-                e.preventDefault();
+            'click .wishlist-clear-button': function(event){
+                event.preventDefault();
 
                 Appmate.wishlist.clear()
                     .then(function(){
@@ -54,6 +54,12 @@
                         console.error(error);
                     });
 
+            },
+            'render .product-select': function(elem){
+                initProductSelect(elem);
+            },
+            'destroy .product-select': function(elem){
+                console.log('Destroy element', elem);
             }
         });
 
