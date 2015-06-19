@@ -47,8 +47,10 @@
     </div>
   </div>
   <div class="row">
+    {% if settings.products_per_row == '3' %}{% assign product_span_size = 'span4' %}{% endif %}
+    {% if settings.products_per_row == '4' %}{% assign product_span_size = 'span3' %}{% endif %}
     {% for product in wishlist.products %}
-    <div id="wishlist-item-{{ product.wishlist_item_id }}" class="span4" data-wishlist-item="{{ product.wishlist_item_id }}">
+    <div id="wishlist-item-{{ product.wishlist_item_id }}" class="{{ product_span_size }}" data-wishlist-item="{{ product.wishlist_item_id }}">
       <a href="{{ product.url }}">
         <strong>{{ product.title }}</strong>
         {% if product.variants.size > 1 %}
@@ -134,8 +136,7 @@ var appmateSelectCallback = function(variant, selector) {
   console.log(selector.variantIdField);
 
   var containerId = '#wishlist-item-' + itemId;
-  var shop = {};
-  var settings = {};
+  var shop = Appmate.globals.shop;
 
   if (variant && variant.available) {
     jQuery(containerId + ' .add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button

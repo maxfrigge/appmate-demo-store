@@ -4,7 +4,7 @@
     ;(function(){
         if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
-        Appmate.config({
+        Appmate.init({
             shop: {
                 domain: '{{ shop.domain }}',
                 affiliate: 'my-affiliate-key'
@@ -12,7 +12,12 @@
             session: {
                 customer: ''
             },
+
+            globals: {
+                settings: {{ settings | json }}
+            }
         });
+
         // Flavor: Extended with callbacks
         Appmate.on({
             'click .wishlist-remove-button': function(event){
