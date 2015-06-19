@@ -129,14 +129,14 @@
 
 <script>
 var appmateSelectCallback = function(variant, selector) {
-
   var product = {};
   var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
 
-  console.log(selector.variantIdField);
-
   var containerId = '#wishlist-item-' + itemId;
   var shop = Appmate.globals.shop;
+
+  console.log(shop.money_format);
+  return;
 
   if (variant && variant.available) {
     jQuery(containerId + ' .add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
@@ -150,8 +150,6 @@ var appmateSelectCallback = function(variant, selector) {
     var message = variant ? "Sold Out" : "Unavailable";
     jQuery(containerId + ' .price-preview').text(message);
   }
-
-  console.log('Variant changed!', variant, selector);
 };
 
 var initProductSelect = function(el){
@@ -159,11 +157,8 @@ var initProductSelect = function(el){
   // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
 
-  console.log(itemId);
-
   Appmate.wishlist.getItem(itemId)
     .then(function(product){
-      console.log('INIT PRODUCT SELECT', product);
 
       new Shopify.OptionSelectors(id, {
         product: product,
