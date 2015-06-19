@@ -57,7 +57,7 @@
           <span class="variant_title">{{ product.variant.title }}</span>
         {% endif %}
       </a>
-      <div class="product_image">
+      <div class="featured">
         <a href="{{ product.url }}">
           <img src="{{ product | img_url: 'medium' }}"  alt="{{ product.title }}" />
         </a>
@@ -84,7 +84,7 @@
         <div class="product-options {% if hide_default_title %}no-options {% endif %}">
 
           <div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
-            <select id="product-select-{{ product.wishlist_item_id }}" class="product-select" name="id">
+            <select id="wishlist-option-select-{{ product.wishlist_item_id }}" class="wishlist-option-select" name="id">
               {% for variant in product.variants %}
                 <option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
               {% endfor %}
@@ -129,14 +129,24 @@
 
 <script>
 var appmateSelectCallback = function(variant, selector) {
-  var product = {};
   var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
-
   var containerId = '#wishlist-item-' + itemId;
   var shop = Appmate.globals.shop;
 
-  console.log(shop.money_format);
-  return;
+  var product = Appmate.wishlist.getProduct(variant.product_id);
+
+  var mainImageDomEl = jQuery(containerId + ' .featured img')[0]; // DOM element of main image we need to swap.
+  var newImage;
+  if (variant && variant.image) {
+    newImage = variant.image; // New image object.
+  }
+  else if (product.images.length){
+    newImage = product.images[0]
+  }
+
+  if (newImage) {
+    Shopify.Image.switchImage(newImage, mainImageDomEl, switchImage); // Define switchImage (the callback) in your theme's JavaScript file.
+  }
 
   if (variant && variant.available) {
     jQuery(containerId + ' .add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
@@ -152,7 +162,7 @@ var appmateSelectCallback = function(variant, selector) {
   }
 };
 
-var initProductSelect = function(el){
+var initOptionSelect = function(el){
   var id = el.getAttribute('id');
   // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
