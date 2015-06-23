@@ -38,8 +38,9 @@
                 event.preventDefault();
 
                 var product = this.getAttribute('data-product');
+                var variant = $(this).parents('form').find('select[name="id"]').val();
 
-                Appmate.wishlist.toggleProduct(product)
+                Appmate.wishlist.toggleProduct(product, variant)
                     .then(function(){
                         console.log('Item toggled.');
                     })
@@ -64,6 +65,12 @@
                 initOptionSelect(elem);
             },
             'destroy .wishlist-option-select': function(elem){
+                console.log('Destroy element', elem);
+            },
+            'render .add-to-cart': function(elem){
+                initAddToCart(elem);
+            },
+            'destroy .add-to-cart': function(elem){
                 console.log('Destroy element', elem);
             }
         });

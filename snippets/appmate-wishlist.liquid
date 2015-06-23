@@ -135,6 +135,8 @@ var appmateSelectCallback = function(variant, selector) {
 
   var product = Appmate.wishlist.getProduct(variant.product_id);
 
+  Appmate.wishlist.updateItem(itemId, {selected_variant_id: variant.id});
+
   var mainImageDomEl = jQuery(containerId + ' .featured img')[0]; // DOM element of main image we need to swap.
   var newImage;
   if (variant && variant.image) {
@@ -162,7 +164,7 @@ var appmateSelectCallback = function(variant, selector) {
   }
 };
 
-var initOptionSelect = function(el){
+function initOptionSelect(el){
   var id = el.getAttribute('id');
   // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
@@ -170,16 +172,46 @@ var initOptionSelect = function(el){
   Appmate.wishlist.getItem(itemId)
     .then(function(product){
 
-      new Shopify.OptionSelectors(id, {
+      var selector = new Shopify.OptionSelectors(id, {
         product: product,
         onVariantSelected: appmateSelectCallback,
         enableHistoryState: false
       });
+
+      if (product.selected_variant_id) {
+        selector.selectVariant(product.selected_variant_id);
+      }
 
       // Add label if only one product option and it isn't 'Title'.
       if (product.options.size == 1 && product.options.first != 'Title') {
         $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
       }
     });
-};
+
+}
+
+function addItem(form_id) {
+   $.ajax({
+     type: 'POST',
+     url: '/cart/add.js',
+     dataType: 'json',
+     data: $('#'+form_id).serialize(),
+     success: Shopify.onSuccess,
+     error: Shopify.onError
+   });
+}
+
+function initAddToCart(el) {
+  $(el).click(function(e){
+    e.preventDefault();
+
+    var elem = $(this)
+    elem.prop("disabled", true)
+
+    var formId = elem.parents('form').attr('id');
+    console.log(formId);
+    addItem(formId);
+  });
+}
+
 </script>
