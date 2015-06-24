@@ -51,15 +51,15 @@
     {% if settings.products_per_row == '4' %}{% assign product_span_size = 'span3' %}{% endif %}
     {% for product in wishlist.products %}
     <div id="wishlist-item-{{ product.wishlist_item_id }}" class="{{ product_span_size }}" data-wishlist-item="{{ product.wishlist_item_id }}">
-      <a href="{{ product.url }}">
+      <a href="{{ product | variant_url }}" class="variant-link">
         <strong>{{ product.title }}</strong>
         {% if product.variants.size > 1 %}
           <span class="variant_title">{{ product.variant.title }}</span>
         {% endif %}
       </a>
-      <div class="featured">
-        <a href="{{ product.url }}">
-          <img src="{{ product | img_url: 'medium' }}"  alt="{{ product.title }}" />
+      <div>
+        <a href="{{ product | variant_url }}" class="variant-link">
+          <img class="variant-image" src="{{ product | variant_img_url: 'medium' }}"  alt="{{ product.title }}" />
         </a>
       </div>
       <!-- Wish list controls -->
@@ -129,38 +129,40 @@
 
 <script>
 var appmateSelectCallback = function(variant, selector) {
-  var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
-  var containerId = '#wishlist-item-' + itemId;
   var shop = Appmate.globals.shop;
-
   var product = Appmate.wishlist.getProduct(variant.product_id);
+
+  var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
+  var container = $('#wishlist-item-' + itemId);
 
   Appmate.wishlist.updateItem(itemId, {selected_variant_id: variant.id});
 
-  var mainImageDomEl = jQuery(containerId + ' .featured img')[0]; // DOM element of main image we need to swap.
-  var newImage;
-  if (variant && variant.image) {
-    newImage = variant.image; // New image object.
-  }
-  else if (product.images.length){
-    newImage = product.images[0]
-  }
+  if (variant) {
+    container.find('.variant-link').attr('href', variant.url);
 
-  if (newImage) {
-    Shopify.Image.switchImage(newImage, mainImageDomEl, switchImage); // Define switchImage (the callback) in your theme's JavaScript file.
+    var imageUrl = '';
+
+    if (variant && variant.image) {
+      imageUrl = Appmate.filters.img_url(variant, 'medium');
+    }
+    else {
+      imageUrl = Appmate.filters.img_url(product, 'medium');
+    }
+
+    container.find('.variant-image').attr('src', imageUrl);
   }
 
   if (variant && variant.available) {
-    jQuery(containerId + ' .add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
+    container.find('.add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
     if(variant.price < variant.compare_at_price){
-      jQuery(containerId + ' .price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
+      container.find('.price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
     } else {
-      jQuery(containerId + ' .price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
+      container.find('.price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
     }
   } else {
-    jQuery(containerId + ' .add-to-cart').addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
+    container.find('.add-to-cart').addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
     var message = variant ? "Sold Out" : "Unavailable";
-    jQuery(containerId + ' .price-preview').text(message);
+    container.find('.price-preview').text(message);
   }
 };
 
