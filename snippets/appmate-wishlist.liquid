@@ -2,7 +2,7 @@
 
 <script id="wishlist-toolbar" data="wishlist" type="text/x-template">
   <li class="toolbar-wishlist {% if wishlist.item_count != 0 %}has-items{% endif %}">
-    <a href="{{ wishlist.url }}" class="wishlist" title="Wish List">
+    <a href="/pages/wish-list" class="wishlist" title="Wish List">
       <span class="icon-wishlist"></span>
       Wish List <span class="wishlist-count">({{ wishlist.item_count }})</span>
     </a>
@@ -135,9 +135,9 @@ var appmateSelectCallback = function(variant, selector) {
   var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
   var container = $('#wishlist-item-' + itemId);
 
-  Appmate.wishlist.updateItem(itemId, {selected_variant_id: variant.id});
-
   if (variant) {
+    Appmate.wishlist.updateItem(itemId, {selected_variant_id: variantId});
+
     container.find('.variant-link').attr('href', variant.url);
 
     var imageUrl = '';
