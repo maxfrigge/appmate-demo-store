@@ -5,12 +5,21 @@
         if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
         Appmate.init({
+            app: {
+                autoLoad: true
+            },
             shop: {
                 domain: '{{ shop.domain }}',
                 affiliate: 'my-affiliate-key'
             },
             session: {
-                customer: ''
+                customer: '{{ customer.id }}',
+                cacheScripts: true,
+                expiration: 14
+            },
+
+            wishlist: {
+                loginRequired: false
             },
 
             globals: {
