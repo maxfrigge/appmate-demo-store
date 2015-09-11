@@ -1,11 +1,15 @@
 {% raw %}
 
+<script id="wishlist-link" data="wishlist" type="text/x-template">
+  <a href="/pages/wishlist" class="wl-link" title="Wish List">
+      <span class="wl-toolbar-icon"></span>
+      Wishlist <span class="wl-count">({{ wishlist.item_count }})</span>
+  </a>
+</script>
+
 <script id="wishlist-toolbar" data="wishlist" type="text/x-template">
-  <li class="toolbar-wishlist {% if wishlist.item_count != 0 %}has-items{% endif %}">
-    <a href="/pages/wish-list" class="wishlist" title="Wish List">
-      <span class="icon-wishlist"></span>
-      Wish List <span class="wishlist-count">({{ wishlist.item_count }})</span>
-    </a>
+  <li class="wl-toolbar-item {% if wishlist.item_count != 0 %}has-items{% endif %}">
+    {% include 'wishlist-link' with wishlist %}
   </li>
 </script>
 
