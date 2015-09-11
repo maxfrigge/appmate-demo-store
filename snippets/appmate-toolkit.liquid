@@ -1,4 +1,6 @@
-{{ '//toolkit-appmate.pagekite.me/appmate-loader.js' | script_tag }}
+{{ '//toolkit.appmate.io/appmate-loader.js' | script_tag }}
+{{ 'appmate-wishlist.scss.css' | asset_url | stylesheet_tag }}
+{% include 'appmate-markup' %}
 
 <script type="text/javascript">
     ;(function(){
@@ -93,5 +95,3 @@
     })();
 
 </script>
-
-{% include 'appmate-wishlist' %}
