@@ -1,39 +1,39 @@
 {% raw %}
 
 <script id="wishlist-link" data="wishlist" type="text/x-template">
-  <a href="/pages/wishlist" class="wl-link" title="Wish List">
-      <span class="wl-toolbar-icon"></span>
-      Wishlist <span class="wl-count">({{ wishlist.item_count }})</span>
+  <a href="/pages/wishlist" class="wk-link" title="Wish List">
+      <span class="wk-toolbar-icon"></span>
+      Wishlist <span class="wk-count">({{ wishlist.item_count }})</span>
   </a>
 </script>
 
 <!--<script id="wishlist-toolbar" data="wishlist" type="text/x-template">
-  <li class="wl-toolbar-item {% if wishlist.item_count != 0 %}has-items{% endif %}">
+  <li class="wk-toolbar-item {% if wishlist.item_count != 0 %}has-items{% endif %}">
     {% include 'wishlist-link' with wishlist %}
   </li>
 </script>-->
 
 <script id="wishlist-dropdown" data="wishlist" type="text/x-template">  
 
-	<li class="wl-dropdown-toggle {% if wishlist.item_count != 0 %}has-items{% endif %}">
+	<li class="wk-dropdown-toggle {% if wishlist.item_count != 0 %}has-items{% endif %}">
 		
-		<a href="/pages/wishlist" title="Wishlist">{% if wishlist.item_count >= 1 %}<span class="wl-heart-full"></span>{% else %}<span class="wl-heart-empty"></span>{% endif %}Wishlist <span class="wishlist-count">({{ wishlist.item_count }})</span></a>
+		<a href="/pages/wishlist" title="Wishlist">{% if wishlist.item_count >= 1 %}<span class="wk-heart-full"></span>{% else %}<span class="wk-heart-empty"></span>{% endif %}Wishlist <span class="wishlist-count">({{ wishlist.item_count }})</span></a>
 		
-		<div id="wl-dropdown-wrapper">
+		<div id="wk-dropdown-wrapper">
 			
-			<ul class="wl-dropdown">
+			<ul class="wk-dropdown">
 		
 				{% for product in wishlist.products limit:5 %}
 				
-					<li class="wl-dropdown-item" data-wishlist-item="">
+					<li class="wk-dropdown-item" data-wishlist-item="">
 					
-						<div class="wl-dropdown-thumb">
+						<div class="wk-dropdown-thumb">
 							<a href="{{ product.url }}" class="variant-link">
 								<img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="variant-image" />
 							</a>
 						</div>
 					
-						<div class="wl-dropdown-details">
+						<div class="wk-dropdown-details">
 							<p class="wldd-title"><a href="{{ product.url }}" class="variant-link">{{ product.title }}</a></p>
 							<p class="wldd-price">from {{ product.price_min | money }}</p>
 						</div>
@@ -45,9 +45,9 @@
 			</ul>
 	
 			{% if wishlist.item_count > 0 %}
-				<a class="wl-dropdown-view-all" href="/pages/wishlist" title="View all Favourites">View Wishlist</a>
+				<a class="wk-dropdown-view-all" href="/pages/wishlist" title="View all Favourites">View Wishlist</a>
 			{% else %}
-				<a class="wl-dropdown-view-all" href="#">No items in your Wishlist...</a>
+				<a class="wk-dropdown-view-all" href="#">No items in your Wishlist...</a>
 			{% endif %}
 			
 		</div>
@@ -63,14 +63,14 @@
 </script>-->
 
 <script id="wishlist-button-toggle-product" data="product" type="text/x-template">
-    <a href="" class="wishlist-toggle-button wl-toggle-product" data-product="{{ product.id }}">
-	    {% if product.in_wishlist %}In Wishlist <span class="wl-heart-full"></span>{% else %}Add to Wishlist <span class="wl-heart-empty"></span>{% endif %}
+    <a href="" class="wishlist-toggle-button wk-toggle-product" data-product="{{ product.id }}">
+	    {% if product.in_wishlist %}In Wishlist <span class="wk-heart-full"></span>{% else %}Add to Wishlist <span class="wk-heart-empty"></span>{% endif %}
 	</a>
 </script>
 
 <script id="wishlist-button-toggle-collection" data="product" type="text/x-template">
-    <a href="" class="wishlist-toggle-button wl-toggle-collection {% if product.in_wishlist %}wl-added{% endif %}" class="wishlist-toggle-button" data-product="{{ product.id }}">
-	    {% if product.in_wishlist %}<span class="invisible">Remove from Wishlist </span><span class="wl-heart-full"></span>{% else %}<span class="invisible">Add to Wishlist </span><span class="wl-heart-empty"></span>{% endif %}
+    <a href="" class="wishlist-toggle-button wk-toggle-collection {% if product.in_wishlist %}wk-added{% endif %}" class="wishlist-toggle-button" data-product="{{ product.id }}">
+	    {% if product.in_wishlist %}<span class="invisible">Remove from Wishlist </span><span class="wk-heart-full"></span>{% else %}<span class="invisible">Add to Wishlist </span><span class="wk-heart-empty"></span>{% endif %}
 	</a>
 </script>
 
@@ -79,7 +79,7 @@
 </script>
 
 <script id="wishlist-button-remove" data="product" type="text/x-template">
-    <a href="" class="wishlist-remove-button" data-wishlist-item="{{ product.wishlist_item_id }}"><span class="invisible">Remove from Wishlist </span><span class="wl-heart-full"></span></a>
+    <a href="" class="wishlist-remove-button" data-wishlist-item="{{ product.wishlist_item_id }}"><span class="invisible">Remove from Wishlist </span><span class="wk-heart-full"></span></a>
 </script>
 
 <script id="wishlist" data="wishlist" type="text/x-template">
@@ -116,7 +116,7 @@
 					<div id="wishlist-item-{{ product.wishlist_item_id }}" class="wishlist-item {{ product_span_size }}" data-wishlist-item="{{ product.wishlist_item_id }}">
 						<div class="image">
 							<a href="{{ product | variant_url }}" class="variant-link">
-								<img class="variant-image" src="{{ product | variant_img_url: 'grande' }}"  alt="{{ product.title }}" />
+								<img class="variant-image" src="{{ product | variant_img_url: 'large' }}"  alt="{{ product.title }}" />
 							</a>
 							{% include 'wishlist-button-remove' with product %}
 						</div>
@@ -209,10 +209,10 @@ var appmateSelectCallback = function(variant, selector) {
     var imageUrl = '';
 
     if (variant && variant.image) {
-      imageUrl = Appmate.wk.filters.img_url(variant, 'medium');
+      imageUrl = Appmate.wk.filters.img_url(variant, 'large');
     }
     else {
-      imageUrl = Appmate.wk.filters.img_url(product, 'medium');
+      imageUrl = Appmate.wk.filters.img_url(product, 'large');
     }
 
     container.find('.variant-image').attr('src', imageUrl);
