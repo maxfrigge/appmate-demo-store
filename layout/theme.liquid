@@ -54,7 +54,7 @@
   {% include 'appmate-toolkit' %}
 </head>
 
-<body>
+<body class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
   <!-- Begin toolbar -->
   <div class="toolbar-wrapper wrapper">
     <div class="toolbar span12 clearfix">
@@ -77,7 +77,7 @@
             </a>
           </li>
 
-          <!-- include 'wishlist-toolbar' -->
+          <!-- include 'wishlist-dropdown' -->
 
           {% include 'customer_links' %}
 

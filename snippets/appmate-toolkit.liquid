@@ -1,27 +1,17 @@
-{{ '//toolkit.appmate.io/appmate-loader.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.0.2/appmate.js' | script_tag }}
 {{ 'appmate-wishlist.scss.css' | asset_url | stylesheet_tag }}
-{% include 'appmate-markup' %}
 
 <script type="text/javascript">
     ;(function(){
         if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
         Appmate.init({
-            app: {
-                autoLoad: true
-            },
             shop: {
-                domain: '{{ shop.domain }}',
-                affiliate: 'my-affiliate-key'
+                domain: '{{ shop.domain }}'
             },
+          
             session: {
-                customer: '{{ customer.id }}',
-                cacheScripts: true,
-                expiration: 14
-            },
-
-            wishlist: {
-                loginRequired: false
+              customer: '{{ customer.id }}'
             },
 
             globals: {
@@ -30,47 +20,24 @@
         });
 
         // Flavor: Extended with callbacks
-        Appmate.on({
+        Appmate.wk.on({
             'click .wishlist-remove-button': function(event){
                 event.preventDefault();
 
                 var item = this.getAttribute('data-wishlist-item');
-
-                Appmate.wishlist.removeItem(item)
-                    .then(function(){
-                        console.log('Item removed.');
-                    })
-                    .catch(function(error){
-                        console.error(error);
-                    });
-
+                Appmate.wk.wishlist.removeItem(item);
             },
             'click .wishlist-toggle-button': function(event){
                 event.preventDefault();
 
                 var product = this.getAttribute('data-product');
                 var variant = $(this).parents('form').find('select[name="id"]').val();
-
-                Appmate.wishlist.toggleProduct(product, variant)
-                    .then(function(){
-                        console.log('Item toggled.');
-                    })
-                    .catch(function(error){
-                        console.error(error);
-                    });
-
+                Appmate.wk.wishlist.toggleProduct(product, variant);
             },
             'click .wishlist-clear-button': function(event){
                 event.preventDefault();
 
-                Appmate.wishlist.clear()
-                    .then(function(){
-                        console.log('Wish list cleared.');
-                    })
-                    .catch(function(error){
-                        console.error(error);
-                    });
-
+                Appmate.wk.wishlist.clear();
             },
             'render .wishlist-option-select': function(elem){
                 initOptionSelect(elem);
@@ -95,3 +62,5 @@
     })();
 
 </script>
+
+{% include 'appmate-markup' %}

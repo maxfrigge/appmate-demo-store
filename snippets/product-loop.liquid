@@ -18,6 +18,7 @@
     <a href="{{ url }}">
       <img src="{% if product.images.size >= 1%}{{ product.featured_image | product_img_url: 'large' }}{% else %}{{ 'No_Image_2.png' | asset_url }}{% endif %}" alt="{{ product.title | escape  }}" />
     </a>
+    <!-- include 'wishlist-button-toggle-collection' with '{{ product.id }}' -->
   </div>
 
   <div class="details">
@@ -38,7 +39,7 @@
       </span>
       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
     </a>
-    <!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
+    
   </div>
 
 </div>
