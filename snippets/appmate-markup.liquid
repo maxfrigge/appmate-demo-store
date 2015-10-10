@@ -1,5 +1,6 @@
 {% raw %}
 
+<<<<<<< HEAD
 <script id="wishlist-link" data="wishlist" type="text/x-template">
   <a href="/pages/wishlist" class="wk-link" title="Wish List">
       <span class="wk-toolbar-icon"></span>
@@ -9,12 +10,24 @@
 
 <!--<script id="wishlist-toolbar" data="wishlist" type="text/x-template">
   <li class="wk-toolbar-item {% if wishlist.item_count != 0 %}has-items{% endif %}">
+=======
+<script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
+  <a href="/pages/wishlist" class="wl-link" title="Wish List">
+      <span class="wl-toolbar-icon"></span>
+      Wishlist <span class="wl-count">({{ wishlist.item_count }})</span>
+  </a>
+</script>
+
+<!--<script id="wishlist-toolbar" data="wishlist" type="text/x-template" app="wishlist-king">
+  <li class="wl-toolbar-item {% if wishlist.item_count != 0 %}has-items{% endif %}">
+>>>>>>> origin/master
     {% include 'wishlist-link' with wishlist %}
   </li>
 </script>-->
 
-<script id="wishlist-dropdown" data="wishlist" type="text/x-template">  
+<script id="wishlist-dropdown" data="wishlist" type="text/x-template" app="wishlistking">
 
+<<<<<<< HEAD
 	<li class="wk-dropdown-toggle {% if wishlist.item_count != 0 %}has-items{% endif %}">
 		
 		<a href="/pages/wishlist" title="Wishlist">{% if wishlist.item_count >= 1 %}<span class="wk-heart-full"></span>{% else %}<span class="wk-heart-empty"></span>{% endif %}Wishlist <span class="wishlist-count">({{ wishlist.item_count }})</span></a>
@@ -28,40 +41,61 @@
 					<li class="wk-dropdown-item" data-wishlist-item="">
 					
 						<div class="wk-dropdown-thumb">
+=======
+	<li class="wl-dropdown-toggle {% if wishlist.item_count != 0 %}has-items{% endif %}">
+
+		<a href="/pages/wishlist" title="Wishlist">{% if wishlist.item_count >= 1 %}<span class="wl-heart-full"></span>{% else %}<span class="wl-heart-empty"></span>{% endif %}Wishlist <span class="wishlist-count">({{ wishlist.item_count }})</span></a>
+
+		<div id="wl-dropdown-wrapper">
+
+			<ul class="wl-dropdown">
+
+				{% for product in wishlist.products limit:5 %}
+
+					<li class="wl-dropdown-item" data-wishlist-item="">
+
+						<div class="wl-dropdown-thumb">
+>>>>>>> origin/master
 							<a href="{{ product.url }}" class="variant-link">
 								<img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="variant-image" />
 							</a>
 						</div>
+<<<<<<< HEAD
 					
 						<div class="wk-dropdown-details">
+=======
+
+						<div class="wl-dropdown-details">
+>>>>>>> origin/master
 							<p class="wldd-title"><a href="{{ product.url }}" class="variant-link">{{ product.title }}</a></p>
 							<p class="wldd-price">from {{ product.price_min | money }}</p>
 						</div>
-					
+
 					</li>
-				
+
 				{% endfor %}
-				
+
 			</ul>
-	
+
 			{% if wishlist.item_count > 0 %}
 				<a class="wk-dropdown-view-all" href="/pages/wishlist" title="View all Favourites">View Wishlist</a>
 			{% else %}
 				<a class="wk-dropdown-view-all" href="#">No items in your Wishlist...</a>
 			{% endif %}
-			
+
 		</div>
-		
+
 	</li>
-          
+
 </script>
 
-<!--<script id="wishlist-button-toggle" data="product" type="text/x-template">
+<!--<script id="wishlist-button-toggle" data="product" type="text/x-template" app="wishlist-king">
     <a href=""
        class="wishlist-toggle-button"
        data-product="{{ product.id }}">{% if product.in_wishlist %}Remove from wish list{% else %}Add to wish list{% endif %}</a>
 </script>-->
 
+<<<<<<< HEAD
 <script id="wishlist-button-toggle-product" data="product" type="text/x-template">
     <a href="" class="wishlist-toggle-button wk-toggle-product" data-product="{{ product.id }}">
 	    {% if product.in_wishlist %}In Wishlist <span class="wk-heart-full"></span>{% else %}Add to Wishlist <span class="wk-heart-empty"></span>{% endif %}
@@ -71,18 +105,34 @@
 <script id="wishlist-button-toggle-collection" data="product" type="text/x-template">
     <a href="" class="wishlist-toggle-button wk-toggle-collection {% if product.in_wishlist %}wk-added{% endif %}" class="wishlist-toggle-button" data-product="{{ product.id }}">
 	    {% if product.in_wishlist %}<span class="invisible">Remove from Wishlist </span><span class="wk-heart-full"></span>{% else %}<span class="invisible">Add to Wishlist </span><span class="wk-heart-empty"></span>{% endif %}
+=======
+<script id="wishlist-button-toggle-product" data="product" type="text/x-template" app="wishlist-king">
+    <a href="" class="wishlist-toggle-button wl-toggle-product" data-product="{{ product.id }}">
+	    {% if product.in_wishlist %}In Wishlist <span class="wl-heart-full"></span>{% else %}Add to Wishlist <span class="wl-heart-empty"></span>{% endif %}
 	</a>
 </script>
 
-<script id="wishlist-button-clear" data="wishlist" type="text/x-template">
+<script id="wishlist-button-toggle-collection" data="product" type="text/x-template" app="wishlist-king">
+    <a href="" class="wishlist-toggle-button wl-toggle-collection {% if product.in_wishlist %}wl-added{% endif %}" class="wishlist-toggle-button" data-product="{{ product.id }}">
+	    {% if product.in_wishlist %}<span class="invisible">Remove from Wishlist </span><span class="wl-heart-full"></span>{% else %}<span class="invisible">Add to Wishlist </span><span class="wl-heart-empty"></span>{% endif %}
+>>>>>>> origin/master
+	</a>
+</script>
+
+<script id="wishlist-button-clear" data="wishlist" type="text/x-template" app="wishlist-king">
     <a href="" data-wishlist="{{ wishlist.id }}" class="wishlist-clear-button">Clear Wishlist</a>
 </script>
 
+<<<<<<< HEAD
 <script id="wishlist-button-remove" data="product" type="text/x-template">
     <a href="" class="wishlist-remove-button" data-wishlist-item="{{ product.wishlist_item_id }}"><span class="invisible">Remove from Wishlist </span><span class="wk-heart-full"></span></a>
+=======
+<script id="wishlist-button-remove" data="product" type="text/x-template" app="wishlist-king">
+    <a href="" class="wishlist-remove-button" data-wishlist-item="{{ product.wishlist_item_id }}"><span class="invisible">Remove from Wishlist </span><span class="wl-heart-full"></span></a>
+>>>>>>> origin/master
 </script>
 
-<script id="wishlist" data="wishlist" type="text/x-template">
+<script id="wishlist" data="wishlist" type="text/x-template" app="wishlist-king">
 	<!-- Begin empty wish list -->
 		{% if wishlist.item_count == 0 %}
 			<div class="row">
@@ -106,13 +156,13 @@
 					{% include 'wishlist-button-clear' %}
     			</div>
   			</div>
-  			
+
 			<div class="row">
 				{% if settings.products_per_row == '3' %}{% assign product_span_size = 'span4' %}{% endif %}
 				{% if settings.products_per_row == '4' %}{% assign product_span_size = 'span3' %}{% endif %}
-				
+
 				{% for product in wishlist.products %}
-				
+
 					<div id="wishlist-item-{{ product.wishlist_item_id }}" class="wishlist-item {{ product_span_size }}" data-wishlist-item="{{ product.wishlist_item_id }}">
 						<div class="image">
 							<a href="{{ product | variant_url }}" class="variant-link">
@@ -130,23 +180,23 @@
 						<div class="wishlist_controls">
 							{% include 'wishlist-button-remove' with product %}
 						</div>
-				
+
 						<!-- Variants and add to cart button -->
 						{% assign variant = product.selected_or_first_available_variant %}
 						<div class="purchase">
 							<h2 class="price price-preview">{{ variant.price | money }}{% if variant.price < variant.compare_at_price %} <del>{{ variant.compare_at_price | money }}</del>{% endif %}</h2>
 						</div>
-				
+
 						{% assign hide_default_title = false %}
 						{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
 							{% assign hide_default_title = true %}
 						{% endif %}
-				
+
 						<form id="add-item-form-{{ product.wishlist_item_id }}" action="/cart/add" method="post" class="variants clearfix">
-					
+
 							<!-- Begin product options -->
 							<div class="product-options {% if hide_default_title %}no-options {% endif %}">
-					
+
 								<div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
 									<select id="wishlist-option-select-{{ product.wishlist_item_id }}" class="wishlist-option-select" name="id">
 										{% for variant in product.variants %}
@@ -154,40 +204,40 @@
 										{% endfor %}
 									</select>
 								</div>
-					
+
 								{% if settings.display_quantity_dropdown %}
 									<div class="selector-wrapper">
 										<label>Quantity</label>
 										<input class="quantity-{{ product.id }}" type="number" name="quantity" value="1" class="tc item-quantity" />
 									</div>
 								{% endif %}
-					
+
 								<div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
 									<div class="purchase">
 										{% unless product.available %}
 											<p>Sold Out</p>
 										{% else %}
 											<input type="submit" class="add-to-cart btn addtocart" name="add" value="Add to cart" />
-					
+
 											<!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
-					
+
 											<div class="cart-animation" style="display:none">1</div>
 										{% endunless %}
 									</div>
 								</div>
 							</div>
 							<!-- End product options -->
-					
+
 						</form>
-				
+
 					</div>
-			
+
 				{% endfor %}
-			
+
 			</div>
 
 		{% endif %}
-		
+
 	<!-- End wish list -->
 </script>
 
@@ -236,7 +286,7 @@ function initOptionSelect(el){
   var id = el.getAttribute('id');
   // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
-  
+
   Appmate.wk.wishlist.getItem(itemId)
     .then(function(product){
 
