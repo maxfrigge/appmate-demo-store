@@ -13,47 +13,47 @@
   </li>
 </script>-->
 
-<script id="wishlist-dropdown" data="wishlist" type="text/x-template">  
+<script id="wishlist-dropdown" data="wishlist" type="text/x-template">
 
 	<li class="wk-dropdown-toggle {% if wishlist.item_count != 0 %}has-items{% endif %}">
-		
+
 		<a href="/pages/wishlist" title="Wishlist">{% if wishlist.item_count >= 1 %}<span class="wk-heart-full"></span>{% else %}<span class="wk-heart-empty"></span>{% endif %}Wishlist <span class="wishlist-count">({{ wishlist.item_count }})</span></a>
-		
+
 		<div id="wk-dropdown-wrapper">
-			
+
 			<ul class="wk-dropdown">
-		
+
 				{% for product in wishlist.products limit:5 %}
-				
+
 					<li class="wk-dropdown-item" data-wishlist-item="">
-					
+
 						<div class="wk-dropdown-thumb">
 							<a href="{{ product.url }}" class="variant-link">
 								<img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="variant-image" />
 							</a>
 						</div>
-					
+
 						<div class="wk-dropdown-details">
 							<p class="wldd-title"><a href="{{ product.url }}" class="variant-link">{{ product.title }}</a></p>
 							<p class="wldd-price">from {{ product.price_min | money }}</p>
 						</div>
-					
+
 					</li>
-				
+
 				{% endfor %}
-				
+
 			</ul>
-	
+
 			{% if wishlist.item_count > 0 %}
 				<a class="wk-dropdown-view-all" href="/pages/wishlist" title="View all Favourites">View Wishlist</a>
 			{% else %}
 				<a class="wk-dropdown-view-all" href="#">No items in your Wishlist...</a>
 			{% endif %}
-			
+
 		</div>
-		
+
 	</li>
-          
+
 </script>
 
 <!--<script id="wishlist-button-toggle" data="product" type="text/x-template">
@@ -106,13 +106,13 @@
 					{% include 'wishlist-button-clear' %}
     			</div>
   			</div>
-  			
+
 			<div class="row">
 				{% if settings.products_per_row == '3' %}{% assign product_span_size = 'span4' %}{% endif %}
 				{% if settings.products_per_row == '4' %}{% assign product_span_size = 'span3' %}{% endif %}
-				
+
 				{% for product in wishlist.products %}
-				
+
 					<div id="wishlist-item-{{ product.wishlist_item_id }}" class="wishlist-item {{ product_span_size }}" data-wishlist-item="{{ product.wishlist_item_id }}">
 						<div class="image">
 							<a href="{{ product | variant_url }}" class="variant-link">
@@ -130,23 +130,23 @@
 						<div class="wishlist_controls">
 							{% include 'wishlist-button-remove' with product %}
 						</div>
-				
+
 						<!-- Variants and add to cart button -->
 						{% assign variant = product.selected_or_first_available_variant %}
 						<div class="purchase">
 							<h2 class="price price-preview">{{ variant.price | money }}{% if variant.price < variant.compare_at_price %} <del>{{ variant.compare_at_price | money }}</del>{% endif %}</h2>
 						</div>
-				
+
 						{% assign hide_default_title = false %}
 						{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
 							{% assign hide_default_title = true %}
 						{% endif %}
-				
+
 						<form id="add-item-form-{{ product.wishlist_item_id }}" action="/cart/add" method="post" class="variants clearfix">
-					
+
 							<!-- Begin product options -->
 							<div class="product-options {% if hide_default_title %}no-options {% endif %}">
-					
+
 								<div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
 									<select id="wishlist-option-select-{{ product.wishlist_item_id }}" class="wishlist-option-select" name="id">
 										{% for variant in product.variants %}
@@ -154,40 +154,40 @@
 										{% endfor %}
 									</select>
 								</div>
-					
+
 								{% if settings.display_quantity_dropdown %}
 									<div class="selector-wrapper">
 										<label>Quantity</label>
 										<input class="quantity-{{ product.id }}" type="number" name="quantity" value="1" class="tc item-quantity" />
 									</div>
 								{% endif %}
-					
+
 								<div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
 									<div class="purchase">
 										{% unless product.available %}
 											<p>Sold Out</p>
 										{% else %}
 											<input type="submit" class="add-to-cart btn addtocart" name="add" value="Add to cart" />
-					
+
 											<!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
-					
+
 											<div class="cart-animation" style="display:none">1</div>
 										{% endunless %}
 									</div>
 								</div>
 							</div>
 							<!-- End product options -->
-					
+
 						</form>
-				
+
 					</div>
-			
+
 				{% endfor %}
-			
+
 			</div>
 
 		{% endif %}
-		
+
 	<!-- End wish list -->
 </script>
 
@@ -196,7 +196,6 @@
 <script>
 var appmateSelectCallback = function(variant, selector) {
   var shop = Appmate.wk.globals.shop;
-  var product = Appmate.wk.wishlist.getProduct(variant.product_id);
 
   var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
   var container = $('#wishlist-item-' + itemId);
@@ -204,18 +203,19 @@ var appmateSelectCallback = function(variant, selector) {
   if (variant) {
     Appmate.wk.wishlist.updateItem(itemId, {selected_variant_id: variant.id});
 
-    container.find('.variant-link').attr('href', variant.url);
-
-    var imageUrl = '';
-
-    if (variant && variant.image) {
-      imageUrl = Appmate.wk.filters.img_url(variant, 'large');
-    }
-    else {
-      imageUrl = Appmate.wk.filters.img_url(product, 'large');
-    }
-
-    container.find('.variant-image').attr('src', imageUrl);
+    // var product = Appmate.wk.wishlist.getProduct(variant.product_id);
+    // container.find('.variant-link').attr('href', variant.url);
+    //
+    // var imageUrl = '';
+    //
+    // if (variant && variant.image) {
+    //   imageUrl = Appmate.wk.filters.img_url(variant, 'large');
+    // }
+    // else {
+    //   imageUrl = Appmate.wk.filters.img_url(product, 'large');
+    // }
+    //
+    // container.find('.variant-image').attr('src', imageUrl);
   }
 
   if (variant && variant.available) {
@@ -236,7 +236,7 @@ function initOptionSelect(el){
   var id = el.getAttribute('id');
   // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
-  
+
   Appmate.wk.wishlist.getItem(itemId)
     .then(function(product){
 
