@@ -23,6 +23,7 @@ $heart-empty-svg: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000
 }
 
 
+
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Toolbar / Dropdown */
 /*////////////////////////////////////////////////////////////////////////////*/
@@ -189,6 +190,7 @@ ul.wk-dropdown {
 }
 
 
+
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !PRODUCT */
 /*////////////////////////////////////////////////////////////////////////////*/
@@ -247,22 +249,93 @@ body.template-product .purchase-section {
 
 
 
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Wishlist Mobile */
+/*////////////////////////////////////////////////////////////////////////////*/
 
+@media (max-width: 720px) {
 
+	.wk-page-listing .product-list-item {
+		width: 100%;
+		min-width: 0 !important;
+	}
+	
+	.wk-page-listing .select-wrapper, 
+	.filter {
+		padding: 10px 34px 7px 10px;
+		text-align: left;
+		font-size: 12px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	
+	/* Collection */
+	
+	body.template-collection .container,
+	body.template-page .container {
+		padding: 0 !important;
+	}
+	
+	body.template-collection .rows-of-4 .product-list-item,
+	body.template-page .rows-of-4 .product-list-item {
+		width: 100% !important;
+		min-width: 0 !important;
+		padding: 0 0 !important;
+		margin: 0 0 35px 0 !important;
+	}
+	
+	body.template-collection .product-listing,
+	body.template-page .product-listing {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
+	
+	body.template-collection .product-list-item .thumbnail,
+	body.template-page .product-list-item .thumbnail {
+		margin-bottom: 15px;
+	}
+	
+	body.template-collection .breadcrumbs {
+		margin-bottom: 0px;
+	}
+	
+	body.template-collection .page-header {
+		padding-bottom: 18px;
+	}
+	
+	body.template-page .page-content {
+		margin: 0;
+	}
+	
+	body.template-page .product-variants {
+		padding: 0 10px;
+	}
+	
+	/* left right margin fix on other pages */
+	body.template-page header.page-header {
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+	
+	.wk-toggle-collection, .wishlist-remove-button {
+		top: 4px;
+		right: 3px;
+		font-size: 15px;
+		padding: 1px 0 0 0px;
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		border-radius: 15px;
+		opacity: 1;
+	}
+	
+	
+}
 
+@media (max-width: 480px) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	.wk-page-listing .product-list-item {
+		width: 100%;
+	}
+	
+}
