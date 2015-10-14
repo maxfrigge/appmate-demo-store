@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.0.7/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.0.8/appmate.js' | script_tag }}
 {{ 'appmate-wishlist.scss.css' | asset_url | stylesheet_tag }}
 
 <script type="text/javascript">
@@ -21,43 +21,32 @@
 
         // Flavor: Extended with callbacks
         Appmate.wk.on({
-            'click .wishlist-remove-button': function(event){
-                event.preventDefault();
-
-                var item = this.getAttribute('data-wishlist-item');
-                Appmate.wk.wishlist.removeItem(item);
-            },
-            'click .wishlist-toggle-button': function(event){
-                event.preventDefault();
-
-                var product = this.getAttribute('data-product');
+            'click .wk-button-add': function(event){
+                var product = this.getAttribute('data-wk-product');
                 var variant = $(this).parents('form').find('select[name="id"]').val();
-                Appmate.wk.wishlist.toggleProduct(product, variant);
+                Appmate.wk.addProduct(product, variant);
             },
-            'click .wishlist-clear-button': function(event){
-                event.preventDefault();
+            'click .wk-button-remove': function(event){
+                var item = this.getAttribute('data-wk-item');
+                var product = this.getAttribute('data-wk-product');
+                if (item) {
+                    Appmate.wk.removeItem(item);
+                }
+                else if (product) {
+                    Appmate.wk.removeProduct(product);
+                }
 
-                Appmate.wk.wishlist.clear();
             },
-            'render .wishlist-option-select': function(elem){
-                initOptionSelect(elem);
+            'click .wk-clear-button': function(event){
+                Appmate.wk.clear();
             },
-            'destroy .wishlist-option-select': function(elem){
-                console.log('Destroy element', elem);
+            'render .wk-option-select': function(elem){
+                appmateOptionSelect(elem);
             },
-            'render .add-to-cart': function(elem){
-                initAddToCart(elem);
-            },
-            'destroy .add-to-cart': function(elem){
-                console.log('Destroy element', elem);
+            'render .wk-add-to-cart': function(elem){
+                // appmateAddToCart(elem);
             }
         });
-
-        // Flavor: Compact
-        // Appmate.on({
-        //     'click .wishlist-remove-button': 'wishlist.removeProduct',
-        //     'click .wishlist-toggle-button': 'wishlist.toggleProduct'
-        // });
 
     })();
 

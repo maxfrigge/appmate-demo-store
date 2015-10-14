@@ -1,285 +1,257 @@
 {% raw %}
 
-<script id="wishlist-link" data="wishlist" type="text/x-template">
-  <a href="/pages/wishlist" class="wk-link" title="Wish List">
-      <span class="wk-toolbar-icon"></span>
-      Wishlist <span class="wk-count">({{ wishlist.item_count }})</span>
-  </a>
+<script id="cookie-note" data="cookie_advice" type="text/x-template" app="cookie-lawyer">
+    {% if cookie_advice.show_cookie_info %}
+        <div class="cl-cookie-note">
+            <p>Cookies help us deliver our services. By using our services, you agree to our use of cookies.</p>
+            {% if cookie_policy_handle%}
+                <a href="/pages/{{ cookie_policy_handle }}" title="Read our cookie policy">Learn more</a>
+            {% endif %}
+            <button type="button" class="cl-dismiss-note" title="Dismiss note">Got it</button>
+        </div>
+    {% endif %}
 </script>
 
-<!--<script id="wishlist-toolbar" data="wishlist" type="text/x-template">
-  <li class="wk-toolbar-item {% if wishlist.item_count != 0 %}has-items{% endif %}">
-    {% include 'wishlist-link' with wishlist %}
-  </li>
-</script>-->
-
-<script id="wishlist-dropdown" data="wishlist" type="text/x-template">
-
-	<li class="wk-dropdown-toggle {% if wishlist.item_count != 0 %}has-items{% endif %}">
-
-		<a href="/pages/wishlist" title="Wishlist">{% if wishlist.item_count >= 1 %}<span class="wk-heart-full"></span>{% else %}<span class="wk-heart-empty"></span>{% endif %}Wishlist <span class="wishlist-count">({{ wishlist.item_count }})</span></a>
-
-		<div id="wk-dropdown-wrapper">
-
-			<ul class="wk-dropdown">
-
-				{% for product in wishlist.products limit:5 %}
-
-					<li class="wk-dropdown-item" data-wishlist-item="">
-
-						<div class="wk-dropdown-thumb">
-							<a href="{{ product.url }}" class="variant-link">
-								<img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="variant-image" />
-							</a>
-						</div>
-
-						<div class="wk-dropdown-details">
-							<p class="wldd-title"><a href="{{ product.url }}" class="variant-link">{{ product.title }}</a></p>
-							<p class="wldd-price">from {{ product.price_min | money }}</p>
-						</div>
-
-					</li>
-
-				{% endfor %}
-
-			</ul>
-
-			{% if wishlist.item_count > 0 %}
-				<a class="wk-dropdown-view-all" href="/pages/wishlist" title="View all Favourites">View Wishlist</a>
-			{% else %}
-				<a class="wk-dropdown-view-all" href="#">No items in your Wishlist...</a>
-			{% endif %}
-
-		</div>
-
-	</li>
-
+<script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
+    <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist">
+        Wishlist <span class="wk-count">({{ wishlist.item_count }})</span>
+    </a>
 </script>
 
-<!--<script id="wishlist-button-toggle" data="product" type="text/x-template">
-    <a href=""
-       class="wishlist-toggle-button"
-       data-product="{{ product.id }}">{% if product.in_wishlist %}Remove from wish list{% else %}Add to wish list{% endif %}</a>
-</script>-->
+<script id="wishlist-dropdown" data="wishlist" type="text/x-template" app="wishlist-king">
+    <li class="wk-dropdown-toggle wk-{{ wishlist.state }}">
 
-<script id="wishlist-button-toggle-product" data="product" type="text/x-template">
-    <a href="" class="wishlist-toggle-button wk-toggle-product" data-product="{{ product.id }}">
-	    {% if product.in_wishlist %}In Wishlist <span class="wk-heart-full"></span>{% else %}Add to Wishlist <span class="wk-heart-empty"></span>{% endif %}
-	</a>
+        {% include 'wishlist-link' %}
+
+        <div id="wk-dropdown-wrapper">
+            <ul class="wk-dropdown">
+
+                {% for product in wishlist.products limit:5 %}
+                    <li class="wk-dropdown-item" data-wishlist-item="">
+                        <div class="wk-dropdown-thumb">
+                            <a href="{{ product.url }}" class="wk-variant-link" title="View product">
+                                <img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="wk-variant-image" />
+                            </a>
+                        </div>
+                        <div class="wk-dropdown-details">
+                            <p class="wk-dd-title">
+                                <a href="{{ product.url }}" class="wk-variant-link" title="View product">{{ product.title }}</a>
+                            </p>
+                            <p class="wk-dd-price">from {{ product.price_min | money }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+
+            </ul>
+
+            {% if wishlist.item_count > 0 %}
+                <a class="wk-text-button wk-block" href="{{ wishlist.url }}" title="View Wishlist">View Wishlist</a>
+            {% else %}
+                <span class="wk-text-button wk-block">No items in your wishlist...</span>
+            {% endif %}
+
+        </div>
+    </li>
 </script>
 
-<script id="wishlist-button-toggle-collection" data="product" type="text/x-template">
-    <a href="" class="wishlist-toggle-button wk-toggle-collection {% if product.in_wishlist %}wk-added{% endif %}" class="wishlist-toggle-button" data-product="{{ product.id }}">
-	    {% if product.in_wishlist %}<span class="invisible">Remove from Wishlist </span><span class="wk-heart-full"></span>{% else %}<span class="invisible">Add to Wishlist </span><span class="wk-heart-empty"></span>{% endif %}
-	</a>
+<script id="wishlist-button-toggle" data="product" type="text/x-template" app="wishlist-king">
+    {% if product.in_wishlist %}
+        {% include 'wishlist-button-remove' with product %}
+    {% else %}
+        {% include 'wishlist-button-add' with product %}
+    {% endif %}
 </script>
 
-<script id="wishlist-button-clear" data="wishlist" type="text/x-template">
-    <a href="" data-wishlist="{{ wishlist.id }}" class="wishlist-clear-button">Clear Wishlist</a>
+<script id="wishlist-button-add" data="product" type="text/x-template" app="wishlist-king">
+    <button type="button" class="wk-button-add" title="Add to wishlist" data-wk-product="{{ product.id }}">
+        Add to Wishlist
+    </button>
 </script>
 
-<script id="wishlist-button-remove" data="product" type="text/x-template">
-    <a href="" class="wishlist-remove-button" data-wishlist-item="{{ product.wishlist_item_id }}"><span class="invisible">Remove from Wishlist </span><span class="wk-heart-full"></span></a>
+<script id="wishlist-button-remove" data="product" type="text/x-template" app="wishlist-king">
+    <button type="button" class="wk-button-remove" title="Remove from wishlist" data-wk-product="{{ product.id }}">
+        In Wishlist
+    </button>
+</script>
+
+<script id="wishlist-button-clear" data="wishlist" type="text/x-template" app="wishlist-king">
+    <button type="button" data-wishlist="{{ wishlist.id }}" class="wk-clear-button wk-text-button">
+        Clear Wishlist
+    </button>
 </script>
 
 <script id="wishlist" data="wishlist" type="text/x-template">
-	<!-- Begin empty wish list -->
-		{% if wishlist.item_count == 0 %}
-			<div class="row">
-				<div class="span12 expanded-message">
-					<h2 class="tc">Your Wishlist is empty!</h2>
-				</div>
-			</div>
-	<!-- End empty wish list -->
+    <!-- Empty wishlist -->
+    {% if wishlist.item_count == 0 %}
+        <div class="wk-row">
+            <div class="wk-span12 wk-expanded-message">
+                <h2>Your wishlist is empty!</h2>
+            </div>
+        </div>
+    <!-- Filled wishlist -->
+    {% else %}
+        <!-- Customer not logged in -->
+        <div class="wk-row">
+        {% if !customer %}
+            <p>To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">signup</a>.</p>
+        {% endif %}
+        </div>
 
-	<!-- Begin wish list -->
-		{% else %}
-			<div class="row">
-				<div class="span12">
-					{% if customer %}
-			    		<!--<p>{{ customer.first_name }}, <a href="#" title="">share</a> your Wishlist with friends now.</p>-->
-			    	{% else %}
-			    		<p>To save your Wishlist please <a href="/account">login</a> or <a href="/account">signup</a>.</p>
-			    	{% endif %}
-				</div>
-				<div class="span12">
-					{% include 'wishlist-button-clear' %}
-    			</div>
-  			</div>
+        <div class="wk-row">
+            <!-- List products in wishlist -->
+            {% for product in wishlist.products %}
+                <div id="wk-item-{{ product.wishlist_item_id }}"
+                     class="wk-item wk-span4"
+                     data-wk-item="{{ product.wishlist_item_id }}">
 
-			<div class="row">
-				{% if settings.products_per_row == '3' %}{% assign product_span_size = 'span4' %}{% endif %}
-				{% if settings.products_per_row == '4' %}{% assign product_span_size = 'span3' %}{% endif %}
+                    <!-- Product image -->
+                    <div class="wk-image">
+                        <a href="{{ product | variant_url }}" class="wk-variant-link wk-content" title="View product">
+                            <img class="wk-variant-image"
+                                 src="{{ product | variant_img_url: 'large' }}"
+                                 alt="{{ product.title }}" />
+                        </a>
+                        {% include 'wishlist-button-remove' with product %}
+                    </div>
 
-				{% for product in wishlist.products %}
+                    <!-- Product title -->
+                    <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product">
+                        <strong>{{ product.title }}</strong>
+                        {% if product.selected_variant %}
+                            <span class="wk-variant_title">{{ product.selected_variant.title }}</span>
+                        {% endif %}
+                    </a>
 
-					<div id="wishlist-item-{{ product.wishlist_item_id }}" class="wishlist-item {{ product_span_size }}" data-wishlist-item="{{ product.wishlist_item_id }}">
-						<div class="image">
-							<a href="{{ product | variant_url }}" class="variant-link">
-								<img class="variant-image" src="{{ product | variant_img_url: 'large' }}"  alt="{{ product.title }}" />
-							</a>
-							{% include 'wishlist-button-remove' with product %}
-						</div>
-						<a href="{{ product | variant_url }}" class="variant-link">
-							<strong>{{ product.title }}</strong>
-							{% if product.variants.size > 1 %}
-								<span class="variant_title">{{ product.variant.title }}</span>
-							{% endif %}
-						</a>
-						<!-- Wish list controls -->
-						<div class="wishlist_controls">
-							{% include 'wishlist-button-remove' with product %}
-						</div>
+                    <!-- Price -->
+                    {% assign variant = product.selected_or_first_available_variant %}
+                    <div class="wk-purchase">
+                        <h2 class="wk-price wk-price-preview">
+                            {{ variant.price | money }}
+                            {% if variant.price < variant.compare_at_price %}
+                                <del>{{ variant.compare_at_price | money }}</del>
+                            {% endif %}
+                        </h2>
+                    </div>
 
-						<!-- Variants and add to cart button -->
-						{% assign variant = product.selected_or_first_available_variant %}
-						<div class="purchase">
-							<h2 class="price price-preview">{{ variant.price | money }}{% if variant.price < variant.compare_at_price %} <del>{{ variant.compare_at_price | money }}</del>{% endif %}</h2>
-						</div>
+                    <!-- Purchase form with variants -->
+                    {% assign hide_default_title = false %}
+                    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                        {% assign hide_default_title = true %}
+                    {% endif %}
 
-						{% assign hide_default_title = false %}
-						{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-							{% assign hide_default_title = true %}
-						{% endif %}
+                    <form id="wk-add-item-form-{{ product.wishlist_item_id }}"
+                          action="/cart/add" method="post"
+                          class="wk-variants wk-clearfix">
 
-						<form id="add-item-form-{{ product.wishlist_item_id }}" action="/cart/add" method="post" class="variants clearfix">
+                        <!-- Begin product options -->
+                        <div class="wk-product-options {% if hide_default_title %}wk-no-options{% endif %}">
 
-							<!-- Begin product options -->
-							<div class="product-options {% if hide_default_title %}no-options {% endif %}">
+                            <div class="wk-select wk-clearfix" {% if hide_default_title %} style="display:none"{% endif %}>
+                                <select id="wk-option-select-{{ product.wishlist_item_id }}"
+                                        class="wk-option-select" name="id">
 
-								<div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
-									<select id="wishlist-option-select-{{ product.wishlist_item_id }}" class="wishlist-option-select" name="id">
-										{% for variant in product.variants %}
-											<option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>{{ variant.title }} - {{ variant.price | money }}</option>
-										{% endfor %}
-									</select>
-								</div>
+                                    {% for variant in product.variants %}
+                                        <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
+                                            {{ variant.title }} - {{ variant.price | money }}
+                                        </option>
+                                    {% endfor %}
 
-								{% if settings.display_quantity_dropdown %}
-									<div class="selector-wrapper">
-										<label>Quantity</label>
-										<input class="quantity-{{ product.id }}" type="number" name="quantity" value="1" class="tc item-quantity" />
-									</div>
-								{% endif %}
+                                </select>
+                            </div>
 
-								<div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
-									<div class="purchase">
-										{% unless product.available %}
-											<p>Sold Out</p>
-										{% else %}
-											<input type="submit" class="add-to-cart btn addtocart" name="add" value="Add to cart" />
+                            {% if settings.display_quantity_dropdown %}
+                                <div class="wk-selector-wrapper">
+                                    <label>Quantity</label>
+                                    <input class="wk-quantity" type="number" name="quantity" value="1" class="wk-item-quantity" />
+                                </div>
+                            {% endif %}
 
-											<!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
-
-											<div class="cart-animation" style="display:none">1</div>
-										{% endunless %}
-									</div>
-								</div>
-							</div>
-							<!-- End product options -->
-
-						</form>
-
-					</div>
-
-				{% endfor %}
-
-			</div>
-
-		{% endif %}
-
-	<!-- End wish list -->
+                            <div class="wk-purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
+                                <div class="wp-purchase">
+                                    {% unless product.available %}
+                                        <p>Sold Out</p>
+                                    {% else %}
+                                        <input type="submit" class="wk-add-to-cart" name="add" value="Add to cart" />
+                                    {% endunless %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End product options -->
+                    </form>
+                </div>
+            {% endfor %}
+            <!-- End product loop -->
+        </div>
+        <div class="wk-row wk-centered">
+            {% include 'wishlist-button-clear' %}
+        </div>
+    {% endif %}
 </script>
 
 {% endraw %}
 
 <script>
-var appmateSelectCallback = function(variant, selector) {
-  var shop = Appmate.wk.globals.shop;
+    var appmateSelectCallback = function(variant, selector) {
+        var shop = Appmate.wk.globals.shop;
 
-  var itemId = $(selector.variantIdField).parents('[data-wishlist-item]').attr('data-wishlist-item');
-  var container = $('#wishlist-item-' + itemId);
+        var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
+        var container = $('#wk-item-' + itemId);
 
-  if (variant) {
-    Appmate.wk.wishlist.updateItem(itemId, {selected_variant_id: variant.id});
+        if (variant) {
+            Appmate.wk.updateItem(itemId, {selected_variant_id: variant.id});
+        }
 
-    // var product = Appmate.wk.wishlist.getProduct(variant.product_id);
-    // container.find('.variant-link').attr('href', variant.url);
-    //
-    // var imageUrl = '';
-    //
-    // if (variant && variant.image) {
-    //   imageUrl = Appmate.wk.filters.img_url(variant, 'large');
-    // }
-    // else {
-    //   imageUrl = Appmate.wk.filters.img_url(product, 'large');
-    // }
-    //
-    // container.find('.variant-image').attr('src', imageUrl);
-  }
+        if (!variant && !variant.available) {
+            container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled');
+            var message = variant ? "Sold Out" : "Unavailable";
+            container.find('.wk-price-preview').text(message);
+        }
+    };
 
-  if (variant && variant.available) {
-    container.find('.add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
-    if(variant.price < variant.compare_at_price){
-      container.find('.price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
-    } else {
-      container.find('.price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
+    function appmateOptionSelect(el){
+        var id = el.getAttribute('id');
+        // var itemId = el.getAttribute('data-wishlist-item');
+        var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
+
+        Appmate.wk.getItem(itemId).then(function(product){
+            var selector = new Shopify.OptionSelectors(id, {
+                product: product,
+                onVariantSelected: appmateSelectCallback,
+                enableHistoryState: false
+            });
+
+            if (product.selected_variant_id) {
+                selector.selectVariant(product.selected_variant_id);
+            }
+
+            // Add label if only one product option and it isn't 'Title'.
+            if (product.options.size == 1 && product.options.first != 'Title') {
+                $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
+            }
+        });
     }
-  } else {
-    container.find('.add-to-cart').addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
-    var message = variant ? "Sold Out" : "Unavailable";
-    container.find('.price-preview').text(message);
-  }
-};
 
-function initOptionSelect(el){
-  var id = el.getAttribute('id');
-  // var itemId = el.getAttribute('data-wishlist-item');
-  var itemId = $(el).parents('[data-wishlist-item]').attr('data-wishlist-item');
-
-  Appmate.wk.wishlist.getItem(itemId)
-    .then(function(product){
-
-      var selector = new Shopify.OptionSelectors(id, {
-        product: product,
-        onVariantSelected: appmateSelectCallback,
-        enableHistoryState: false
-      });
-
-      if (product.selected_variant_id) {
-        selector.selectVariant(product.selected_variant_id);
-      }
-
-      // Add label if only one product option and it isn't 'Title'.
-      if (product.options.size == 1 && product.options.first != 'Title') {
-        $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
-      }
-    });
-
-}
-
-function addItem(form_id) {
-   $.ajax({
-     type: 'POST',
-     url: '/cart/add.js',
-     dataType: 'json',
-     data: $('#'+form_id).serialize(),
-     success: Shopify.onSuccess,
-     error: Shopify.onError
-   });
-}
-
-function initAddToCart(el) {
-  $(el).click(function(e){
-    e.preventDefault();
-
-    var elem = $(this)
-    elem.prop("disabled", true)
-
-    var formId = elem.parents('form').attr('id');
-    console.log(formId);
-    addItem(formId);
-  });
-}
+    // function appmateAddItem(form_id) {
+    //     $.ajax({
+    //          type: 'POST',
+    //          url: '/cart/add.js',
+    //          dataType: 'json',
+    //          data: $('#'+form_id).serialize(),
+    //          success: Shopify.onSuccess,
+    //          error: Shopify.onError
+    //     });
+    // }
+    //
+    // function appmateAddToCart(el) {
+    //     $(el).click(function(e){
+    //         e.preventDefault();
+    //
+    //         var elem = $(this)
+    //         elem.prop("disabled", true)
+    //
+    //         var formId = elem.parents('form').attr('id');
+    //         appmateAddItem(formId);
+    //     });
+    // }
 
 </script>
