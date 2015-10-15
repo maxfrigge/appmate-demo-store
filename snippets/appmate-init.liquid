@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.0.8/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.1.0/appmate.js' | script_tag }}
 {{ 'appmate-wishlist.scss.css' | asset_url | stylesheet_tag }}
 
 <script type="text/javascript">
@@ -19,7 +19,6 @@
             }
         });
 
-        // Flavor: Extended with callbacks
         Appmate.wk.on({
             'click .wk-button-add': function(event){
                 var product = this.getAttribute('data-wk-product');

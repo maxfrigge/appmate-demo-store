@@ -80,7 +80,7 @@
     </button>
 </script>
 
-<script id="wishlist" data="wishlist" type="text/x-template">
+<script id="wishlist-collection" data="wishlist" type="text/x-template" app="wishlist-king">
     <!-- Empty wishlist -->
     {% if wishlist.item_count == 0 %}
         <div class="wk-row">
@@ -100,6 +100,7 @@
         <div class="wk-row">
             <!-- List products in wishlist -->
             {% for product in wishlist.products %}
+
                 <div id="wk-item-{{ product.wishlist_item_id }}"
                      class="wk-item wk-span4"
                      data-wk-item="{{ product.wishlist_item_id }}">
