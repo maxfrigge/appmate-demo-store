@@ -3,11 +3,12 @@
 <script id="cookie-note" data="cookie_advice" type="text/x-template" app="cookie-lawyer">
     {% if cookie_advice.show_cookie_info %}
         <div class="cl-cookie-note">
-            <p>We use cookies to give you the best possible experience on our website. Read our <a href="/pages/cookie-policy" title="Cookie Policy">Cookie Policy</a> to learn more.</p>
-            {% if cookie_policy_handle%}
-                <a href="/pages/{{ cookie_policy_handle }}" title="Read our cookie policy">Learn more</a>
+            <p>We use cookies to give you the best possible experience on our website.
+            {% if cookie_policy_handle %}
+                Read our <a href="/pages/cookie-policy" title="Cookie Policy">Cookie Policy</a> to learn more.
             {% endif %}
-            <button type="button" class="cl-dismiss-note" title="Dismiss note">I understand.</button>
+            </p>
+            <p>Got it <button type="button" class="cl-dismiss-note" title="Dismiss note"><span class="visually-hidden">close </span>X</button></p>
         </div>
     {% endif %}
 </script>
