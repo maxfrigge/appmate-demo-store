@@ -15,7 +15,8 @@
             },
 
             globals: {
-                settings: {{ settings | json }}
+                settings: {{ settings | json }},
+                cookie_policy_handle: '{{ pages.cookie-policy.handle }}'
             }
         });
 
@@ -44,6 +45,12 @@
             },
             'render .wk-add-to-cart': function(elem){
                 // appmateAddToCart(elem);
+            }
+        });
+
+        Appmate.cl.on({
+            'click .cl-dismiss-note': function() {
+                Appmate.cl.dismiss();
             }
         });
 
