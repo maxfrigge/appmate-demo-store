@@ -101,6 +101,10 @@
         <div class="wk-row">
             <!-- List products in wishlist -->
             {% for product in wishlist.products %}
+                {% assign hide_default_title = false %}
+                {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                    {% assign hide_default_title = true %}
+                {% endif %}
 
                 <div id="wk-item-{{ product.wishlist_item_id }}"
                      class="wk-item wk-span4"
@@ -119,9 +123,6 @@
                     <!-- Product title -->
                     <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product">
                         <strong>{{ product.title }}</strong>
-                        {% if product.selected_variant %}
-                            <span class="wk-variant_title">{{ product.selected_variant.title }}</span>
-                        {% endif %}
                     </a>
 
                     <!-- Price -->
@@ -136,19 +137,14 @@
                     </div>
 
                     <!-- Purchase form with variants -->
-                    {% assign hide_default_title = false %}
-                    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-                        {% assign hide_default_title = true %}
-                    {% endif %}
-
                     <form id="wk-add-item-form-{{ product.wishlist_item_id }}"
                           action="/cart/add" method="post"
-                          class="wk-variants wk-clearfix">
+                          class="wk-add-item-form">
 
                         <!-- Begin product options -->
                         <div class="wk-product-options {% if hide_default_title %}wk-no-options{% endif %}">
 
-                            <div class="wk-select wk-clearfix" {% if hide_default_title %} style="display:none"{% endif %}>
+                            <div class="wk-select" {% if hide_default_title %} style="display:none"{% endif %}>
                                 <select id="wk-option-select-{{ product.wishlist_item_id }}"
                                         class="wk-option-select" name="id">
 
@@ -195,7 +191,7 @@
 <script>
     var appmateSelectCallback = function(variant, selector) {
         var shop = Appmate.wk.globals.shop;
-
+        var product = Appmate.wk.getProduct(variant.product_id);
         var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
         var container = $('#wk-item-' + itemId);
 
@@ -203,11 +199,31 @@
             Appmate.wk.updateItem(itemId, {selected_variant_id: variant.id});
         }
 
-        if (!variant && !variant.available) {
+        var imageUrl = '';
+
+        if (variant && variant.image) {
+            imageUrl = Appmate.wk.filters.img_url(variant, 'large');
+        } else if (product) {
+            imageUrl = Appmate.wk.filters.img_url(product, 'large');
+        }
+
+        if (imageUrl) {
+            container.find('.wk-variant-image').attr('src', imageUrl);
+        }
+
+        if (variant && variant.available) {
+            container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled');
+            if(variant.price < variant.compare_at_price){
+                container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
+            } else {
+                container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
+            }
+        } else {
             container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled');
             var message = variant ? "Sold Out" : "Unavailable";
             container.find('.wk-price-preview').text(message);
         }
+
     };
 
     function appmateOptionSelect(el){
@@ -232,28 +248,5 @@
             }
         });
     }
-
-    // function appmateAddItem(form_id) {
-    //     $.ajax({
-    //          type: 'POST',
-    //          url: '/cart/add.js',
-    //          dataType: 'json',
-    //          data: $('#'+form_id).serialize(),
-    //          success: Shopify.onSuccess,
-    //          error: Shopify.onError
-    //     });
-    // }
-    //
-    // function appmateAddToCart(el) {
-    //     $(el).click(function(e){
-    //         e.preventDefault();
-    //
-    //         var elem = $(this)
-    //         elem.prop("disabled", true)
-    //
-    //         var formId = elem.parents('form').attr('id');
-    //         appmateAddItem(formId);
-    //     });
-    // }
 
 </script>

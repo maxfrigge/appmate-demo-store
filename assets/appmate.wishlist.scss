@@ -327,10 +327,10 @@ a.wk-text-button {
 
     select {
         width: 100%;
-        height: 40px;
-        line-height: 40px;
+        height: 30px;
+        line-height: 30px;
         border-radius: 0;
-        max-width: 240px;
+        max-width: 200px;
     }
 
     .wk-purchase h2.wk-price {
@@ -343,17 +343,38 @@ a.wk-text-button {
     }
 }
 
-.wk-add-to-cart {
-    height: 36px;
-    line-height: 36px;
-    border: none;
-    margin: 0;
-    padding: 0 20px;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 13px;
-    background: #f45b4f;
-    width: auto;
+.wk-add-item-form {
+    position: absolute;
+    bottom: 32px;
+    margin: 0 auto;
+    left: 20px;
+    right: 20px;
+
+    background: rgba(255,255,255,.95);
+    padding: 10px;
+    opacity: 0;
+
+    -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+
+    .wk-add-to-cart {
+        height: 36px;
+        line-height: 36px;
+        border: none;
+        margin: 0;
+        padding: 0 20px;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 13px;
+        background: #f45b4f;
+        width: auto;
+    }
+}
+
+.wk-item:hover {
+    .wk-add-item-form {
+        opacity: 1;
+    }
 }
 
 

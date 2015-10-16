@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.1.2/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.1.3/appmate.js' | script_tag }}
 {{ 'appmate.wishlist.scss.css' | asset_url | stylesheet_tag }}
 {{ 'appmate.cookie-lawyer.scss.css' | asset_url | stylesheet_tag }}
 
@@ -22,30 +22,54 @@
         });
 
         Appmate.wk.on({
-            'click .wk-button-add': function(event){
+            'click .product .wk-button-add': function(event){
                 var product = this.getAttribute('data-wk-product');
                 var variant = $(this).parents('form').find('select[name="id"]').val();
                 Appmate.wk.addProduct(product, variant);
             },
-            'click .wk-button-remove': function(event){
-                var item = this.getAttribute('data-wk-item');
+            'click .wk-item .wk-button-remove': function(event){
                 var product = this.getAttribute('data-wk-product');
-                if (item) {
-                    Appmate.wk.removeItem(item);
-                }
-                else if (product) {
+                $(this).parents('.wk-item').fadeOut(function() {
                     Appmate.wk.removeProduct(product);
-                }
-
+                });
+            },
+            'click .product .wk-button-remove': function(event){
+                var product = this.getAttribute('data-wk-product');
+                Appmate.wk.removeProduct(product);
             },
             'click .wk-clear-button': function(event){
                 Appmate.wk.clear();
             },
+            'click .wk-add-to-cart': function(event){
+                var $elem = $(this);
+                $form = $elem.parents('form');
+                $elem.prop("disabled", true);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/cart/add.js',
+                    dataType: 'json',
+                    data: $form.serialize(),
+                    success: function(){
+                        $("html, body").animate({ scrollTop: 0 }, 250, 'swing');
+
+                        var quantity = parseInt($form.find('[name="quantity"]').val(), 10) || 1;
+                        var cartCount =  parseInt($('#cart-count').text()) + quantity;
+                        $('#cart-count').text(cartCount);
+                        $('#cart-target').addClass('has-items');
+                        $elem.prop("disabled", false);
+
+                        // Trigger remove item
+                        $removeButton = $form.parents('.wk-item').find('.wk-button-remove');
+                        $removeButton.click();
+                    },
+                    error: Shopify.onError
+                });
+
+                event.preventDefault();
+            },
             'render .wk-option-select': function(elem){
                 appmateOptionSelect(elem);
-            },
-            'render .wk-add-to-cart': function(elem){
-                // appmateAddToCart(elem);
             }
         });
 
