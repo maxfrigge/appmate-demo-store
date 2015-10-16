@@ -1,15 +1,15 @@
 // Colors
-$wk-heart-full-color: #444;
-$wk-heart-empty-color: #444;
+$wk-heart-full-color: 'rgb(66,66,66)';
+$wk-heart-empty-color: 'rgb(66,66,66)';
 
 // Heart Icons
-$wk-heart-full-svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><path d="M47.199 4c-6.727 0-12.516 5.472-15.198 11.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274 0-16.8 7.527-16.8 16.802 0 18.865 19.031 23.812 32.001 42.464 12.26-18.536 31.999-24.2 31.999-42.464 0-9.274-7.527-16.802-16.801-16.802z" fill="#{$wk-heart-full-color}"></path></svg>';
+$wk-heart-full-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64'%20height%3D'64'%20viewBox%3D'0%200%2064%2064'%3E%3Cpath%20d%3D'M47.199%204c-6.727%200-12.516%205.472-15.198%2011.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274%200-16.8%207.527-16.8%2016.802%200%2018.865%2019.031%2023.812%2032.001%2042.464%2012.26-18.536%2031.999-24.2%2031.999-42.464%200-9.274-7.527-16.802-16.801-16.802z'%20fill%3D'#{$wk-heart-full-color}'%3E%3C%2Fpath%3E%3C%2Fsvg%3E";
 
-$wk-heart-empty-svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64px" height="60.833px" viewBox="0 0 64 60.833"><path stroke="#{$wk-heart-empty-color}" stroke-width="5" stroke-miterlimit="10" fill-opacity="0" d="M45.684,2.654c-6.057,0-11.27,4.927-13.684,10.073 c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349,0-15.125,6.776-15.125,15.127c0,16.983,17.134,21.438,28.812,38.231 c11.038-16.688,28.811-21.787,28.811-38.231C60.811,9.431,54.033,2.654,45.684,2.654z"/></svg>';
+$wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64px'%20height%3D'60.833px'%20viewBox%3D'0%200%2064%2060.833'%3E%3Cpath%20stroke%3D'#{$wk-heart-empty-color}'%20stroke-width%3D'5'%20stroke-miterlimit%3D'10'%20fill-opacity%3D'0'%20d%3D'M45.684%2C2.654c-6.057%2C0-11.27%2C4.927-13.684%2C10.073%20c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349%2C0-15.125%2C6.776-15.125%2C15.127c0%2C16.983%2C17.134%2C21.438%2C28.812%2C38.231%20c11.038-16.688%2C28.811-21.787%2C28.811-38.231C60.811%2C9.431%2C54.033%2C2.654%2C45.684%2C2.654z'%2F%3E%3C%2Fsvg%3E";
 
 
 @mixin wk-svg-icon($svg, $width: 100%, $height: auto){
-    background-image: url('data:image/svg+xml;utf8,#{$svg}');
+    background-image: url("data:image/svg+xml;charset=UTF-8,#{$svg}");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: $width $height;
@@ -94,11 +94,11 @@ $wk-heart-empty-svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" widt
     @include wk-button;
     @include wk-svg-icon($wk-heart-full-svg, 15px, 15px);
     background-position: left center;
-    
+
     &:hover {
 	   @include wk-button;
 	   @include wk-svg-icon($wk-heart-empty-svg, 15px, 15px);
-	   background-position: left center; 
+	   background-position: left center;
     }
 }
 
@@ -106,11 +106,11 @@ $wk-heart-empty-svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" widt
     @include wk-button;
     @include wk-svg-icon($wk-heart-empty-svg, 15px, 15px);
     background-position: left center;
-    
+
     &:hover {
 	   @include wk-button;
 	   @include wk-svg-icon($wk-heart-full-svg, 15px, 15px);
-	   background-position: left center; 
+	   background-position: left center;
     }
 }
 
@@ -162,11 +162,11 @@ a.wk-text-button {
     &:hover .wk-button-add {
         opacity: 1;
     }
-    
+
     .sale {
 	    display: none;
     }
-    
+
     .saleprice {
 	    color: #f45b4f;
     }
