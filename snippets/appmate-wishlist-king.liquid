@@ -1,14 +1,64 @@
-{% raw %}
+<script type="text/javascript">
+    ;(function(){
+        if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
-<script id="cookie-note" data="cookie_advice" type="text/x-template" app="cookie-lawyer">
-    {% if cookie_advice.show_cookie_info %}
-        <div class="cl-cookie-note">
-            <p>We use cookies to give you the best possible experience on our website.{% if cookie_policy_handle %} Read our <a href="/pages/cookie-policy" title="Cookie Policy">Cookie Policy</a> to learn more.{% endif %}</p>
-            <p>Got it <button type="button" class="cl-dismiss-note" title="Dismiss note"><span class="visually-hidden">close </span>X</button></p>
-        </div>
-    {% endif %}
+        Appmate.wk.on({
+            'click .product .wk-button-add': function(event){
+                var product = this.getAttribute('data-wk-product');
+                var variant = $(this).parents('form').find('select[name="id"]').val();
+                Appmate.wk.addProduct(product, variant);
+            },
+            'click .wk-item .wk-button-remove': function(event){
+                var product = this.getAttribute('data-wk-product');
+                $(this).parents('.wk-item').fadeOut(function() {
+                    Appmate.wk.removeProduct(product);
+                });
+            },
+            'click .product .wk-button-remove': function(event){
+                var product = this.getAttribute('data-wk-product');
+                Appmate.wk.removeProduct(product);
+            },
+            'click .wk-clear-button': function(event){
+                Appmate.wk.clear();
+            },
+            'click .wk-add-to-cart': function(event){
+                var $elem = $(this);
+                $form = $elem.parents('form');
+                $elem.prop("disabled", true);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/cart/add.js',
+                    dataType: 'json',
+                    data: $form.serialize(),
+                    success: function(){
+                        $("html, body").animate({ scrollTop: 0 }, 250, 'swing');
+
+                        var quantity = parseInt($form.find('[name="quantity"]').val(), 10) || 1;
+                        var cartCount =  parseInt($('#cart-count').text()) + quantity;
+                        $('#cart-count').text(cartCount);
+                        $('#cart-target').addClass('has-items');
+                        $elem.prop("disabled", false);
+
+                        // Trigger remove item
+                        $removeButton = $form.parents('.wk-item').find('.wk-button-remove');
+                        $removeButton.click();
+                    },
+                    error: Shopify.onError
+                });
+
+                event.preventDefault();
+            },
+            'render .wk-option-select': function(elem){
+                appmateOptionSelect(elem);
+            }
+        });
+    })();
+
 </script>
 
+
+{% raw %}
 <script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
     <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist">
         Wishlist <span class="wk-count">({{ wishlist.item_count }})</span>
@@ -180,8 +230,8 @@
         </div>
     {% endif %}
 </script>
-
 {% endraw %}
+
 
 <script>
     var appmateSelectCallback = function(variant, selector) {

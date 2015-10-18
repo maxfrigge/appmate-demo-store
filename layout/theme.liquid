@@ -51,7 +51,7 @@
   {% endif %}
   {{ 'scripts.js' | asset_url | script_tag }}
 
-  {% include 'appmate-toolkit' %}
+  {% include 'appmate-apps' %}
 </head>
 
 <body class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
