@@ -3,7 +3,7 @@
         if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
         Appmate.wk.on({
-            'click .product .wk-button-add': function(event){
+            'click .wk-button-add': function(event){
                 var product = this.getAttribute('data-wk-product');
                 var variant = $(this).parents('form').find('select[name="id"]').val();
                 Appmate.wk.addProduct(product, variant);
