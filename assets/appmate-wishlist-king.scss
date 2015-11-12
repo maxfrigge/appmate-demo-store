@@ -95,9 +95,10 @@ $wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.or
     background-position: left center;
 
     &:hover {
-	   @include wk-button;
+	   /*@include wk-button;
 	   @include wk-svg-icon($wk-heart-empty-svg, 15px, 15px);
-	   background-position: left center;
+	   background-position: left center;*/
+	   opacity: .8;
     }
 }
 
@@ -107,9 +108,10 @@ $wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.or
     background-position: left center;
 
     &:hover {
-	   @include wk-button;
+	   /*@include wk-button;
 	   @include wk-svg-icon($wk-heart-full-svg, 15px, 15px);
-	   background-position: left center;
+	   background-position: left center;*/
+	   opacity: .8;
     }
 }
 
@@ -402,8 +404,102 @@ a.wk-text-button {
 }
 
 @media (max-width: 480px) {
+    
     .wk-span4, .wk-span4 {
         width: 97%;
         padding: 0 1.5%;
     }
+    
+    ul.topbarlist {
+        
+        text-align: center;
+        margin: 0 auto;
+        
+        li {
+           float: none !important;
+           display: inline-block !important;
+           padding: 0 5px;
+           
+           &.toolbar-customer {
+               font-size: 14px;
+           }
+           
+           &.search-field {
+               display: none !important;
+           } 
+           
+        }        
+        
+    }
+    
+    .logo {
+        padding: 0 0 30px 0;
+    }
+    
+    .product,
+    .wk-item {
+    
+        .wk-button-add {
+            opacity: 1;
+        }
+    
+        &:hover .wk-button-add {
+            opacity: 1;
+        }
+        
+        .wk-button-remove {
+            opacity: 1;    
+        }
+        
+        &:hover .wk-button-remove {
+            opacity: 1;
+        }
+    
+    }
+    
+    .wk-dropdown-toggle {
+    
+        &:hover #wk-dropdown-wrapper {
+            display: none;
+        }
+        
+    }
+    
+    .breadcrumb {
+        display: none;
+    }
+    
+    .product-options select {
+        width: 100%;
+    }
+    
+    #wishlist-king h1 {
+        text-align: center;
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

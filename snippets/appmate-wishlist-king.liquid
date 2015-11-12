@@ -8,15 +8,17 @@
                 var variant = $(this).parents('form').find('select[name="id"]').val();
                 Appmate.wk.addProduct(product, variant);
             },
-            'click .wk-item .wk-button-remove': function(event){
+            'click .wk-button-remove': function(event){
                 var product = this.getAttribute('data-wk-product');
-                $(this).parents('.wk-item').fadeOut(function() {
-                    Appmate.wk.removeProduct(product);
-                });
-            },
-            'click .product .wk-button-remove': function(event){
-                var product = this.getAttribute('data-wk-product');
-                Appmate.wk.removeProduct(product);
+              	
+              	if ($(this).parents('.wk-item').length) {
+                	$(this).parents('.wk-item').fadeOut(function() {
+                    	Appmate.wk.removeProduct(product);
+                	});
+              	}
+              	else {
+	                Appmate.wk.removeProduct(product);                  
+              	}
             },
             'click .wk-clear-button': function(event){
                 Appmate.wk.clear();
@@ -132,11 +134,12 @@
     {% if wishlist.item_count == 0 %}
         <div class="wk-row">
             <div class="wk-span12 wk-expanded-message">
-                <h2>Your wishlist is empty!</h2>
+                <h1>Your wishlist is empty!</h1>
             </div>
         </div>
     <!-- Filled wishlist -->
     {% else %}
+        
         <!-- Customer not logged in -->
         <div class="wk-row">
         {% if !customer %}
