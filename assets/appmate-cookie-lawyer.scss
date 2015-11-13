@@ -23,14 +23,19 @@
 }
 
 .cl-dismiss-note {
-	background: #333;
+    background: #333;
     color: #fff;
     border: none;
     border-radius: 5px;
-    width: 21px;
-    padding: 3px 0;
+    padding: 3px 6px;
     text-align: center;
     line-height: 1;
+    text-transform: uppercase;
+    
+    &:hover {
+        background: #444;    
+    }
+    
 }
 
 .cl-visually-hidden {
