@@ -7,18 +7,18 @@
     padding: 10px 0 13px 0;
 
     p {
-	    margin: 0 0 5px 0;
-	    padding: 0;
-
-	    &:last-child {
-		    margin: 0;
-		    text-transform: uppercase;
-	    }
+        margin: 0 0 5px 0;
+        padding: 0;
+    
+        &:last-child {
+            margin: 0;
+            text-transform: uppercase;
+        }
     }
 
     a {
-	    color: #fff;
-	    text-decoration: underline;
+        color: #fff;
+        text-decoration: underline;
     }
 }
 
@@ -35,11 +35,11 @@
     &:hover {
         background: #444;    
     }
-    
+
 }
 
 .cl-visually-hidden {
-	display: block;
-	height: 0;
-	text-indent: -9999px;
+    display: block;
+    height: 0;
+    text-indent: -9999px;
 }
