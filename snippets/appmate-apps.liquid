@@ -18,7 +18,8 @@
 
             globals: {
                 settings: {{ settings | json }},
-                cookie_policy_handle: '{{ pages.cookie-policy.handle }}'
+                cookie_policy_handle: '{{ pages.cookie-policy.handle }}',
+                customer: '{{ customer.id }}'
             }
         });
     })();

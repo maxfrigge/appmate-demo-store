@@ -10,14 +10,14 @@
             },
             'click .wk-button-remove': function(event){
                 var product = this.getAttribute('data-wk-product');
-              	
+
               	if ($(this).parents('.wk-item').length) {
                 	$(this).parents('.wk-item').fadeOut(function() {
                     	Appmate.wk.removeProduct(product);
                 	});
               	}
               	else {
-	                Appmate.wk.removeProduct(product);                  
+	                Appmate.wk.removeProduct(product);
               	}
             },
             'click .wk-clear-button': function(event){
@@ -139,12 +139,12 @@
         </div>
     <!-- Filled wishlist -->
     {% else %}
-        
+
         <!-- Customer not logged in -->
         <div class="wk-row">
-        {% if !customer %}
+        {% unless customer %}
             <p>To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">signup</a>.</p>
-        {% endif %}
+        {% endunless %}
         </div>
 
         <div class="wk-row">
