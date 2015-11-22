@@ -26,7 +26,6 @@
     {% include 'appmate-wishlist-king' %}
 {% endcapture %}
 {% unless wishlist_king_snippet contains "Liquid error" %}
-    {{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
     {{ wishlist_king_snippet }}
 {% endunless %}
 
@@ -35,6 +34,5 @@
     {% include 'appmate-cookie-lawyer' %}
 {% endcapture %}
 {% unless cookie_lawyer_snippet contains "Liquid error" %}
-    {{ 'appmate-cookie-lawyer.scss.css' | asset_url | stylesheet_tag }}
     {{ cookie_lawyer_snippet }}
 {% endunless %}
