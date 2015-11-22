@@ -1,6 +1,3 @@
-{% assign wishlist_king = true %}
-{% assign cookie_lawyer = true %}
-
 {{ 'https://az814789.vo.msecnd.net/toolkit/1.1.7/appmate.js' | script_tag }}
 
 <script type="text/javascript">
@@ -25,12 +22,19 @@
     })();
 </script>
 
-{% if wishlist_king == true %}
-    {{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
+{% capture wishlist_king_snippet %}
     {% include 'appmate-wishlist-king' %}
-{% endif %}
+{% endcapture %}
+{% unless wishlist_king_snippet contains "Liquid error" %}
+    {{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
+    {{ wishlist_king_snippet }}
+{% endunless %}
 
-{% if cookie_lawyer == true %}
-    {{ 'appmate-cookie-lawyer.scss.css' | asset_url | stylesheet_tag }}
+
+{% capture cookie_lawyer_snippet %}
     {% include 'appmate-cookie-lawyer' %}
-{% endif %}
+{% endcapture %}
+{% unless cookie_lawyer_snippet contains "Liquid error" %}
+    {{ 'appmate-cookie-lawyer.scss.css' | asset_url | stylesheet_tag }}
+    {{ cookie_lawyer_snippet }}
+{% endunless %}
