@@ -145,7 +145,10 @@
         <!-- Customer not logged in -->
         <div class="wk-row">
         {% unless customer %}
-            <p class="wk-span12">To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">signup</a>.</p>
+            {% if customer_accounts_enabled %}
+            <p class="wk-span12">To permanently save your wishlist please <a href="/account/login">login</a> or
+            {% endif %}
+             <a href="/account/register">signup</a>.</p>
         {% endunless %}
         </div>
 

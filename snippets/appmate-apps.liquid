@@ -16,7 +16,8 @@
             globals: {
                 settings: {{ settings | json }},
                 cookie_policy_handle: '{{ pages.cookie-policy.handle }}',
-                customer: '{{ customer.id }}'
+                customer: '{{ customer.id }}',
+                customer_accounts_enabled: {{ shop.customer_accounts_enabled }}
             }
         });
     })();
