@@ -260,64 +260,64 @@
 
 
 <script>
-    var appmateSelectCallback = function(variant, selector) {
-        var shop = Appmate.wk.globals.shop;
-        var product = Appmate.wk.getProduct(variant.product_id);
-        var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
-        var container = $('#wk-item-' + itemId);
+var appmateSelectCallback = function(variant, selector) {
+  var shop = Appmate.wk.globals.shop;
+  var product = Appmate.wk.getProduct(variant.product_id);
+  var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
+  var container = $('#wk-item-' + itemId);
 
-        if (variant) {
-            Appmate.wk.updateItem(itemId, {selected_variant_id: variant.id});
-        }
+  if (variant) {
+    Appmate.wk.updateItem(itemId, {selected_variant_id: variant.id});
+  }
 
-        var imageUrl = '';
+  var imageUrl = '';
 
-        if (variant && variant.image) {
-            imageUrl = Appmate.wk.filters.img_url(variant, 'large');
-        } else if (product) {
-            imageUrl = Appmate.wk.filters.img_url(product, 'large');
-        }
+  if (variant && variant.image) {
+    imageUrl = Appmate.wk.filters.img_url(variant, 'large');
+  } else if (product) {
+    imageUrl = Appmate.wk.filters.img_url(product, 'large');
+  }
 
-        if (imageUrl) {
-            container.find('.wk-variant-image').attr('src', imageUrl);
-        }
+  if (imageUrl) {
+    container.find('.wk-variant-image').attr('src', imageUrl);
+  }
 
-        if (variant && variant.available) {
-            container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled');
-            if(variant.price < variant.compare_at_price){
-                container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
-            } else {
-                container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
-            }
-        } else {
-            container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled');
-            var message = variant ? "Sold Out" : "Unavailable";
-            container.find('.wk-price-preview').text(message);
-        }
-
-    };
-
-    function appmateOptionSelect(el){
-        var id = el.getAttribute('id');
-        // var itemId = el.getAttribute('data-wishlist-item');
-        var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
-
-        Appmate.wk.getItem(itemId).then(function(product){
-            var selector = new Shopify.OptionSelectors(id, {
-                product: product,
-                onVariantSelected: appmateSelectCallback,
-                enableHistoryState: false
-            });
-
-            if (product.selected_variant_id) {
-                selector.selectVariant(product.selected_variant_id);
-            }
-
-            // Add label if only one product option and it isn't 'Title'.
-            if (product.options.size == 1 && product.options.first != 'Title') {
-                $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
-            }
-        });
+  if (variant && variant.available) {
+    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled');
+    if(variant.price < variant.compare_at_price){
+      container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
+    } else {
+      container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
     }
+  } else {
+    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled');
+    var message = variant ? "Sold Out" : "Unavailable";
+    container.find('.wk-price-preview').text(message);
+  }
+
+};
+
+function appmateOptionSelect(el){
+  var id = el.getAttribute('id');
+  // var itemId = el.getAttribute('data-wishlist-item');
+  var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
+
+  Appmate.wk.getItem(itemId).then(function(product){
+    var selector = new Shopify.OptionSelectors(id, {
+      product: product,
+      onVariantSelected: appmateSelectCallback,
+      enableHistoryState: false
+    });
+
+    if (product.selected_variant_id) {
+      selector.selectVariant(product.selected_variant_id);
+    }
+
+    // Add label if only one product option and it isn't 'Title'.
+    if (product.options.size == 1 && product.options.first != 'Title') {
+      $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
+    }
+  });
+}
 
 </script>
