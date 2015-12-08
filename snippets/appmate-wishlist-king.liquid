@@ -22,6 +22,12 @@
         Appmate.wk.removeProduct(product);
       }
     },
+    'click .wk-share-button': function(event){
+      Appmate.wk.createShareUrl('Shared Wishlist')
+      .then(function(result){
+        console.log('Share url is', result.url);
+      });
+    },
     'click .wk-clear-button': function(event){
       Appmate.wk.clear();
     },
@@ -133,6 +139,12 @@
 </button>
 </script>
 
+<script id="wishlist-button-share" data="wishlist" type="text/x-template" app="wishlist-king">
+<button type="button" data-wishlist="{{ wishlist.id }}" class="wk-share-button wk-text-button">
+  Share with friends
+</button>
+</script>
+
 <script id="wishlist-collection" data="wishlist" type="text/x-template" app="wishlist-king">
   <!-- Empty wishlist -->
   {% if wishlist.item_count == 0 %}
@@ -151,6 +163,9 @@
     <p class="wk-span12">To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">sign up</a>.</p>
     {% endif %}
   {% endunless %}
+  {% unless wishlist.read_only %}
+    {% include 'wishlist-button-share' with wishlist %}
+  {% endunless %}
   </div>
 
   <div class="wk-row">
@@ -162,7 +177,7 @@
     {% endif %}
 
     <div id="wk-item-{{ product.wishlist_item_id }}"
-       class="wk-item wk-span4"
+       class="wk-item wk-span4 {% unless wishlist.read_only %}wk-animate{% endunless %}"
        data-wk-item="{{ product.wishlist_item_id }}">
 
       <!-- Product image -->
@@ -234,9 +249,11 @@
     {% endfor %}
     <!-- End product loop -->
   </div>
+  {% unless wishlist.read_only %}
   <div class="wk-row wk-centered">
-  {% include 'wishlist-button-clear' %}
+    {% include 'wishlist-button-clear' %}
   </div>
+  {% endunless %}
   {% endif %}
 </script>
 {% endraw %}
