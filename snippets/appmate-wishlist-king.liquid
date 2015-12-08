@@ -281,6 +281,10 @@ var appmateSelectCallback = function(variant, selector) {
 };
 
 function appmateOptionSelect(el){
+  if (!Shopify || !Shopify.OptionSelectors) {
+    throw new Error('Missing option_selection.js! Please check templates/page.wishlist.liquid');
+  }
+
   var id = el.getAttribute('id');
   // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
