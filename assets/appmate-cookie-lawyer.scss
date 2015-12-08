@@ -1,45 +1,45 @@
 .cl-cookie-note {
-    background: #f45b4f;
-    width: 100%;
-    text-align: center;
-    font-size: 13px;
-    color: #FFF;
-    padding: 10px 0 13px 0;
+  background: #f45b4f;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: #FFF;
+  padding: 10px 0 13px 0;
 
-    p {
-        margin: 0 0 5px 0;
-        padding: 0;
-    
-        &:last-child {
-            margin: 0;
-            text-transform: uppercase;
-        }
-    }
+  p {
+    margin: 0 0 5px 0;
+    padding: 0;
 
-    a {
-        color: #fff;
-        text-decoration: underline;
+    &:last-child {
+      margin: 0;
+      text-transform: uppercase;
     }
+  }
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
 }
 
 .cl-dismiss-note {
-    background: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 3px 6px;
-    text-align: center;
-    line-height: 1;
-    text-transform: uppercase;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 3px 6px;
+  text-align: center;
+  line-height: 1;
+  text-transform: uppercase;
 
-    &:hover {
-        background: #444;
-    }
+  &:hover {
+    background: #444;
+  }
 
 }
 
 .cl-visually-hidden {
-    display: block;
-    height: 0;
-    text-indent: -9999px;
+  display: block;
+  height: 0;
+  text-indent: -9999px;
 }

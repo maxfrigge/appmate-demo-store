@@ -1,24 +1,28 @@
 {{ 'appmate-cookie-lawyer.scss.css' | asset_url | stylesheet_tag }}
 
 <script type="text/javascript">
-    ;(function(){
-        if (typeof Appmate === 'undefined') return; // In case lib didn't load.
+;(function(){
+  if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
-        Appmate.cl.on({
-            'click .cl-dismiss-note': function() {
-                Appmate.cl.dismiss();
-            }
-        });
-    })();
+  Appmate.cl.on({
+    'click .cl-dismiss-note': function() {
+      Appmate.cl.dismiss();
+    }
+  });
+})();
 </script>
 
+
+
 {% raw %}
-    <script id="cookie-note" data="cookie_advice" type="text/x-template" app="cookie-lawyer">
-        {% if cookie_advice.show_cookie_info %}
-            <div class="cl-cookie-note">
-                <p>We use cookies to give you the best possible experience on our website.{% if cookie_policy_handle %} Read our <a href="/pages/cookie-policy" title="Cookie Policy">Cookie Policy</a> to learn more.{% endif %}</p>
-                <p><button type="button" class="cl-dismiss-note" title="Dismiss note">Got it</button></p>
-            </div>
-        {% endif %}
-    </script>
+
+<script id="cookie-note" data="cookie_advice" type="text/x-template" app="cookie-lawyer">
+{% if cookie_advice.show_cookie_info %}
+<div class="cl-cookie-note">
+  <p>We use cookies to give you the best possible experience on our website.{% if cookie_policy_handle %} Read our <a href="/pages/cookie-policy" title="Cookie Policy">Cookie Policy</a> to learn more.{% endif %}</p>
+  <p><button type="button" class="cl-dismiss-note" title="Dismiss note">Got it</button></p>
+</div>
+{% endif %}
+</script>
+
 {% endraw %}
