@@ -1,9 +1,18 @@
+$cl-note-background: #f45b4f;
+$cl-note-color: #ffffff;
+$cl-note-font-size: 13px;
+
+$cl-button-background: #333333;
+$cl-button-background-hover: #444444;
+$cl-button-color: #ffffff;
+$cl-button-font-size: 13px;
+
 .cl-cookie-note {
-  background: #f45b4f;
+  background: $cl-note-background;
   width: 100%;
   text-align: center;
-  font-size: 13px;
-  color: #FFF;
+  font-size: $cl-note-font-size;
+  color: $cl-note-color;
   padding: 10px 0 13px 0;
 
   p {
@@ -17,14 +26,14 @@
   }
 
   a {
-    color: #fff;
+    color: $cl-note-color;
     text-decoration: underline;
   }
 }
 
 .cl-dismiss-note {
-  background: #333;
-  color: #fff;
+  background: $cl-button-background;
+  color: $cl-button-color;
   border: none;
   border-radius: 5px;
   padding: 3px 6px;
@@ -33,7 +42,7 @@
   text-transform: uppercase;
 
   &:hover {
-    background: #444;
+    background: $cl-button-background-hover;
   }
 
 }
