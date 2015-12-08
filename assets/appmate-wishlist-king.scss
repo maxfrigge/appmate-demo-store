@@ -1,7 +1,38 @@
-// Colors
-$wk-heart-color: 'rgb(66,66,66)';
+// Icon colors
+$wk-heart-color-button: 'rgb(66,66,66)';
+$wk-heart-color-header: 'rgb(66,66,66)';
 
-// Heart Icons
+// Wishlist button
+$wk-button-color: #333333;
+$wk-button-font-size: 13px;
+$wk-button-font-weight: 700;
+$wk-button-backgrund-color: rgba(0,0,0,0.1);
+
+// Text button (e.g. clear list)
+$wk-text-button-background: #333333;
+$wk-text-button-color: #ffffff;
+$wk-text-button-font-size: 11px;
+$wk-text-button-background-hover: #555555;
+$wk-text-button-color-hover: #ffffff;
+
+// Wishlist dropdown
+$wk-dropdown-background: #ffffff;
+$wk-dropdown-color: #555555;
+$wk-dropdown-border: 1px solid #dedede;
+$wk-dropdown-border-radius: 4px;
+$wk-dropdown-item-border-bottom: 1px solid #eeeeee;
+$wk-dropdown-price-color: #999999;
+
+// Wishlist page
+$wk-page-price-color: #555555;
+$wk-page-title-color: #333333;
+$wk-variant-form-background: rgba(255,255,255,.95);
+$wk-add-to-cart-background: #f45b4f;
+$wk-add-to-cart-font-size: 13px;
+$wk-add-to-cart-font-weight: 700;
+$wk-add-to-cart-color: #ffffff;
+
+// Heart icons
 @mixin wk-heart-full-icon($color, $width: 100%, $height: auto) {
   $wk-heart-full-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64'%20height%3D'64'%20viewBox%3D'0%200%2064%2064'%3E%3Cpath%20d%3D'M47.199%204c-6.727%200-12.516%205.472-15.198%2011.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274%200-16.8%207.527-16.8%2016.802%200%2018.865%2019.031%2023.812%2032.001%2042.464%2012.26-18.536%2031.999-24.2%2031.999-42.464%200-9.274-7.527-16.802-16.801-16.802z'%20fill%3D'#{$color}'%3E%3C%2Fpath%3E%3C%2Fsvg%3E";
 
@@ -59,7 +90,6 @@ $wk-heart-color: 'rgb(66,66,66)';
   display: block;
 }
 
-
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !BUTTONS
 /*////////////////////////////////////////////////////////////////////////////*/
@@ -72,9 +102,9 @@ $wk-heart-color: 'rgb(66,66,66)';
     outline:0;
   }
 
-  font-size: 13px;
-  font-weight: 700;
-  color: #333333;
+  font-size: $wk-button-font-size;
+  font-weight: $wk-button-font-weight;
+  color: $wk-button-color;
 
   height: 36px;
   line-height: 36px;
@@ -86,7 +116,7 @@ $wk-heart-color: 'rgb(66,66,66)';
   @extend .wk-button;
   @include wk-hide-text;
 
-  background-color: rgba(0,0,0,0.1);
+  background-color: $wk-button-backgrund-color;
   background-position: center center;
   border: none;
   border-radius: 50%;
@@ -100,7 +130,7 @@ $wk-heart-color: 'rgb(66,66,66)';
 
 .wk-button-remove {
   @include wk-button;
-  @include wk-heart-full-icon($wk-heart-color, 15px, 15px);
+  @include wk-heart-full-icon($wk-heart-color-button, 15px, 15px);
   background-position: left center;
 
   &:hover {
@@ -110,7 +140,7 @@ $wk-heart-color: 'rgb(66,66,66)';
 
 .wk-button-add {
   @include wk-button;
-  @include wk-heart-empty-icon($wk-heart-color, 15px, 15px);
+  @include wk-heart-empty-icon($wk-heart-color-button, 15px, 15px);
   background-position: left center;
 
   &:hover {
@@ -120,13 +150,13 @@ $wk-heart-color: 'rgb(66,66,66)';
 
 .wk-text-button,
 a.wk-text-button {
-  background: #333;
+  background: $wk-text-button-background;
   padding: 5px 10px;
-  color: #fff;
+  color: $wk-text-button-color;
   border-radius: 5px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 11px;
+  font-size: $wk-text-button-font-size;
   line-height: 14px;
   text-align: center;
   border: none;
@@ -136,8 +166,8 @@ a.wk-text-button {
   }
 
   &:hover {
-    background: #555;
-    color: #FFF;
+    background: $wk-text-button-background-hover;
+    color: $wk-text-button-color-hover;
   }
 }
 
@@ -197,11 +227,11 @@ a.wk-text-button {
   padding-left: 20px;
 
   &.wk-filled {
-    @include wk-heart-full-icon($wk-heart-color, 15px, 15px);
+    @include wk-heart-full-icon($wk-heart-color-header, 15px, 15px);
     background-position: top left;
   }
   &.wk-empty {
-    @include wk-heart-empty-icon($wk-heart-color, 15px, 15px);
+    @include wk-heart-empty-icon($wk-heart-color-header, 15px, 15px);
     background-position: top left;
   }
 }
@@ -211,16 +241,16 @@ a.wk-text-button {
 }
 
 #wk-dropdown-wrapper {
-  background: #FFF;
+  background: $wk-dropdown-background;
   position: absolute;
-  top: 50px;
+  top: 100%;
   right: -71px;
   width: 301px;
   z-index: 9999;
-  color: #555555;
-  border: 1px solid #dedede;
+  color: $wk-dropdown-color;
+  border: $wk-dropdown-border;
   padding: 17px;
-  border-radius: 4px;
+  border-radius: $wk-dropdown-border-radius;
   display: none;
 }
 
@@ -246,7 +276,7 @@ a.wk-text-button {
     background: none;
     margin-bottom: 13px !important;
     width: 100%;
-    border-bottom: 1px solid #eee;
+    border-bottom: $wk-dropdown-item-border-bottom;
     padding: 0 0 13px 0 !important;
     line-height: 1 !important;
     float: none !important;
@@ -278,7 +308,7 @@ a.wk-text-button {
       p.wk-dd-price {
         font-size: .9em;
         font-style: italic;
-        color: #999;
+        color: $wk-dropdown-price-color;
       }
 
     }
@@ -317,7 +347,6 @@ a.wk-text-button {
 }
 
 .wk-item {
-
   text-align: center;
   margin-bottom: 30px;
   font-size: 15px;
@@ -325,14 +354,14 @@ a.wk-text-button {
   .wk-variant-link {
     line-height: 22px;
     display: block;
-    color: #333333;
+    color: $wk-page-title-color;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .wk-price {
-    color: #555555;
+    color: $wk-page-price-color;
     opacity: 0.7;
   }
 
@@ -347,15 +376,8 @@ a.wk-text-button {
 
   select {
     width: 100%;
-    // height: 30px;
-    // line-height: 30px;
     border-radius: 0;
     max-width: 200px;
-  }
-
-  .wk-purchase h2.wk-price {
-    margin: 0 0 7px;
-    font-size: 18px !important;
   }
 
   .wk-purchase-section {
@@ -370,7 +392,7 @@ a.wk-text-button {
   left: 20px;
   right: 20px;
 
-  background: rgba(255,255,255,.95);
+  background: $wk-variant-form-background;
   padding: 10px;
   opacity: 0;
 
@@ -383,10 +405,10 @@ a.wk-text-button {
     border: none;
     margin: 0;
     padding: 0 20px;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 13px;
-    background: #f45b4f;
+    color: $wk-add-to-cart-color;
+    font-weight: $wk-add-to-cart-font-weight;
+    font-size: $wk-add-to-cart-font-size;
+    background: $wk-add-to-cart-background;
     width: auto;
   }
 }
@@ -416,32 +438,6 @@ a.wk-text-button {
     padding: 0 1.5%;
   }
 
-  ul.topbarlist {
-
-    text-align: center;
-    margin: 0 auto;
-
-    li {
-      float: none !important;
-      display: inline-block !important;
-      padding: 0 5px;
-
-      &.toolbar-customer {
-        font-size: 14px;
-      }
-
-      &.search-field {
-        display: none !important;
-      }
-
-    }
-
-  }
-
-  .logo {
-    padding: 0 0 30px 0;
-  }
-
   .product,
   .wk-item {
 
@@ -469,14 +465,6 @@ a.wk-text-button {
       display: none;
     }
 
-  }
-
-  .breadcrumb {
-    display: none;
-  }
-
-  .product-options select {
-    width: 100%;
   }
 
   #wishlist-king h1 {
