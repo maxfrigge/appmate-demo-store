@@ -11,14 +11,15 @@
 <div class="product {{ product_span_size }}">
 
   {% if product.price_min < product.compare_at_price_min %}
-    <span class="circle sale">Sale</span>
+    <!-- <span class="circle sale">Sale</span> -->
   {% endif %}
+
+  <!-- include 'wishlist-icon-button-toggle' with '{{ product.id }}' -->
 
   <div class="image">
     <a href="{{ url }}">
       <img src="{% if product.images.size >= 1%}{{ product.featured_image | product_img_url: 'large' }}{% else %}{{ 'No_Image_2.png' | asset_url }}{% endif %}" alt="{{ product.title | escape  }}" />
     </a>
-    <!-- include 'wishlist-button-toggle' with '{{ product.id }}' -->
   </div>
 
   <div class="details">

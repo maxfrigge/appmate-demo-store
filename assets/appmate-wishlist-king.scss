@@ -31,25 +31,37 @@ $wk-add-to-cart-background: #f45b4f;
 $wk-add-to-cart-font-size: 13px;
 $wk-add-to-cart-font-weight: 700;
 $wk-add-to-cart-color: #ffffff;
+$wk-image-ratio-width: 1;
+$wk-image-ratio-height: 1;
 
 // Heart icons
-@mixin wk-heart-full-icon($color, $width: 100%, $height: auto) {
+@mixin wk-heart-full-icon($color, $width: 15px, $height: 15px) {
   $wk-heart-full-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64'%20height%3D'64'%20viewBox%3D'0%200%2064%2064'%3E%3Cpath%20d%3D'M47.199%204c-6.727%200-12.516%205.472-15.198%2011.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274%200-16.8%207.527-16.8%2016.802%200%2018.865%2019.031%2023.812%2032.001%2042.464%2012.26-18.536%2031.999-24.2%2031.999-42.464%200-9.274-7.527-16.802-16.801-16.802z'%20fill%3D'#{$color}'%3E%3C%2Fpath%3E%3C%2Fsvg%3E";
 
   @include wk-svg-icon($wk-heart-full-svg, $width, $height);
 }
 
-@mixin wk-heart-empty-icon($color, $width: 100%, $height: auto) {
+@mixin wk-heart-empty-icon($color, $width: 15px, $height: 15px) {
   $wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64px'%20height%3D'60.833px'%20viewBox%3D'0%200%2064%2060.833'%3E%3Cpath%20stroke%3D'#{$color}'%20stroke-width%3D'5'%20stroke-miterlimit%3D'10'%20fill-opacity%3D'0'%20d%3D'M45.684%2C2.654c-6.057%2C0-11.27%2C4.927-13.684%2C10.073%20c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349%2C0-15.125%2C6.776-15.125%2C15.127c0%2C16.983%2C17.134%2C21.438%2C28.812%2C38.231%20c11.038-16.688%2C28.811-21.787%2C28.811-38.231C60.811%2C9.431%2C54.033%2C2.654%2C45.684%2C2.654z'%2F%3E%3C%2Fsvg%3E";
 
   @include wk-svg-icon($wk-heart-empty-svg, $width, $height);
 }
 
-@mixin wk-svg-icon($svg, $width: 100%, $height: auto){
-  background-image: url("data:image/svg+xml;charset=UTF-8,#{$svg}");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: $width $height;
+@mixin wk-svg-icon($svg, $width, $height){
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: $width;
+    height: $height;
+    background-image: url("data:image/svg+xml;charset=UTF-8,#{$svg}");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    left: calc(50% - #{$width} * .5);
+    top: calc(50% - #{$height} * .5);
+  }
 }
 
 @mixin wk-hide-text {
@@ -94,7 +106,62 @@ $wk-add-to-cart-color: #ffffff;
 /* !BUTTONS
 /*////////////////////////////////////////////////////////////////////////////*/
 
-@mixin wk-button {
+@mixin wk-icon-button {
+  @include wk-hide-text;
+
+  background-color: $wk-button-backgrund-color;
+  background-position: center center;
+  border: none;
+  border-radius: 50%;
+
+  width: 25px;
+  height: 24px;
+
+  padding: 0;
+  margin: 0;
+
+  &:focus {
+    outline:0;
+  }
+}
+
+button.wk-icon-button-remove {
+  @include wk-heart-full-icon($wk-heart-color-button, 15px, 15px);
+}
+
+button.wk-icon-button-add {
+  @include wk-heart-empty-icon($wk-heart-color-button, 15px, 15px);
+}
+
+button.wk-icon-button-add,
+button.wk-icon-button-remove {
+  @include wk-icon-button;
+
+  // Top right corner
+  position: absolute;
+  z-index: 99999;
+  top: 5px;
+  right: 5px;
+
+  &:hover {
+    opacity: .8;
+  }
+
+  -webkit-transition: opacity .3s;
+  transition: opacity .3s;
+}
+
+* > button.wk-icon-button-add,
+* > button.wk-icon-button-remove {
+  opacity: 0;
+}
+
+*:hover > button.wk-icon-button-add,
+*:hover > button.wk-icon-button-remove {
+  opacity: 1;
+}
+
+@mixin wk-text-button {
   background: none;
   border: none;
 
@@ -112,43 +179,34 @@ $wk-add-to-cart-color: #ffffff;
   padding: 0 20px;
 }
 
-@mixin wk-icon-button {
-  @extend .wk-button;
-  @include wk-hide-text;
-
-  background-color: $wk-button-backgrund-color;
-  background-position: center center;
-  border: none;
-  border-radius: 50%;
-
-  width: 25px;
-  height: 24px;
-
-  padding: 0;
-  margin: 0;
-}
-
-.wk-button-remove {
-  @include wk-button;
-  @include wk-heart-full-icon($wk-heart-color-button, 15px, 15px);
-  background-position: left center;
+button.wk-text-button-add,
+button.wk-text-button-remove {
+  @include wk-text-button;
 
   &:hover {
     opacity: .8;
   }
+
+  // Leave space for cart button
+  margin-left: 20px;
 }
 
-.wk-button-add {
-  @include wk-button;
-  @include wk-heart-empty-icon($wk-heart-color-button, 15px, 15px);
-  background-position: left center;
+button.wk-text-button-remove {
+  @include wk-heart-full-icon($wk-heart-color-button, 15px, 15px);
+  &:before {
+    left: 0;
+  }
+}
 
-  &:hover {
-    opacity: .8;
+button.wk-text-button-add {
+  @include wk-heart-empty-icon($wk-heart-color-button, 15px, 15px);
+  &:before {
+    left: 0;
   }
 }
 
 .wk-text-button,
+button.wk-text-button,
 a.wk-text-button {
   background: $wk-text-button-background;
   padding: 5px 10px;
@@ -173,53 +231,6 @@ a.wk-text-button {
 
 
 /*/////////////////////////////////////////////////////////////////////////////*/
-/* !COLLECTION */
-/*////////////////////////////////////////////////////////////////////////////*/
-
-.product,
-.wk-item {
-  position: relative;
-
-  .wk-button-add,
-  .wk-button-remove {
-    @include wk-icon-button;
-
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
-
-  .wk-button-add {
-    opacity: 0;
-  }
-
-  &:hover .wk-button-add {
-    opacity: 1;
-  }
-
-  .sale {
-    display: none;
-  }
-
-  .saleprice {
-    color: #ff493c;
-  }
-}
-
-
-/*/////////////////////////////////////////////////////////////////////////////*/
-/* !PRODUCT */
-/*////////////////////////////////////////////////////////////////////////////*/
-
-#product {
-  .wk-button-add,
-  .wk-button-remove {
-    margin-left: 20px;
-  }
-}
-
-
-/*/////////////////////////////////////////////////////////////////////////////*/
 /* !TOOLBAR / DROPDOWN */
 /*////////////////////////////////////////////////////////////////////////////*/
 
@@ -228,11 +239,17 @@ a.wk-text-button {
 
   &.wk-filled {
     @include wk-heart-full-icon($wk-heart-color-header, 15px, 15px);
-    background-position: top left;
+    &:before {
+      left: 0;
+      margin-top: -2px;
+    }
   }
   &.wk-empty {
     @include wk-heart-empty-icon($wk-heart-color-header, 15px, 15px);
-    background-position: top left;
+    &:before {
+      left: 0;
+      margin-top: -2px;
+    }
   }
 }
 
@@ -244,7 +261,7 @@ a.wk-text-button {
   background: $wk-dropdown-background;
   position: absolute;
   top: 100%;
-  right: -71px;
+  left: -130px;
   width: 301px;
   z-index: 9999;
   color: $wk-dropdown-color;
@@ -271,22 +288,24 @@ a.wk-text-button {
 .wk-dropdown {
   width: 100%;
   margin: 0;
+  overflow: hidden;
 
-  li {
+  li.wk-dropdown-item {
     background: none;
     margin-bottom: 13px !important;
     width: 100%;
     border-bottom: $wk-dropdown-item-border-bottom;
     padding: 0 0 13px 0 !important;
     line-height: 1 !important;
-    float: none !important;
-    display: inline-block;
+    display: block;
+    white-space: normal;
 
     &:hover {
       opacity: .8;
     }
 
-    p {
+    p.wk-dd-title,
+    p.wk-dd-price {
       margin: 0;
     }
 
@@ -326,16 +345,20 @@ a.wk-text-button {
   @include wk-clearfix;
   display: block;
   margin: 0 0 30px 0;
+
+  >* {
+    box-sizing: border-box;
+  }
 }
 
 .wk-span3 {
-  width: 22%;
+  width: 25%;
   padding: 0 1.5%;
   float: left;
 }
 
 .wk-span4 {
-  width: 30.33%;
+  width: 33.33%;
   padding: 0 1.5%;
   float: left;
 }
@@ -347,6 +370,7 @@ a.wk-text-button {
 }
 
 .wk-item {
+  position: relative;
   text-align: center;
   margin-bottom: 30px;
   font-size: 15px;
@@ -366,7 +390,7 @@ a.wk-text-button {
   }
 
   .wk-image {
-    @include wk-aspect-ratio(1,1);
+    @include wk-aspect-ratio($wk-image-ratio-width, $wk-image-ratio-height);
     position: relative;
   }
 
@@ -389,8 +413,8 @@ a.wk-text-button {
   position: absolute;
   bottom: 0;
   margin: 0 auto;
-  left: 20px;
-  right: 20px;
+  left: 0;
+  right: 0;
 
   background: $wk-variant-form-background;
   padding: 10px;
@@ -424,47 +448,31 @@ a.wk-text-button {
 /* !Wishlist Mobile */
 /*////////////////////////////////////////////////////////////////////////////*/
 
+@media (max-width: 1024px) {
+  button.wk-icon-button-add,
+  button.wk-icon-button-remove {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 720px) {
-  .wk-span4, .wk-span4 {
-    width: 47%;
+  .wk-span3, .wk-span4 {
+    width: 50%;
     padding: 0 1.5%;
   }
 }
 
 @media (max-width: 480px) {
 
-  .wk-span4, .wk-span4 {
-    width: 97%;
+  .wk-span3, .wk-span4 {
+    width: 100%;
     padding: 0 1.5%;
   }
 
-  .product,
-  .wk-item {
-
-    .wk-button-add {
-      opacity: 1;
-    }
-
-    &:hover .wk-button-add {
-      opacity: 1;
-    }
-
-    .wk-button-remove {
-      opacity: 1;
-    }
-
-    &:hover .wk-button-remove {
-      opacity: 1;
-    }
-
-  }
-
   .wk-dropdown-toggle {
-
     &:hover #wk-dropdown-wrapper {
       display: none;
     }
-
   }
 
   #wishlist-king h1 {

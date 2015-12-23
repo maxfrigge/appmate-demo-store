@@ -5,16 +5,16 @@
   if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
   Appmate.wk.on({
-    'click .wk-button-add': function(event){
-      var product = this.getAttribute('data-wk-product');
+    'click [data-wk-add-product]': function(event){
+      var product = this.getAttribute('data-wk-add-product');
       var variant = $(this).parents('form').find('select[name="id"]').val();
       Appmate.wk.addProduct(product, variant);
     },
-    'click .wk-button-remove': function(event){
-      var product = this.getAttribute('data-wk-product');
+    'click [data-wk-remove-product]': function(event){
+      var product = this.getAttribute('data-wk-remove-product');
 
-      if ($(this).parents('.wk-item').length) {
-        $(this).parents('.wk-item').fadeOut(function() {
+      if ($(this).parents('.wk-fadeout').length) {
+        $(this).parents('.wk-fadeout').fadeOut(function() {
           Appmate.wk.removeProduct(product);
         });
       }
@@ -107,22 +107,42 @@
 </li>
 </script>
 
-<script id="wishlist-button-toggle" data="product" type="text/x-template" app="wishlist-king">
+<script id="wishlist-icon-button-toggle" data="product" type="text/x-template" app="wishlist-king">
 {% if product.in_wishlist %}
-  {% include 'wishlist-button-remove' with product %}
+  {% include 'wishlist-icon-button-remove' with product %}
 {% else %}
-  {% include 'wishlist-button-add' with product %}
+  {% include 'wishlist-icon-button-add' with product %}
 {% endif %}
 </script>
 
-<script id="wishlist-button-add" data="product" type="text/x-template" app="wishlist-king">
-<button type="button" class="wk-button-add" title="Add to wishlist" data-wk-product="{{ product.id }}">
+<script id="wishlist-icon-button-add" data="product" type="text/x-template" app="wishlist-king">
+<button type="button" class="wk-icon-button-add" title="Add to wishlist" data-wk-add-product="{{ product.id }}">
   Add to Wishlist
 </button>
 </script>
 
-<script id="wishlist-button-remove" data="product" type="text/x-template" app="wishlist-king">
-<button type="button" class="wk-button-remove" title="Remove from wishlist" data-wk-product="{{ product.id }}">
+<script id="wishlist-icon-button-remove" data="product" type="text/x-template" app="wishlist-king">
+<button type="button" class="wk-icon-button-remove" title="Remove from wishlist" data-wk-remove-product="{{ product.id }}">
+  In Wishlist
+</button>
+</script>
+
+<script id="wishlist-text-button-toggle" data="product" type="text/x-template" app="wishlist-king">
+{% if product.in_wishlist %}
+  {% include 'wishlist-text-button-remove' with product %}
+{% else %}
+  {% include 'wishlist-text-button-add' with product %}
+{% endif %}
+</script>
+
+<script id="wishlist-text-button-add" data="product" type="text/x-template" app="wishlist-king">
+<button type="button" class="wk-text-button-add" title="Add to wishlist" data-wk-add-product="{{ product.id }}">
+  Add to Wishlist
+</button>
+</script>
+
+<script id="wishlist-text-button-remove" data="product" type="text/x-template" app="wishlist-king">
+<button type="button" class="wk-text-button-remove" title="Remove from wishlist" data-wk-remove-product="{{ product.id }}">
   In Wishlist
 </button>
 </script>
@@ -162,7 +182,7 @@
     {% endif %}
 
     <div id="wk-item-{{ product.wishlist_item_id }}"
-       class="wk-item wk-span4"
+       class="wk-item wk-span4 wk-fadeout"
        data-wk-item="{{ product.wishlist_item_id }}">
 
       <!-- Product image -->
@@ -172,7 +192,7 @@
              src="{{ product | variant_img_url: 'large' }}"
              alt="{{ product.title }}" />
         </a>
-        {% include 'wishlist-button-remove' with product %}
+        {% include 'wishlist-icon-button-remove' with product %}
       </div>
 
       <!-- Product title -->
