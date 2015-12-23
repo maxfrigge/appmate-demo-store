@@ -71,40 +71,49 @@
 </a>
 </script>
 
-<script id="wishlist-dropdown" data="wishlist" type="text/x-template" app="wishlist-king">
+<script id="wishlist-dropdown-li" data="wishlist" type="text/x-template" app="wishlist-king">
 <li class="wk-dropdown-toggle wk-{{ wishlist.state }}">
-
   {% include 'wishlist-link' %}
-
-  <div id="wk-dropdown-wrapper">
-    <ul class="wk-dropdown">
-
-      {% for product in wishlist.products limit:5 %}
-      <li class="wk-dropdown-item" data-wishlist-item="">
-        <div class="wk-dropdown-thumb">
-          <a href="{{ product.url }}" class="wk-variant-link" title="View product">
-            <img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="wk-variant-image" />
-          </a>
-        </div>
-        <div class="wk-dropdown-details">
-          <p class="wk-dd-title">
-            <a href="{{ product.url }}" class="wk-variant-link" title="View product">{{ product.title }}</a>
-          </p>
-          <p class="wk-dd-price">from {{ product.price_min | money }}</p>
-        </div>
-      </li>
-      {% endfor %}
-
-    </ul>
-
-    {% if wishlist.item_count > 0 %}
-    <a class="wk-text-button wk-block" href="{{ wishlist.url }}" title="View Wishlist">View Wishlist</a>
-    {% else %}
-    <span class="wk-text-button wk-block">No items in your wishlist...</span>
-    {% endif %}
-
-  </div>
+  {% include 'wishlist-dropdown-box' %}
 </li>
+</script>
+
+<script id="wishlist-dropdown-span" data="wishlist" type="text/x-template" app="wishlist-king">
+<span class="wk-dropdown-toggle wk-{{ wishlist.state }}">
+  {% include 'wishlist-link' %}
+  {% include 'wishlist-dropdown-box' %}
+</span>
+</script>
+
+<script id="wishlist-dropdown-box" data="wishlist" type="text/x-template" app="wishlist-king">
+<div id="wk-dropdown-wrapper">
+  <ul class="wk-dropdown">
+
+    {% for product in wishlist.products limit:5 %}
+    <li class="wk-dropdown-item" data-wishlist-item="">
+      <div class="wk-dropdown-thumb">
+        <a href="{{ product.url }}" class="wk-variant-link" title="View product">
+          <img src="{{ product | variant_img_url: 'medium' }}" alt="{{ product.title }}" class="wk-variant-image" />
+        </a>
+      </div>
+      <div class="wk-dropdown-details">
+        <p class="wk-dd-title">
+          <a href="{{ product.url }}" class="wk-variant-link" title="View product">{{ product.title }}</a>
+        </p>
+        <p class="wk-dd-price">from {{ product.price_min | money }}</p>
+      </div>
+    </li>
+    {% endfor %}
+
+  </ul>
+
+  {% if wishlist.item_count > 0 %}
+  <a class="wk-text-button wk-block" href="{{ wishlist.url }}" title="View Wishlist">View Wishlist</a>
+  {% else %}
+  <span class="wk-text-button wk-block">No items in your wishlist...</span>
+  {% endif %}
+
+</div>
 </script>
 
 <script id="wishlist-icon-button-toggle" data="product" type="text/x-template" app="wishlist-king">
