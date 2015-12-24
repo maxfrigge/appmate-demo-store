@@ -39,13 +39,17 @@
           $("html, body").animate({ scrollTop: 0 }, 250, 'swing');
 
           var quantity = parseInt($form.find('[name="quantity"]').val(), 10) || 1;
-          var cartCount =  parseInt($('#cart-count').text()) + quantity;
-          $('#cart-count').text(cartCount);
+          $('#cart-count').each(function(){
+            var $count = $(this);
+            var cartCount =  parseInt($count.text()) + quantity;
+            $count.text(cartCount);
+          });
+
           $('#cart-target').addClass('has-items');
           $elem.prop("disabled", false);
 
           // Trigger remove item
-          $removeButton = $form.parents('.wk-item').find('.wk-button-remove');
+          $removeButton = $form.parents('.wk-item').find('[data-wk-remove-product]');
           $removeButton.click();
         },
         error: Shopify.onError

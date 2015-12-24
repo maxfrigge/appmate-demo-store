@@ -27,7 +27,7 @@ $wk-dropdown-price-color: #999999;
 $wk-page-price-color: #555555;
 $wk-page-title-color: #333333;
 $wk-variant-form-background: rgba(255,255,255,.95);
-$wk-add-to-cart-background: #f45b4f;
+$wk-add-to-cart-background: #333333;
 $wk-add-to-cart-font-size: 13px;
 $wk-add-to-cart-font-weight: 700;
 $wk-add-to-cart-color: #ffffff;
@@ -151,8 +151,7 @@ button.wk-icon-button-remove {
   transition: opacity .3s;
 }
 
-* > button.wk-icon-button-add,
-* > button.wk-icon-button-remove {
+* > button.wk-icon-button-add {
   opacity: 0;
 }
 
@@ -173,9 +172,6 @@ button.wk-icon-button-remove {
   font-weight: $wk-button-font-weight;
   color: $wk-button-color;
 
-  height: 36px;
-  line-height: 36px;
-  vertical-align: middle;
   padding: 0 20px;
 }
 
@@ -263,7 +259,7 @@ a.wk-text-button {
   top: 100%;
   left: -130px;
   width: 301px;
-  z-index: 9999;
+  z-index: 999999;
   color: $wk-dropdown-color;
   border: $wk-dropdown-border;
   padding: 17px;
@@ -299,6 +295,7 @@ a.wk-text-button {
     line-height: 1 !important;
     display: block;
     white-space: normal;
+    overflow: hidden;
 
     &:hover {
       opacity: .8;
