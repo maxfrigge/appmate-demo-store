@@ -92,8 +92,8 @@
 <script id="wishlist-dropdown-box" data="wishlist" type="text/x-template" app="wishlist-king">
 <div id="wk-dropdown-wrapper">
   <ul class="wk-dropdown">
-
-    {% for product in wishlist.products limit:5 %}
+    {% assign products = wishlist.products | reverse %}
+    {% for product in products limit:5 %}
     <li class="wk-dropdown-item" data-wishlist-item="">
       <div class="wk-dropdown-thumb">
         <a href="{{ product.url }}" class="wk-variant-link" title="View product">
