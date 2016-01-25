@@ -14,10 +14,10 @@ var shopCurrency = '{{ shop.currency }}';
 /* Sometimes merchants change their shop currency, let's tell our JavaScript file */
 Currency.moneyFormats[shopCurrency].money_with_currency_format = {{ shop.money_with_currency_format | strip_html | json }};
 Currency.moneyFormats[shopCurrency].money_format = {{ shop.money_format | strip_html | json }};
-  
+
 /* Default currency */
 var defaultCurrency = '{{ settings.default_currency }}' || shopCurrency;
-  
+
 /* Cookie currency */
 var cookieCurrency = Currency.cookie.read();
 

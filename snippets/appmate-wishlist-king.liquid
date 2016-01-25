@@ -297,13 +297,13 @@ var appmateSelectCallback = function(variant, selector) {
   if (imageUrl) {
     container.find('.wk-variant-image').attr('src', imageUrl);
   }
-
+  var formatMoney = Appmate.wk.filters.money;
   if (variant && variant.available) {
     container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled');
     if(variant.price < variant.compare_at_price){
-      container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format) + " <del>" + Shopify.formatMoney(variant.compare_at_price, shop.money_format) + "</del>");
+      container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
     } else {
-      container.find('.wk-price-preview').html(Shopify.formatMoney(variant.price, shop.money_format));
+      container.find('.wk-price-preview').html(formatMoney(variant.price));
     }
   } else {
     container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled');

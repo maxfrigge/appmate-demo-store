@@ -232,6 +232,7 @@ ul.expanded > li, ol.expanded > li { margin-bottom: 10px; }
 /*      SECTION 3      */
 /* =================== */
 /* 3.1 - Toolbar */
+#currencies { vertical-align: middle; }
 .toolbar { color: #555555; font-size: 15px; margin: 0 auto; float: none; }
 .toolbar li { float: right; line-height: 60px; list-style: none; padding-right: 15px; margin-bottom: 0 !important; }
 
@@ -464,9 +465,9 @@ div.errors { margin-bottom: 15px; }
 /* 4.2 - Tablet Landscape */
 @media only screen and (min-width: 600px) and (max-width: 797px) {
   nav.main { display:none; }
-  
+
   nav.mobile { display:block; padding: 0 0 30px 0; }
-  
+
 
   .wrapper, .toolbar, footer { width:600px; }
   .span1 { width:20px; }
@@ -493,9 +494,9 @@ div.errors { margin-bottom: 15px; }
   #blog .span9 { width: 570px; }
   #header .span9, #header .span3 { width: 570px; }
   #header .span9 { margin-left: 0 !important; }
-  
+
   #header .logo { padding-bottom: 0 !important; }
-  
+
   #header .logo a img { max-width: 200px; }
   .footer-menu { margin-bottom: 20px; }
 }
@@ -505,7 +506,7 @@ div.errors { margin-bottom: 15px; }
   nav.main { display:none; }
   nav.mobile { display:block; padding: 30px 0; }
 
-  
+
 
   .cart-buttons { float:left!important; }
   .checkout-buttons textarea { width:96%%;}
@@ -548,9 +549,9 @@ div.errors { margin-bottom: 15px; }
   #article .article { width: 450px; }
   #header .span9, #header .span3 { width: 450px; }
   #header .span9 { margin-left: 0 !important; }
-  
+
   #header .logo { padding-bottom: 0 !important; }
-  
+
   #header .logo a img { max-width: 200px; }
   .footer-menu { margin-bottom: 20px; }
   #product .thumbs .image:nth-child(3n+4) { clear: none; }
@@ -568,12 +569,12 @@ div.errors { margin-bottom: 15px; }
 
   nav.mobile { padding: 0; }
 
-  
+
 
   .display-table-cell, .display-table-cell { display: block!important; }
   .featured-product-image { width: 100%}
 
-  
+
 
   nav.mobile { margin: 0 0 30px 0; }
 
