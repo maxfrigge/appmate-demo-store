@@ -40,6 +40,9 @@ $cl-button-font-size: 13px;
   text-align: center;
   line-height: 1;
   text-transform: uppercase;
+  width: auto;
+  height: auto;
+  margin-bottom: 0;
 
   &:hover {
     background: $cl-button-background-hover;
