@@ -1,27 +1,50 @@
-// Icon colors
-$wk-heart-color-button: 'rgb(66,66,66)';
-$wk-heart-color-header: 'rgb(66,66,66)';
+.wk-wishlist-empty-note {
 
-// Wishlist button
-$wk-button-color: #333333;
-$wk-button-font-size: 13px;
-$wk-button-font-weight: 700;
-$wk-button-backgrund-color: rgba(0,0,0,0.1);
+}
 
-// Text button (e.g. clear list)
-$wk-text-button-background: #333333;
-$wk-text-button-color: #ffffff;
-$wk-text-button-font-size: 11px;
-$wk-text-button-background-hover: #555555;
-$wk-text-button-color-hover: #ffffff;
+.wk-login-note {
+
+}
+
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Style Settings */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+// Wishlist button collection
+$wk-button-collection-icon-color: 'rgb(66,66,66)';
+$wk-button-collection-backgrund-color: rgba(0,0,0,0.1);
+
+// Wishlist button product
+$wk-button-product-icon-color: 'rgb(66,66,66)';
+$wk-button-product-text-color: #333333;
+
+// Wishlist button wishlist page
+$wk-button-wishlist-page-icon-color: 'rgb(66,66,66)';
+$wk-button-wishlist-page-backgrund-color: rgba(0,0,0,0.1);
+
+// Clear wishlist button (on wishlist page)
+$wk-button-wishlist-clear-background: #333333;
+$wk-button-wishlist-clear-text-color: #ffffff;
+$wk-button-wishlist-clear-background-hover: #555555;
+$wk-button-wishlist-clear-text-color-hover: #ffffff;
+
+// Wishlist link (in header)
+$wk-header-link-icon-color: 'rgb(66,66,66)';
+$wk-header-link-text-color: #333333;
 
 // Wishlist dropdown
 $wk-dropdown-background: #ffffff;
-$wk-dropdown-color: #555555;
+$wk-dropdown-text-color: #555555;
 $wk-dropdown-border: 1px solid #dedede;
 $wk-dropdown-border-radius: 4px;
 $wk-dropdown-item-border-bottom: 1px solid #eeeeee;
 $wk-dropdown-price-color: #999999;
+
+// View wishlist button (in dropdown)
+$wk-button-view-all-background: #333333;
+$wk-button-view-all-text-color: #ffffff;
+$wk-button-view-all-background-hover: #555555;
+$wk-button-view-all-text-color-hover: #ffffff;
 
 // Wishlist page
 $wk-page-price-color: #555555;
@@ -34,36 +57,10 @@ $wk-add-to-cart-color: #ffffff;
 $wk-image-ratio-width: 1;
 $wk-image-ratio-height: 1;
 
-// Heart icons
-@mixin wk-heart-full-icon($color, $width: 15px, $height: 15px) {
-  $wk-heart-full-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64'%20height%3D'64'%20viewBox%3D'0%200%2064%2064'%3E%3Cpath%20d%3D'M47.199%204c-6.727%200-12.516%205.472-15.198%2011.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274%200-16.8%207.527-16.8%2016.802%200%2018.865%2019.031%2023.812%2032.001%2042.464%2012.26-18.536%2031.999-24.2%2031.999-42.464%200-9.274-7.527-16.802-16.801-16.802z'%20fill%3D'#{$color}'%3E%3C%2Fpath%3E%3C%2Fsvg%3E";
 
-  @include wk-svg-icon($wk-heart-full-svg, $width, $height);
-}
-
-@mixin wk-heart-empty-icon($color, $width: 15px, $height: 15px) {
-  $wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64px'%20height%3D'60.833px'%20viewBox%3D'0%200%2064%2060.833'%3E%3Cpath%20stroke%3D'#{$color}'%20stroke-width%3D'5'%20stroke-miterlimit%3D'10'%20fill-opacity%3D'0'%20d%3D'M45.684%2C2.654c-6.057%2C0-11.27%2C4.927-13.684%2C10.073%20c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349%2C0-15.125%2C6.776-15.125%2C15.127c0%2C16.983%2C17.134%2C21.438%2C28.812%2C38.231%20c11.038-16.688%2C28.811-21.787%2C28.811-38.231C60.811%2C9.431%2C54.033%2C2.654%2C45.684%2C2.654z'%2F%3E%3C%2Fsvg%3E";
-
-  @include wk-svg-icon($wk-heart-empty-svg, $width, $height);
-}
-
-@mixin wk-svg-icon($svg, $width, $height){
-  position: relative;
-
-  &:before {
-    content: '';
-    position: absolute;
-    width: $width;
-    height: $height;
-    background-image: url("data:image/svg+xml;charset=UTF-8,#{$svg}");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    left: calc(50% - #{$width} * .5);
-    top: calc(50% - #{$height} * .5);
-  }
-}
-
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Mixins */
+/*////////////////////////////////////////////////////////////////////////////*/
 @mixin wk-hide-text {
   text-indent: 100%;
   white-space: nowrap;
@@ -75,71 +72,90 @@ $wk-image-ratio-height: 1;
   overflow: hidden;
 }
 
-@mixin wk-aspect-ratio($width, $height) {
-  position: relative;
-
-  &:before {
-    display: block;
-    content: "";
-    width: 100%;
-    padding-top: ($height / $width) * 100%;
-  }
-
-  > .wk-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-}
-
-.wk-centered {
-  text-align: center;
-}
-
-.wk-block {
-  display: block;
-}
-
-/*/////////////////////////////////////////////////////////////////////////////*/
-/* !BUTTONS
-/*////////////////////////////////////////////////////////////////////////////*/
-
-@mixin wk-icon-button {
-  @include wk-hide-text;
-
-  background-color: $wk-button-backgrund-color;
-  background-position: center center;
+@mixin wk-button($text-color: #000, $background-color: rgba(0,0,0,0)) {
+  width: auto;
+  height: auto;
+  background: none;
   border: none;
-  border-radius: 50%;
+  line-height: normal;
+  cursor: pointer;
+  color: $text-color;
+  background: $background-color;
 
-  width: 25px;
-  height: 24px;
-
-  padding: 0;
-  margin: 0;
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  flex-direction: row;
 
   &:focus {
     outline:0;
   }
 }
 
-button.wk-icon-button-remove {
-  @include wk-heart-full-icon($wk-heart-color-button, 15px, 15px);
+@mixin wk-icon-button($backgrund-color) {
+  @include wk-button(#000, $backgrund-color);
+  @include wk-hide-text;
+
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  margin: 0;
 }
 
-button.wk-icon-button-add {
-  @include wk-heart-empty-icon($wk-heart-color-button, 15px, 15px);
+@mixin wk-text-button($text-color, $background-color: rgba(0,0,0,0)) {
+  @include wk-button($text-color, $background-color);
 }
 
-button.wk-icon-button-add,
-button.wk-icon-button-remove {
-  @include wk-icon-button;
+@mixin wk-svg-icon($svg, $width, $height, $position: absolute){
+  &:before {
+    content: '';
+    display: inline-block;
+    width: $width;
+    height: $height;
+    background-image: url("data:image/svg+xml;charset=UTF-8,#{$svg}");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
 
-  // Top right corner
+    position: $position;
+    @if $position == absolute {
+      left: calc(50% - #{$width} * .5);
+      top: calc(50% - #{$height} * .5);
+    }
+    @else {
+      margin-right: 5px;
+    }
+  }
+}
+
+@mixin wk-heart-full-icon($color, $width: 15px, $height: 15px, $position: absolute) {
+  $wk-heart-full-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64'%20height%3D'64'%20viewBox%3D'0%200%2064%2064'%3E%3Cpath%20d%3D'M47.199%204c-6.727%200-12.516%205.472-15.198%2011.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274%200-16.8%207.527-16.8%2016.802%200%2018.865%2019.031%2023.812%2032.001%2042.464%2012.26-18.536%2031.999-24.2%2031.999-42.464%200-9.274-7.527-16.802-16.801-16.802z'%20fill%3D'#{$color}'%3E%3C%2Fpath%3E%3C%2Fsvg%3E";
+
+  @include wk-svg-icon($wk-heart-full-svg, $width, $height, $position);
+}
+
+@mixin wk-heart-empty-icon($color, $width: 15px, $height: 15px, $position: absolute) {
+  $wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64px'%20height%3D'60.833px'%20viewBox%3D'0%200%2064%2060.833'%3E%3Cpath%20stroke%3D'#{$color}'%20stroke-width%3D'5'%20stroke-miterlimit%3D'10'%20fill-opacity%3D'0'%20d%3D'M45.684%2C2.654c-6.057%2C0-11.27%2C4.927-13.684%2C10.073%20c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349%2C0-15.125%2C6.776-15.125%2C15.127c0%2C16.983%2C17.134%2C21.438%2C28.812%2C38.231%20c11.038-16.688%2C28.811-21.787%2C28.811-38.231C60.811%2C9.431%2C54.033%2C2.654%2C45.684%2C2.654z'%2F%3E%3C%2Fsvg%3E";
+
+  @include wk-svg-icon($wk-heart-empty-svg, $width, $height, $position);
+}
+
+
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Buttons */
+/*////////////////////////////////////////////////////////////////////////////*/
+button.wk-button-collection {
+  &.wk-add-product {
+    @include wk-heart-empty-icon($wk-button-collection-icon-color, 15px, 15px);
+  }
+  &.wk-remove-product {
+    @include wk-heart-full-icon($wk-button-collection-icon-color, 15px, 15px);
+  }
+  @include wk-icon-button($wk-button-collection-backgrund-color);
+
   position: absolute;
-  z-index: 99999;
+  z-index: 5;
   top: 5px;
   right: 5px;
 
@@ -151,101 +167,92 @@ button.wk-icon-button-remove {
   transition: opacity .3s;
 }
 
-* > button.wk-icon-button-add {
+* > button.wk-button-collection.wk-add-product {
   opacity: 0;
 }
 
-*:hover > button.wk-icon-button-add,
-*:hover > button.wk-icon-button-remove {
+*:hover > button.wk-button-collection {
   opacity: 1;
 }
 
-@mixin wk-text-button {
-  background: none;
-  border: none;
-
-  &:focus {
-    outline:0;
+button.wk-button-product {
+  &.wk-add-product {
+    @include wk-heart-empty-icon($wk-button-product-icon-color, 15px, 15px, relative);
   }
+  &.wk-remove-product {
+    @include wk-heart-full-icon($wk-button-product-icon-color, 15px, 15px, relative);
+  }
+  @include wk-text-button($wk-button-product-text-color);
 
-  font-size: $wk-button-font-size;
-  font-weight: $wk-button-font-weight;
-  color: $wk-button-color;
+  margin-bottom: 1em;
 
-  padding: 0 20px;
+  &:hover {
+    opacity: .8;
+  }
 }
 
-button.wk-text-button-add,
-button.wk-text-button-remove {
-  @include wk-text-button;
+button.wk-button-wishlist-page-remove {
+  @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
+  @include wk-icon-button($wk-button-wishlist-page-backgrund-color);
+
+  position: absolute;
+  z-index: 5;
+  top: 5px;
+  right: 5px;
 
   &:hover {
     opacity: .8;
   }
 
-  // Leave space for cart button
-  margin-left: 20px;
+  -webkit-transition: opacity .3s;
+  transition: opacity .3s;
 }
 
-button.wk-text-button-remove {
-  @include wk-heart-full-icon($wk-heart-color-button, 15px, 15px);
-  &:before {
-    left: 0;
-  }
-}
-
-button.wk-text-button-add {
-  @include wk-heart-empty-icon($wk-heart-color-button, 15px, 15px);
-  &:before {
-    left: 0;
-  }
-}
-
-.wk-text-button,
-button.wk-text-button,
-a.wk-text-button {
-  background: $wk-text-button-background;
-  padding: 5px 10px;
-  color: $wk-text-button-color;
+button.wk-button-wishlist-clear {
+  @include wk-button($wk-button-wishlist-clear-text-color, $wk-button-wishlist-clear-background);
   border-radius: 5px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: $wk-text-button-font-size;
-  line-height: 14px;
+  padding: 3px 20px;
+  font-size: 95%;
   text-align: center;
-  border: none;
-
-  &:focus {
-    outline:0;
-  }
+  margin: 5px auto;
 
   &:hover {
-    background: $wk-text-button-background-hover;
-    color: $wk-text-button-color-hover;
+    background: $wk-button-wishlist-clear-background-hover;
+    color: $wk-button-wishlist-clear-text-color-hover;
+  }
+}
+
+span.wk-button-wishlist-view {
+  background: $wk-button-view-all-background;
+  border-radius: 5px;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+a.wk-button-wishlist-view {
+  @include wk-button($wk-button-view-all-text-color, $wk-button-view-all-background);
+  @extend span.wk-button-wishlist-view;
+
+  display: block;
+
+  &:hover {
+    background: $wk-button-view-all-background-hover;
+    color: $wk-button-view-all-text-color-hover;
   }
 }
 
 
 /*/////////////////////////////////////////////////////////////////////////////*/
-/* !TOOLBAR / DROPDOWN */
+/* !Toolbar Link & Dropdown */
 /*////////////////////////////////////////////////////////////////////////////*/
-
 .wk-link {
-  padding-left: 20px;
+  vertical-align: middle;
 
   &.wk-filled {
-    @include wk-heart-full-icon($wk-heart-color-header, 15px, 15px);
-    &:before {
-      left: 0;
-      margin-top: -2px;
-    }
+    @include wk-heart-full-icon($wk-header-link-icon-color, 15px, 15px, relative);
   }
   &.wk-empty {
-    @include wk-heart-empty-icon($wk-heart-color-header, 15px, 15px);
-    &:before {
-      left: 0;
-      margin-top: -2px;
-    }
+    @include wk-heart-empty-icon($wk-header-link-icon-color, 15px, 15px, relative);
   }
 }
 
@@ -260,7 +267,7 @@ a.wk-text-button {
   left: -130px;
   width: 301px;
   z-index: 999999;
-  color: $wk-dropdown-color;
+  color: $wk-dropdown-text-color;
   border: $wk-dropdown-border;
   padding: 17px;
   border-radius: $wk-dropdown-border-radius;
@@ -281,21 +288,22 @@ a.wk-text-button {
   max-height: 100%;
 }
 
-.wk-dropdown {
+ul.wk-dropdown {
+  display: block;
   width: 100%;
   margin: 0;
-  overflow: hidden;
+  @include wk-clearfix;
 
   li.wk-dropdown-item {
+    display: block;
     background: none;
     margin-bottom: 13px !important;
     width: 100%;
     border-bottom: $wk-dropdown-item-border-bottom;
     padding: 0 0 13px 0 !important;
     line-height: 1 !important;
-    display: block;
     white-space: normal;
-    overflow: hidden;
+    @include wk-clearfix;
 
     &:hover {
       opacity: .8;
@@ -304,6 +312,10 @@ a.wk-text-button {
     p.wk-dd-title,
     p.wk-dd-price {
       margin: 0;
+    }
+
+    p.wk-dd-title {
+      margin-bottom: 5px;
     }
 
     .wk-dropdown-thumb {
@@ -320,89 +332,80 @@ a.wk-text-button {
     }
 
     .wk-dropdown-details {
-
       p.wk-dd-price {
         font-size: .9em;
         font-style: italic;
         color: $wk-dropdown-price-color;
       }
-
     }
-
   }
-
 }
-
 
 /*/////////////////////////////////////////////////////////////////////////////*/
-/* !WISHLIST PAGE */
+/* !Grid System */
 /*////////////////////////////////////////////////////////////////////////////*/
-
 .wk-row {
-  @include wk-clearfix;
-  display: block;
-  margin: 0 0 30px 0;
-
-  >* {
-    box-sizing: border-box;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: baseline;
+  box-sizing: border-box;
 }
 
-.wk-span3 {
-  width: 25%;
-  padding: 0 1.5%;
-  float: left;
+.wk-span2 { width: 16.6666%; }
+.wk-span3 { width: 25%; }
+.wk-span4 { width: 33.3333%; }
+.wk-span6 { width: 50%; }
+.wk-span12 { width: 100%; }
+
+@media (max-width: 720px) {
+  .wk-span2 { width: 33.3333%; }
+  .wk-span3 { width: 50%; }
+  .wk-span4 { width: 50%; }
 }
 
-.wk-span4 {
-  width: 33.33%;
-  padding: 0 1.5%;
-  float: left;
+@media (max-width: 480px) {
+  .wk-span2 { width: 100%; }
+  .wk-span3 { width: 100%; }
+  .wk-span4 { width: 100%; }
+  .wk-span6 { width: 100%; }
 }
 
-.wk-span12 {
-  width: auto;
-  display: block;
-  padding: 0 15px;
-}
-
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Wishlist Page */
+/*////////////////////////////////////////////////////////////////////////////*/
 .wk-item {
   position: relative;
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 15px;
+
+  margin: 0 5px 30px 5px;
 
   .wk-variant-link {
-    line-height: 22px;
     display: block;
     color: $wk-page-title-color;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .wk-price {
     color: $wk-page-price-color;
-    opacity: 0.7;
-  }
-
-  .wk-image {
-    @include wk-aspect-ratio($wk-image-ratio-width, $wk-image-ratio-height);
-    position: relative;
   }
 
   .wk-product-options {
     border-bottom: none;
   }
 
-  select {
-    width: 100%;
-    border-radius: 0;
-    max-width: 200px;
-  }
+  .wk-select {
+    label {
+      display: block;
+      text-align: center;
+    }
 
-  .wk-purchase-section {
-    margin-top: 10px;
+    select {
+      box-sizing: content-box;
+      display: block;
+      width: 100%;
+      border-radius: 0;
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -421,11 +424,10 @@ a.wk-text-button {
   transition: opacity .5s;
 
   .wk-add-to-cart {
-    height: 36px;
-    line-height: 36px;
+    box-sizing: content-box;
     border: none;
     margin: 0;
-    padding: 0 20px;
+    padding: 5px 20px;
     color: $wk-add-to-cart-color;
     font-weight: $wk-add-to-cart-font-weight;
     font-size: $wk-add-to-cart-font-size;
@@ -440,11 +442,6 @@ a.wk-text-button {
   }
 }
 
-
-/*/////////////////////////////////////////////////////////////////////////////*/
-/* !Wishlist Mobile */
-/*////////////////////////////////////////////////////////////////////////////*/
-
 @media (max-width: 1024px) {
   button.wk-icon-button-add,
   button.wk-icon-button-remove {
@@ -452,28 +449,10 @@ a.wk-text-button {
   }
 }
 
-@media (max-width: 720px) {
-  .wk-span3, .wk-span4 {
-    width: 50%;
-    padding: 0 1.5%;
-  }
-}
-
 @media (max-width: 480px) {
-
-  .wk-span3, .wk-span4 {
-    width: 100%;
-    padding: 0 1.5%;
-  }
-
   .wk-dropdown-toggle {
     &:hover #wk-dropdown-wrapper {
       display: none;
     }
   }
-
-  #wishlist-king h1 {
-    text-align: center;
-  }
-
 }

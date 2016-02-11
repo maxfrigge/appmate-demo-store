@@ -22,8 +22,9 @@
         Appmate.wk.removeProduct(product);
       }
     },
-    'click .wk-clear-button': function(event){
-      Appmate.wk.clear();
+    'click [data-wk-clear-wishlist]': function(event){
+      var wishlist = this.getAttribute('data-wk-clear-wishlist');
+      Appmate.wk.clear(wishlist);
     },
     'click .wk-add-to-cart': function(event){
       var $elem = $(this);
@@ -70,9 +71,7 @@
 {% raw %}
 
 <script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
-<a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist">
-  Wishlist <span class="wk-count">({{ wishlist.item_count }})</span>
-</a>
+<a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist">Wishlist <span class="wk-count">({{ wishlist.item_count }})</span></a>
 </script>
 
 <script id="wishlist-dropdown-li" data="wishlist" type="text/x-template" app="wishlist-king">
@@ -108,170 +107,191 @@
       </div>
     </li>
     {% endfor %}
-
   </ul>
-
   {% if wishlist.item_count > 0 %}
-  <a class="wk-text-button wk-block" href="{{ wishlist.url }}" title="View Wishlist">View Wishlist</a>
+  <a class="wk-button-wishlist-view" href="{{ wishlist.url }}" title="View Wishlist">View Wishlist</a>
   {% else %}
-  <span class="wk-text-button wk-block">No items in your wishlist...</span>
+  <span class="wk-button-wishlist-view">No items in your wishlist...</span>
   {% endif %}
-
 </div>
 </script>
 
-<script id="wishlist-icon-button-toggle" data="product" type="text/x-template" app="wishlist-king">
+<script id="wishlist-button-product" data="product" type="text/x-template" app="wishlist-king">
 {% if product.in_wishlist %}
-  {% include 'wishlist-icon-button-remove' with product %}
+  {% assign btn_text = 'In Wishlist' %}
+  {% assign btn_title = 'Remove from Wishlist' %}
+  {% assign btn_action = 'wk-remove-product' %}
 {% else %}
-  {% include 'wishlist-icon-button-add' with product %}
+  {% assign btn_text = 'Add to Wishlist' %}
+  {% assign btn_title = 'Add to Wishlist' %}
+  {% assign btn_action = 'wk-add-product' %}
 {% endif %}
-</script>
 
-<script id="wishlist-icon-button-add" data="product" type="text/x-template" app="wishlist-king">
-<button type="button" class="wk-icon-button-add" title="Add to wishlist" data-wk-add-product="{{ product.id }}">
-  Add to Wishlist
+<button type="button" class="wk-button-product {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
+  {{ btn_text }}
 </button>
 </script>
 
-<script id="wishlist-icon-button-remove" data="product" type="text/x-template" app="wishlist-king">
-<button type="button" class="wk-icon-button-remove" title="Remove from wishlist" data-wk-remove-product="{{ product.id }}">
-  In Wishlist
-</button>
-</script>
-
-<script id="wishlist-text-button-toggle" data="product" type="text/x-template" app="wishlist-king">
+<script id="wishlist-button-collection" data="product" type="text/x-template" app="wishlist-king">
 {% if product.in_wishlist %}
-  {% include 'wishlist-text-button-remove' with product %}
+  {% assign btn_text = 'In Wishlist' %}
+  {% assign btn_title = 'Remove from Wishlist' %}
+  {% assign btn_action = 'wk-remove-product' %}
 {% else %}
-  {% include 'wishlist-text-button-add' with product %}
+  {% assign btn_text = 'Add to Wishlist' %}
+  {% assign btn_title = 'Add to Wishlist' %}
+  {% assign btn_action = 'wk-add-product' %}
 {% endif %}
-</script>
 
-<script id="wishlist-text-button-add" data="product" type="text/x-template" app="wishlist-king">
-<button type="button" class="wk-text-button-add" title="Add to wishlist" data-wk-add-product="{{ product.id }}">
-  Add to Wishlist
+<button type="button" class="wk-button-collection {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
+  {{ btn_text }}
 </button>
 </script>
 
-<script id="wishlist-text-button-remove" data="product" type="text/x-template" app="wishlist-king">
-<button type="button" class="wk-text-button-remove" title="Remove from wishlist" data-wk-remove-product="{{ product.id }}">
-  In Wishlist
+<script id="wishlist-button-wishlist-page" data="product" type="text/x-template" app="wishlist-king">
+{% assign btn_text = 'In Wishlist' %}
+{% assign btn_title = 'Remove from Wishlist' %}
+
+<button type="button" class="wk-button-wishlist-page-remove" title="{{ btn_title }}" data-wk-remove-product="{{ product.id }}">
+  {{ btn_text }}
 </button>
 </script>
 
-<script id="wishlist-button-clear" data="wishlist" type="text/x-template" app="wishlist-king">
-<button type="button" data-wishlist="{{ wishlist.id }}" class="wk-clear-button wk-text-button">
-  Clear Wishlist
+<script id="wishlist-button-wishlist-clear" data="wishlist" type="text/x-template" app="wishlist-king">
+{% assign btn_text = 'Clear Wishlist' %}
+{% assign btn_title = 'Clear Wishlist' %}
+{% assign btn_class = 'wk-button-wishlist-clear' %}
+
+<button type="button" class="{{ btn_class }}" title="{{ btn_title }}" data-wk-clear-wishlist="{{ wishlist.id }}">
+  {{ btn_text }}
 </button>
 </script>
 
 <script id="wishlist-collection" data="wishlist" type="text/x-template" app="wishlist-king">
-  <!-- Empty wishlist -->
-  {% if wishlist.item_count == 0 %}
-  <div class="wk-row">
-    <div class="wk-span12 wk-expanded-message">
-      <h1>Your wishlist is empty!</h1>
-    </div>
-  </div>
-  <!-- Filled wishlist -->
-  {% else %}
+<div class='wishlist-collection'>
+{% if wishlist.item_count == 0 %}
+  {% include 'wishlist-collection-empty' %}
+{% else %}
+  {% if customer_accounts_enabled and customer == false %}
+    {% include 'wishlist-collection-login-note' %}
+  {% endif %}
+  {% include 'wishlist-collection-loop' %}
+  {% include 'wishlist-button-wishlist-clear' %}
+{% endif %}
+</div>
+</script>
 
-  <!-- Customer not logged in -->
-  <div class="wk-row">
-  {% unless customer %}
-    {% if customer_accounts_enabled %}
-    <p class="wk-span12">To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">sign up</a>.</p>
-    {% endif %}
-  {% endunless %}
+<script id="wishlist-collection-empty" data="wishlist" type="text/x-template" app="wishlist-king">
+<div class="wk-row">
+  <div class="wk-span12">
+    <h3 class="wk-wishlist-empty-note">Your wishlist is empty!</h3>
   </div>
+</div>
+</script>
 
-  <div class="wk-row">
-    <!-- List products in wishlist -->
-    {% for product in wishlist.products %}
-      {% assign hide_default_title = false %}
+<script id="wishlist-collection-login-note" data="wishlist" type="text/x-template" app="wishlist-king">
+<div class="wk-row">
+  <p class="wk-span12 wk-login-note">
+    To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">sign up</a>.
+  </p>
+</div>
+</script>
+
+<script id="wishlist-collection-loop" data="wishlist" type="text/x-template" app="wishlist-king">
+<div class="wk-row">
+  {% for product in wishlist.products %}
+    {% assign hide_default_title = false %}
     {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
       {% assign hide_default_title = true %}
     {% endif %}
 
-    <div id="wk-item-{{ product.wishlist_item_id }}"
-       class="wk-item wk-span4 wk-fadeout"
-       data-wk-item="{{ product.wishlist_item_id }}">
+    {% assign items_per_row = 3 %}
+    {% assign wk_item_width = 100 | devide_by: items_per_row %}
 
-      <!-- Product image -->
-      <div class="wk-image">
-        <a href="{{ product | variant_url }}" class="wk-variant-link wk-content" title="View product">
-          <img class="wk-variant-image"
-             src="{{ product | variant_img_url: 'large' }}"
-             alt="{{ product.title }}" />
-        </a>
-        {% include 'wishlist-icon-button-remove' with product %}
+    <div style="width: {{ wk_item_width }}%">
+      <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} wk-fadeout" data-wk-item="{{ product.wishlist_item_id }}">
+
+        {% include 'wishlist-collection-product-image' with product %}
+        {% include 'wishlist-button-collection' with product %}
+
+        <!-- Product title -->
+        <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product"><strong>{{ product.title }}</strong></a>
+
+        {% include 'wishlist-collection-product-price' %}
+        {% include 'wishlist-collection-product-form' with product %}
       </div>
-
-      <!-- Product title -->
-      <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product"><strong>{{ product.title }}</strong></a>
-
-      <!-- Price -->
-      {% assign variant = product.selected_or_first_available_variant %}
-      <div class="wk-purchase">
-        <span class="wk-price wk-price-preview">
-          {% if variant.price < variant.compare_at_price %}
-          <span class="saleprice">{{ variant.price | money }}</span> <del>{{ variant.compare_at_price | money }}</del>
-          {% else %}
-          {{ variant.price | money }}
-          {% endif %}
-        </span>
-      </div>
-
-      <!-- Purchase form with variants -->
-      <form id="wk-add-item-form-{{ product.wishlist_item_id }}"
-          action="/cart/add" method="post"
-          class="wk-add-item-form">
-
-        <!-- Begin product options -->
-        <div class="wk-product-options {% if hide_default_title %}wk-no-options{% endif %}">
-
-          <div class="wk-select" {% if hide_default_title %} style="display:none"{% endif %}>
-            <select id="wk-option-select-{{ product.wishlist_item_id }}"
-                class="wk-option-select" name="id">
-
-              {% for variant in product.variants %}
-              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
-                {{ variant.title }} - {{ variant.price | money }}
-              </option>
-              {% endfor %}
-
-            </select>
-          </div>
-
-          {% if settings.display_quantity_dropdown %}
-          <div class="wk-selector-wrapper">
-            <label>Quantity</label>
-            <input class="wk-quantity" type="number" name="quantity" value="1" class="wk-item-quantity" />
-          </div>
-          {% endif %}
-
-          <div class="wk-purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
-            <div class="wp-purchase">
-              {% unless product.available %}
-              <p>Sold Out</p>
-              {% else %}
-              <input type="submit" class="wk-add-to-cart" name="add" value="Add to cart" />
-              {% endunless %}
-            </div>
-          </div>
-        </div>
-        <!-- End product options -->
-      </form>
     </div>
-    {% endfor %}
-    <!-- End product loop -->
-  </div>
-  <div class="wk-row wk-centered">
-  {% include 'wishlist-button-clear' %}
-  </div>
-  {% endif %}
+  {% endfor %}
+</div>
 </script>
+
+<script id="wishlist-collection-product-image" data="wishlist" type="text/x-template" app="wishlist-king">
+<div class="wk-image">
+  <a href="{{ product | variant_url }}" class="wk-variant-link wk-content" title="View product">
+    <img class="wk-variant-image"
+       src="{{ product | variant_img_url: 'large' }}"
+       alt="{{ product.title }}" />
+  </a>
+</div>
+</script>
+
+<script id="wishlist-collection-product-price" data="wishlist" type="text/x-template" app="wishlist-king">
+{% assign variant = product.selected_or_first_available_variant %}
+<div class="wk-purchase">
+  <span class="wk-price wk-price-preview">
+    {% if variant.price < variant.compare_at_price %}
+    <span class="saleprice">{{ variant.price | money }}</span> <del>{{ variant.compare_at_price | money }}</del>
+    {% else %}
+    {{ variant.price | money }}
+    {% endif %}
+  </span>
+</div>
+</script>
+
+<script id="wishlist-collection-product-form" data="wishlist" type="text/x-template" app="wishlist-king">
+<form id="wk-add-item-form-{{ product.wishlist_item_id }}"
+    action="/cart/add" method="post"
+    class="wk-add-item-form">
+
+  <!-- Begin product options -->
+  <div class="wk-product-options {% if hide_default_title %}wk-no-options{% endif %}">
+
+    <div class="wk-select" {% if hide_default_title %} style="display:none"{% endif %}>
+      <select id="wk-option-select-{{ product.wishlist_item_id }}"
+          class="wk-option-select" name="id">
+
+        {% for variant in product.variants %}
+        <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
+          {{ variant.title }} - {{ variant.price | money }}
+        </option>
+        {% endfor %}
+
+      </select>
+    </div>
+
+    {% if settings.display_quantity_dropdown and product.available %}
+    <div class="wk-selector-wrapper">
+      <label>Quantity</label>
+      <input class="wk-quantity" type="number" name="quantity" value="1" class="wk-item-quantity" />
+    </div>
+    {% endif %}
+
+    <div class="wk-purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
+      <div class="wp-purchase">
+        {% unless product.available %}
+        <input type="submit" class="wk-add-to-cart disabled" disabled="disabled" value="Sold Out" />
+        {% else %}
+        <input type="submit" class="wk-add-to-cart" name="add" value="Add to cart" />
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+  <!-- End product options -->
+</form>
+</script>
+
+
+
 {% endraw %}
 
 
@@ -298,15 +318,15 @@ var appmateSelectCallback = function(variant, selector) {
     container.find('.wk-variant-image').attr('src', imageUrl);
   }
   var formatMoney = Appmate.wk.filters.money;
-  if (variant && variant.available) {
-    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled');
+  if (variant && (variant.available || variant.inventory_policy === 'continue')) {
+    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to cart');
     if(variant.price < variant.compare_at_price){
       container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
     } else {
       container.find('.wk-price-preview').html(formatMoney(variant.price));
     }
   } else {
-    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled');
+    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled').attr('value', 'Sold Out');
     var message = variant ? "Sold Out" : "Unavailable";
     container.find('.wk-price-preview').text(message);
   }
