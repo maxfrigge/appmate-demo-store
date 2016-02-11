@@ -12,15 +12,13 @@
     },
     'click [data-wk-remove-product]': function(event){
       var product = this.getAttribute('data-wk-remove-product');
-
-      if ($(this).parents('.wk-fadeout').length) {
-        $(this).parents('.wk-fadeout').fadeOut(function() {
-          Appmate.wk.removeProduct(product);
-        });
-      }
-      else {
-        Appmate.wk.removeProduct(product);
-      }
+      Appmate.wk.removeProduct(product);
+    },
+    'click [data-wk-remove-item]': function(event){
+      var item = this.getAttribute('data-wk-remove-item');
+      $(this).parents('.wk-fadeout').fadeOut(function() {
+        Appmate.wk.removeItem(item);
+      });
     },
     'click [data-wk-clear-wishlist]': function(event){
       var wishlist = this.getAttribute('data-wk-clear-wishlist');
@@ -31,29 +29,26 @@
       $form = $elem.parents('form');
       $elem.prop("disabled", true);
 
-      $.ajax({
-        type: 'POST',
-        url: '/cart/add.js',
-        dataType: 'json',
-        data: $form.serialize(),
-        success: function(){
-          $("html, body").animate({ scrollTop: 0 }, 250, 'swing');
+      var item = this.getAttribute('data-wk-item');
+      var formData = $form.serialize();
 
-          var quantity = parseInt($form.find('[name="quantity"]').val(), 10) || 1;
-          $('#cart-count').each(function(){
-            var $count = $(this);
-            var cartCount =  parseInt($count.text()) + quantity;
-            $count.text(cartCount);
-          });
-
-          $('#cart-target').addClass('has-items');
-          $elem.prop("disabled", false);
-
-          // Trigger remove item
-          $removeButton = $form.parents('.wk-item').find('[data-wk-remove-product]');
-          $removeButton.click();
-        },
-        error: Shopify.onError
+      $elem.parents('.wk-fadeout').fadeOut(function() {
+        Appmate.wk
+        .removeItem(item)
+        .then(function(){
+          $form.submit();
+          // $.ajax({
+          //   type: 'POST',
+          //   url: '/cart/add.js',
+          //   dataType: 'json',
+          //   data: formData,
+          //   success: function(){
+          //     $("html, body").animate({ scrollTop: 0 }, 250, 'swing');
+          //
+          //   },
+          //   error: Shopify.onError
+          // });
+        });
       });
 
       event.preventDefault();
@@ -91,7 +86,7 @@
 <script id="wishlist-dropdown-box" data="wishlist" type="text/x-template" app="wishlist-king">
 <div id="wk-dropdown-wrapper">
   <ul class="wk-dropdown">
-    {% assign products = wishlist.products | reverse %}
+    {% assign products = wishlist.products %}
     {% for product in products limit:5 %}
     <li class="wk-dropdown-item" data-wishlist-item="">
       <div class="wk-dropdown-thumb">
@@ -152,7 +147,7 @@
 {% assign btn_text = 'In Wishlist' %}
 {% assign btn_title = 'Remove from Wishlist' %}
 
-<button type="button" class="wk-button-wishlist-page-remove" title="{{ btn_title }}" data-wk-remove-product="{{ product.id }}">
+<button type="button" class="wk-button-wishlist-page-remove" title="{{ btn_title }}" data-wk-remove-item="{{ product.wishlist_item_id }}">
   {{ btn_text }}
 </button>
 </script>
@@ -212,7 +207,7 @@
       <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} wk-fadeout" data-wk-item="{{ product.wishlist_item_id }}">
 
         {% include 'wishlist-collection-product-image' with product %}
-        {% include 'wishlist-button-collection' with product %}
+        {% include 'wishlist-button-wishlist-page' with product %}
 
         <!-- Product title -->
         <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product"><strong>{{ product.title }}</strong></a>
@@ -281,7 +276,7 @@
         {% unless product.available %}
         <input type="submit" class="wk-add-to-cart disabled" disabled="disabled" value="Sold Out" />
         {% else %}
-        <input type="submit" class="wk-add-to-cart" name="add" value="Add to cart" />
+        <input type="submit" class="wk-add-to-cart" data-wk-item="{{ product.wishlist_item_id }}" name="add" value="Add to cart" />
         {% endunless %}
       </div>
     </div>
