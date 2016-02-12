@@ -33,22 +33,20 @@
       var formData = $form.serialize();
 
       $elem.parents('.wk-fadeout').fadeOut(function() {
+        // Version A: Stay in wishlist when done
         Appmate.wk
-        .removeItem(item)
+        .moveToCart(item, formData)
         .then(function(){
-          $form.submit();
-          // $.ajax({
-          //   type: 'POST',
-          //   url: '/cart/add.js',
-          //   dataType: 'json',
-          //   data: formData,
-          //   success: function(){
-          //     $("html, body").animate({ scrollTop: 0 }, 250, 'swing');
-          //
-          //   },
-          //   error: Shopify.onError
-          // });
+          window.scrollTo(0, 0);
+          location.reload();
         });
+
+        // Version B: Navigate to basket when done
+        // Appmate.wk
+        // .removeItem(item)
+        // .then(function(){
+        //   $form.submit();
+        // });
       });
 
       event.preventDefault();
@@ -86,7 +84,7 @@
 <script id="wishlist-dropdown-box" data="wishlist" type="text/x-template" app="wishlist-king">
 <div id="wk-dropdown-wrapper">
   <ul class="wk-dropdown">
-    {% assign products = wishlist.products %}
+    {% assign products = wishlist.products | reverse %}
     {% for product in products limit:5 %}
     <li class="wk-dropdown-item" data-wishlist-item="">
       <div class="wk-dropdown-thumb">
@@ -203,7 +201,7 @@
     {% assign items_per_row = 3 %}
     {% assign wk_item_width = 100 | devide_by: items_per_row %}
 
-    <div style="width: {{ wk_item_width }}%">
+    <div class="wk-item-column" style="width: {{ wk_item_width }}%">
       <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} wk-fadeout" data-wk-item="{{ product.wishlist_item_id }}">
 
         {% include 'wishlist-collection-product-image' with product %}
@@ -334,7 +332,6 @@ function appmateOptionSelect(el){
   }
 
   var id = el.getAttribute('id');
-  // var itemId = el.getAttribute('data-wishlist-item');
   var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
 
   Appmate.wk.getItem(itemId).then(function(product){

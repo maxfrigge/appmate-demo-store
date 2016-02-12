@@ -1,11 +1,3 @@
-.wk-wishlist-empty-note {
-
-}
-
-.wk-login-note {
-
-}
-
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Style Settings */
 /*////////////////////////////////////////////////////////////////////////////*/
@@ -54,8 +46,6 @@ $wk-add-to-cart-background: #333333;
 $wk-add-to-cart-font-size: 13px;
 $wk-add-to-cart-font-weight: 700;
 $wk-add-to-cart-color: #ffffff;
-$wk-image-ratio-width: 1;
-$wk-image-ratio-height: 1;
 
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -223,17 +213,18 @@ button.wk-button-wishlist-clear {
 }
 
 span.wk-button-wishlist-view {
-  background: $wk-button-view-all-background;
+  @include wk-button($wk-button-view-all-text-color, $wk-button-view-all-background);
   border-radius: 5px;
   padding: 5px 10px;
   text-align: center;
+  display: block;
+  line-height: 1;
+  cursor: default;
 }
 
 a.wk-button-wishlist-view {
-  @include wk-button($wk-button-view-all-text-color, $wk-button-view-all-background);
   @extend span.wk-button-wishlist-view;
-
-  display: block;
+  cursor: pointer;
 
   &:hover {
     background: $wk-button-view-all-background-hover;
@@ -272,6 +263,7 @@ a.wk-button-wishlist-view {
   padding: 17px;
   border-radius: $wk-dropdown-border-radius;
   display: none;
+  line-height: 1 !important;
 }
 
 .wk-dropdown-toggle {
@@ -292,6 +284,7 @@ ul.wk-dropdown {
   display: block;
   width: 100%;
   margin: 0;
+  line-height: 1 !important;
   @include wk-clearfix;
 
   li.wk-dropdown-item {
@@ -347,7 +340,7 @@ ul.wk-dropdown {
 .wk-row {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: baseline;
   box-sizing: border-box;
 }
@@ -362,6 +355,7 @@ ul.wk-dropdown {
   .wk-span2 { width: 33.3333%; }
   .wk-span3 { width: 50%; }
   .wk-span4 { width: 50%; }
+  .wk-item-column { width: 50% !important; }
 }
 
 @media (max-width: 480px) {
@@ -369,11 +363,20 @@ ul.wk-dropdown {
   .wk-span3 { width: 100%; }
   .wk-span4 { width: 100%; }
   .wk-span6 { width: 100%; }
+  .wk-item-column { width: 100% !important; }
 }
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Wishlist Page */
 /*////////////////////////////////////////////////////////////////////////////*/
+.wk-wishlist-empty-note {
+  text-align: center;
+}
+
+.wk-login-note {
+  text-align: center;
+}
+
 .wk-item {
   position: relative;
   text-align: center;
