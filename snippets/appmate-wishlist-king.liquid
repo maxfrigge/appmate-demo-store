@@ -63,6 +63,12 @@
 
 {% raw %}
 
+<script id="share-wishlist-button" data="wishlist" type="text/x-template" app="wishlist-king">
+<button type="button" class="wk-button-share" title="Share this wishlist" data-wk-share="{{ wishlist.id }}">
+  <span class="wk-label">{{ btn_text }}</span>
+</button>
+</script>
+
 <script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
 <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist"><span class="wk-label">Wishlist</span> <span class="wk-count">({{ wishlist.item_count }})</span></a>
 </script>
