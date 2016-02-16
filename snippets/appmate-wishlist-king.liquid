@@ -64,7 +64,7 @@
 {% raw %}
 
 <script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
-<a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist">Wishlist <span class="wk-count">({{ wishlist.item_count }})</span></a>
+<a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist"><span class="wk-label">Wishlist</span> <span class="wk-count">({{ wishlist.item_count }})</span></a>
 </script>
 
 <script id="wishlist-dropdown-li" data="wishlist" type="text/x-template" app="wishlist-king">
@@ -121,7 +121,7 @@
 {% endif %}
 
 <button type="button" class="wk-button-product {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
-  {{ btn_text }}
+  <span class="wk-label"><span class="wk-label">{{ btn_text }}</span></span>
 </button>
 </script>
 
@@ -137,7 +137,7 @@
 {% endif %}
 
 <button type="button" class="wk-button-collection {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
-  {{ btn_text }}
+  <span class="wk-label">{{ btn_text }}</span>
 </button>
 </script>
 
@@ -146,7 +146,7 @@
 {% assign btn_title = 'Remove from Wishlist' %}
 
 <button type="button" class="wk-button-wishlist-page-remove" title="{{ btn_title }}" data-wk-remove-item="{{ product.wishlist_item_id }}">
-  {{ btn_text }}
+  <span class="wk-label">{{ btn_text }}</span>
 </button>
 </script>
 
@@ -156,7 +156,7 @@
 {% assign btn_class = 'wk-button-wishlist-clear' %}
 
 <button type="button" class="{{ btn_class }}" title="{{ btn_title }}" data-wk-clear-wishlist="{{ wishlist.id }}">
-  {{ btn_text }}
+  <span class="wk-label">{{ btn_text }}</span>
 </button>
 </script>
 
@@ -206,10 +206,7 @@
 
         {% include 'wishlist-collection-product-image' with product %}
         {% include 'wishlist-button-wishlist-page' with product %}
-
-        <!-- Product title -->
-        <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product"><strong>{{ product.title }}</strong></a>
-
+        {% include 'wishlist-collection-product-title' with product %}
         {% include 'wishlist-collection-product-price' %}
         {% include 'wishlist-collection-product-form' with product %}
       </div>
@@ -225,6 +222,12 @@
        src="{{ product | variant_img_url: 'large' }}"
        alt="{{ product.title }}" />
   </a>
+</div>
+</script>
+
+<script id="wishlist-collection-product-title" data="wishlist" type="text/x-template" app="wishlist-king">
+<div class="wk-product-title">
+  <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product"><strong>{{ product.title }}</strong></a>
 </div>
 </script>
 
@@ -269,14 +272,12 @@
     </div>
     {% endif %}
 
-    <div class="wk-purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
-      <div class="wp-purchase">
-        {% unless product.available %}
-        <input type="submit" class="wk-add-to-cart disabled" disabled="disabled" value="Sold Out" />
-        {% else %}
-        <input type="submit" class="wk-add-to-cart" data-wk-item="{{ product.wishlist_item_id }}" name="add" value="Add to cart" />
-        {% endunless %}
-      </div>
+    <div class="wk-purchase-section{% if product.variants.size > 1 %} wk-multiple{% endif %}">
+      {% unless product.available %}
+      <input type="submit" class="wk-add-to-cart disabled" disabled="disabled" value="Sold Out" />
+      {% else %}
+      <input type="submit" class="wk-add-to-cart" data-wk-item="{{ product.wishlist_item_id }}" name="add" value="Add to cart" />
+      {% endunless %}
     </div>
   </div>
   <!-- End product options -->

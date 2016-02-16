@@ -41,10 +41,8 @@ $wk-button-view-all-text-color-hover: #ffffff;
 /* -- Wishlist page -- */
 $wk-page-price-color: #555555;
 $wk-page-title-color: #333333;
-$wk-variant-form-background: rgba(255,255,255,.95);
+$wk-variant-form-background: rgba(255,255,255,0.95);
 $wk-add-to-cart-background: #333333;
-$wk-add-to-cart-font-size: 13px;
-$wk-add-to-cart-font-weight: 700;
 $wk-add-to-cart-color: #ffffff;
 
 
@@ -83,13 +81,16 @@ $wk-add-to-cart-color: #ffffff;
   }
 }
 
-@mixin wk-icon-button($backgrund-color) {
+@mixin wk-icon-button($backgrund-color, $width: 25px, $height: 25px) {
   @include wk-button(#000, $backgrund-color);
-  @include wk-hide-text;
+
+  .wk-label {
+    display: none;
+  }
 
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
+  width: $width;
+  height: $height;
   padding: 0;
   margin: 0;
 }
@@ -138,13 +139,13 @@ $wk-add-to-cart-color: #ffffff;
 /*////////////////////////////////////////////////////////////////////////////*/
 
 button.wk-button-collection {
+  @include wk-icon-button($wk-button-collection-backgrund-color, 25px, 25px);
   &.wk-add-product {
     @include wk-heart-empty-icon($wk-button-collection-icon-color, 15px, 15px);
   }
   &.wk-remove-product {
     @include wk-heart-full-icon($wk-button-collection-icon-color, 15px, 15px);
   }
-  @include wk-icon-button($wk-button-collection-backgrund-color);
 
   position: absolute;
   z-index: 5;
@@ -168,13 +169,13 @@ button.wk-button-collection {
 }
 
 button.wk-button-product {
+  @include wk-text-button($wk-button-product-text-color);
   &.wk-add-product {
     @include wk-heart-empty-icon($wk-button-product-icon-color, 15px, 15px, relative);
   }
   &.wk-remove-product {
     @include wk-heart-full-icon($wk-button-product-icon-color, 15px, 15px, relative);
   }
-  @include wk-text-button($wk-button-product-text-color);
 
   margin-bottom: 1em;
 
@@ -185,7 +186,7 @@ button.wk-button-product {
 
 button.wk-button-wishlist-page-remove {
   @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
-  @include wk-icon-button($wk-button-wishlist-page-backgrund-color);
+  @include wk-icon-button($wk-button-wishlist-page-backgrund-color, 25px, 25px);
 
   position: absolute;
   z-index: 5;
@@ -204,9 +205,9 @@ button.wk-button-wishlist-clear {
   @include wk-button($wk-button-wishlist-clear-text-color, $wk-button-wishlist-clear-background);
   border-radius: 5px;
   padding: 3px 20px;
-  font-size: 95%;
   text-align: center;
   margin: 5px auto;
+  width: auto;
 
   &:hover {
     background: $wk-button-wishlist-clear-background-hover;
@@ -239,7 +240,7 @@ a.wk-button-wishlist-view {
 /* !Wishlist Link & Dropdown in header / top bar */
 /*////////////////////////////////////////////////////////////////////////////*/
 
-.wk-link {
+a.wk-link {
   vertical-align: middle;
 
   &.wk-filled {
@@ -248,10 +249,20 @@ a.wk-button-wishlist-view {
   &.wk-empty {
     @include wk-heart-empty-icon($wk-header-link-icon-color, 15px, 15px, relative);
   }
-}
 
-.wk-empty .wk-count {
-  display: none;
+  .wk-label {
+
+  }
+
+  .wk-count {
+
+  }
+
+  &.wk-empty {
+    .wk-count {
+      display: none;
+    }
+  }
 }
 
 #wk-dropdown-wrapper {
@@ -263,13 +274,14 @@ a.wk-button-wishlist-view {
   z-index: 999999;
   color: $wk-dropdown-text-color;
   border: $wk-dropdown-border;
-  padding: 17px;
+  padding: 10px;
   border-radius: $wk-dropdown-border-radius;
   display: none;
   line-height: 1 !important;
 }
 
 .wk-dropdown-toggle {
+  display: inline-block;
   position: relative;
   margin-right: 6px;
 
@@ -380,7 +392,7 @@ ul.wk-dropdown {
   text-align: center;
 }
 
-.wk-login-note {
+p.wk-login-note {
   text-align: center;
 }
 
@@ -392,6 +404,8 @@ ul.wk-dropdown {
 
   .wk-variant-link {
     display: block;
+    float: none;
+    text-decoration: none;
     color: $wk-page-title-color;
   }
 
@@ -433,14 +447,14 @@ ul.wk-dropdown {
   -webkit-transition: opacity .5s;
   transition: opacity .5s;
 
-  .wk-add-to-cart {
+  input.wk-add-to-cart {
     box-sizing: content-box;
     border: none;
     margin: 0;
     padding: 5px 20px;
     color: $wk-add-to-cart-color;
-    font-weight: $wk-add-to-cart-font-weight;
-    font-size: $wk-add-to-cart-font-size;
+    // font-weight: $wk-add-to-cart-font-weight;
+    // font-size: $wk-add-to-cart-font-size;
     background: $wk-add-to-cart-background;
     width: auto;
   }
