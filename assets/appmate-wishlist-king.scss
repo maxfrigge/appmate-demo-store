@@ -2,29 +2,29 @@
 /* !Style Settings */
 /*////////////////////////////////////////////////////////////////////////////*/
 
-// Wishlist button collection
+/* -- Wishlist button collection -- */
 $wk-button-collection-icon-color: 'rgb(66,66,66)';
 $wk-button-collection-backgrund-color: rgba(0,0,0,0.1);
 
-// Wishlist button product
+/* -- Wishlist button product -- */
 $wk-button-product-icon-color: 'rgb(66,66,66)';
 $wk-button-product-text-color: #333333;
 
-// Wishlist button wishlist page
+/* -- Wishlist button wishlist page -- */
 $wk-button-wishlist-page-icon-color: 'rgb(66,66,66)';
 $wk-button-wishlist-page-backgrund-color: rgba(0,0,0,0.1);
 
-// Clear wishlist button (on wishlist page)
+/* -- Clear wishlist button (on wishlist page) -- */
 $wk-button-wishlist-clear-background: #333333;
 $wk-button-wishlist-clear-text-color: #ffffff;
 $wk-button-wishlist-clear-background-hover: #555555;
 $wk-button-wishlist-clear-text-color-hover: #ffffff;
 
-// Wishlist link (in header)
+/* -- Wishlist link (in header) -- */
 $wk-header-link-icon-color: 'rgb(66,66,66)';
 $wk-header-link-text-color: #333333;
 
-// Wishlist dropdown
+/* -- Wishlist dropdown -- */
 $wk-dropdown-background: #ffffff;
 $wk-dropdown-text-color: #555555;
 $wk-dropdown-border: 1px solid #dedede;
@@ -32,13 +32,13 @@ $wk-dropdown-border-radius: 4px;
 $wk-dropdown-item-border-bottom: 1px solid #eeeeee;
 $wk-dropdown-price-color: #999999;
 
-// View wishlist button (in dropdown)
+/* -- View wishlist button (in dropdown) -- */
 $wk-button-view-all-background: #333333;
 $wk-button-view-all-text-color: #ffffff;
 $wk-button-view-all-background-hover: #555555;
 $wk-button-view-all-text-color-hover: #ffffff;
 
-// Wishlist page
+/* -- Wishlist page -- */
 $wk-page-price-color: #555555;
 $wk-page-title-color: #333333;
 $wk-variant-form-background: rgba(255,255,255,.95);
@@ -51,6 +51,7 @@ $wk-add-to-cart-color: #ffffff;
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Mixins */
 /*////////////////////////////////////////////////////////////////////////////*/
+
 @mixin wk-hide-text {
   text-indent: 100%;
   white-space: nowrap;
@@ -135,6 +136,7 @@ $wk-add-to-cart-color: #ffffff;
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Buttons */
 /*////////////////////////////////////////////////////////////////////////////*/
+
 button.wk-button-collection {
   &.wk-add-product {
     @include wk-heart-empty-icon($wk-button-collection-icon-color, 15px, 15px);
@@ -234,8 +236,9 @@ a.wk-button-wishlist-view {
 
 
 /*/////////////////////////////////////////////////////////////////////////////*/
-/* !Toolbar Link & Dropdown */
+/* !Wishlist Link & Dropdown in header / top bar */
 /*////////////////////////////////////////////////////////////////////////////*/
+
 .wk-link {
   vertical-align: middle;
 
@@ -334,9 +337,11 @@ ul.wk-dropdown {
   }
 }
 
+
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Grid System */
 /*////////////////////////////////////////////////////////////////////////////*/
+
 .wk-row {
   display: flex;
   flex-flow: row wrap;
@@ -366,9 +371,11 @@ ul.wk-dropdown {
   .wk-item-column { width: 100% !important; }
 }
 
+
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Wishlist Page */
 /*////////////////////////////////////////////////////////////////////////////*/
+
 .wk-wishlist-empty-note {
   text-align: center;
 }
