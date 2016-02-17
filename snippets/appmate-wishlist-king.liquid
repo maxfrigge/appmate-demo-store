@@ -24,6 +24,13 @@
       var wishlist = this.getAttribute('data-wk-clear-wishlist');
       Appmate.wk.clear(wishlist);
     },
+    'click [data-wk-share]': function(){
+      var wishlist = this.getAttribute('data-wk-share');
+      Appmate.wk.createShareUrl(wishlist)
+      .then(function(result){
+        console.log(result);
+      });
+    },
     'click .wk-add-to-cart': function(event){
       var $elem = $(this);
       $form = $elem.parents('form');
@@ -63,9 +70,9 @@
 
 {% raw %}
 
-<script id="share-wishlist-button" data="wishlist" type="text/x-template" app="wishlist-king">
+<script id="wishlist-share-button" data="wishlist" type="text/x-template" app="wishlist-king">
 <button type="button" class="wk-button-share" title="Share this wishlist" data-wk-share="{{ wishlist.id }}">
-  <span class="wk-label">{{ btn_text }}</span>
+  <span class="wk-label">Share</span>
 </button>
 </script>
 
@@ -164,6 +171,11 @@
 <button type="button" class="{{ btn_class }}" title="{{ btn_title }}" data-wk-clear-wishlist="{{ wishlist.id }}">
   <span class="wk-label">{{ btn_text }}</span>
 </button>
+</script>
+
+<script id="wishlist-shared" data="shared_wishlist" type="text/x-template" app="wishlist-king">
+{% assign wishlist = shared_wishlist %}
+{% include 'wishlist-collection' with wishlist %}
 </script>
 
 <script id="wishlist-collection" data="wishlist" type="text/x-template" app="wishlist-king">
