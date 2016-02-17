@@ -148,7 +148,7 @@ button.wk-button-collection {
   }
 
   position: absolute;
-  z-index: 5;
+  z-index: 1;
   top: 5px;
   right: 5px;
 
@@ -467,9 +467,12 @@ p.wk-login-note {
 }
 
 @media (max-width: 1024px) {
-  button.wk-icon-button-add,
-  button.wk-icon-button-remove {
-    opacity: 1;
+  button.wk-button-collection,
+  button.wk-button-product {
+    &.wk-add-product,
+    &.wk-remove-product {
+      opacity: 1;
+    }
   }
 }
 
