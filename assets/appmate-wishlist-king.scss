@@ -184,9 +184,15 @@ button.wk-button-product {
   }
 }
 
-button.wk-button-wishlist-page-remove {
-  @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
+button.wk-button-wishlist-page {
   @include wk-icon-button($wk-button-wishlist-page-backgrund-color, 25px, 25px);
+  &.wk-add-product {
+    @include wk-heart-empty-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
+  }
+  &.wk-remove-product,
+  &.wk-remove-item {
+    @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
+  }
 
   position: absolute;
   z-index: 5;

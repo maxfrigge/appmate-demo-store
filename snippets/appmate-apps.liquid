@@ -8,11 +8,9 @@
     shop: {
       domain: '{{ shop.domain }}'
     },
-
     session: {
       customer: '{{ customer.id }}'
     },
-
     globals: {
       settings: {{ settings | json }},
       cookie_policy_handle: '{{ pages.cookie-policy.handle }}',
@@ -24,16 +22,16 @@
 </script>
 
 {% capture wishlist_king_snippet %}
-{% include 'appmate-wishlist-king' %}
+  {% include 'appmate-wishlist-king' %}
 {% endcapture %}
 {% unless wishlist_king_snippet contains "Liquid error" %}
-{{ wishlist_king_snippet }}
+  {{ wishlist_king_snippet }}
 {% endunless %}
 
 
 {% capture cookie_lawyer_snippet %}
-{% include 'appmate-cookie-lawyer' %}
+  {% include 'appmate-cookie-lawyer' %}
 {% endcapture %}
 {% unless cookie_lawyer_snippet contains "Liquid error" %}
-{{ cookie_lawyer_snippet }}
+  {{ cookie_lawyer_snippet }}
 {% endunless %}

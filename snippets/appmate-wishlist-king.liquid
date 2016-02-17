@@ -32,15 +32,18 @@
       var wishlist = this.getAttribute('data-wk-share');
       Appmate.wk.createShareUrl(wishlist)
       .then(function(result){
-        console.log(result);
+        var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + result.url;
+        window.open(shareUrl, 'facebook');
+        console.log(result.url);
+        console.log(shareUrl);
       });
     },
-    'click .wk-add-to-cart': function(event){
+    'click [data-wk-move-to-cart]': function(event){
       var $elem = $(this);
       $form = $elem.parents('form');
       $elem.prop("disabled", true);
 
-      var item = this.getAttribute('data-wk-item');
+      var item = this.getAttribute('data-wk-move-to-cart');
       var formData = $form.serialize();
 
       fadeOrNot($elem, function(){
@@ -57,7 +60,7 @@
         // .then(function(){
         //   $form.submit();
         // });
-      })
+      });
       event.preventDefault();
     },
     'render .wk-option-select': function(elem){
@@ -80,9 +83,11 @@
 {% raw %}
 
 <script id="wishlist-share-button" data="wishlist" type="text/x-template" app="wishlist-king">
+{% unless wishlist.empty %}
 <button type="button" class="wk-button-share" title="Share this wishlist" data-wk-share="{{ wishlist.id }}">
   <span class="wk-label">Share</span>
 </button>
+{% endunless %}
 </script>
 
 <script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
@@ -164,10 +169,27 @@
 </script>
 
 <script id="wishlist-button-wishlist-page" data="product" type="text/x-template" app="wishlist-king">
-{% assign btn_text = 'In Wishlist' %}
-{% assign btn_title = 'Remove from Wishlist' %}
+{% if wishlist.read_only %}
+  {% assign item_id = product.id %}
+{% else %}
+  {% assign item_id = product.wishlist_item_id %}
+{% endif %}
 
-<button type="button" class="wk-button-wishlist-page-remove" title="{{ btn_title }}" data-wk-remove-item="{{ product.wishlist_item_id }}">
+{% if product.in_wishlist and wishlist.read_only == true %}
+  {% assign btn_text = 'In Wishlist' %}
+  {% assign btn_title = 'Remove from Wishlist' %}
+  {% assign btn_action = 'wk-remove-product' %}
+{% elsif product.in_wishlist and wishlist.read_only == false %}
+  {% assign btn_text = 'In Wishlist' %}
+  {% assign btn_title = 'Remove from Wishlist' %}
+  {% assign btn_action = 'wk-remove-item' %}
+{% else %}
+  {% assign btn_text = 'Add to Wishlist' %}
+  {% assign btn_title = 'Add to Wishlist' %}
+  {% assign btn_action = 'wk-add-product' %}
+{% endif %}
+
+<button type="button" class="wk-button-wishlist-page {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ item_id }}">
   <span class="wk-label">{{ btn_text }}</span>
 </button>
 </script>
@@ -192,11 +214,13 @@
 {% if wishlist.item_count == 0 %}
   {% include 'wishlist-collection-empty' %}
 {% else %}
-  {% if customer_accounts_enabled and customer == false %}
+  {% if customer_accounts_enabled and customer == false and wishlist.read_only == false %}
     {% include 'wishlist-collection-login-note' %}
   {% endif %}
   {% include 'wishlist-collection-loop' %}
-  {% include 'wishlist-button-wishlist-clear' %}
+  {% unless wishlist.read_only %}
+    {% include 'wishlist-button-wishlist-clear' %}
+  {% endunless %}
 {% endif %}
 </div>
 </script>
@@ -229,7 +253,7 @@
     {% assign wk_item_width = 100 | devide_by: items_per_row %}
 
     <div class="wk-item-column" style="width: {{ wk_item_width }}%">
-      <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} wk-fadeout" data-wk-item="{{ product.wishlist_item_id }}">
+      <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} {% unless wishlist.read_only %}wk-fadeout{% endunless %}" data-wk-item="{{ product.wishlist_item_id }}">
 
         {% include 'wishlist-collection-product-image' with product %}
         {% include 'wishlist-button-wishlist-page' with product %}
@@ -272,16 +296,13 @@
 </script>
 
 <script id="wishlist-collection-product-form" data="wishlist" type="text/x-template" app="wishlist-king">
-<form id="wk-add-item-form-{{ product.wishlist_item_id }}"
-    action="/cart/add" method="post"
-    class="wk-add-item-form">
+<form id="wk-add-item-form-{{ product.wishlist_item_id }}" action="/cart/add" method="post" class="wk-add-item-form">
 
   <!-- Begin product options -->
   <div class="wk-product-options {% if hide_default_title %}wk-no-options{% endif %}">
 
     <div class="wk-select" {% if hide_default_title %} style="display:none"{% endif %}>
-      <select id="wk-option-select-{{ product.wishlist_item_id }}"
-          class="wk-option-select" name="id">
+      <select id="wk-option-select-{{ product.wishlist_item_id }}" class="wk-option-select" name="id">
 
         {% for variant in product.variants %}
         <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
@@ -303,7 +324,11 @@
       {% unless product.available %}
       <input type="submit" class="wk-add-to-cart disabled" disabled="disabled" value="Sold Out" />
       {% else %}
-      <input type="submit" class="wk-add-to-cart" data-wk-item="{{ product.wishlist_item_id }}" name="add" value="Add to cart" />
+        {% assign cart_action = 'wk-move-to-cart' %}
+        {% if wishlist.read_only %}
+          {% assign cart_action = 'wk-add-to-cart' %}
+        {% endif %}
+        <input type="submit" class="wk-add-to-cart" data-{{ cart_action }}="{{ product.wishlist_item_id }}" name="add" value="Add to cart" />
       {% endunless %}
     </div>
   </div>
