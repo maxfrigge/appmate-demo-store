@@ -194,7 +194,7 @@
 <div class="wk-row">
   {% for product in wishlist.products %}
     {% assign hide_default_title = false %}
-    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+    {% if product.variants.length == 1 and product.variants[0].title contains 'Default' %}
       {% assign hide_default_title = true %}
     {% endif %}
 
@@ -272,7 +272,7 @@
     </div>
     {% endif %}
 
-    <div class="wk-purchase-section{% if product.variants.size > 1 %} wk-multiple{% endif %}">
+    <div class="wk-purchase-section{% if product.variants.length > 1 %} wk-multiple{% endif %}">
       {% unless product.available %}
       <input type="submit" class="wk-add-to-cart disabled" disabled="disabled" value="Sold Out" />
       {% else %}
@@ -334,6 +334,7 @@ function appmateOptionSelect(el){
 
   var id = el.getAttribute('id');
   var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
+  var container = $('#wk-item-' + itemId);
 
   Appmate.wk.getItem(itemId).then(function(product){
     var selector = new Shopify.OptionSelectors(id, {
@@ -347,8 +348,10 @@ function appmateOptionSelect(el){
     }
 
     // Add label if only one product option and it isn't 'Title'.
-    if (product.options.size == 1 && product.options.first != 'Title') {
-      $(containerId + ' .selector-wrapper:eq(0)').prepend('<label>' + product.options.first + '</label>');
+    if (product.options.length == 1 && product.options[0] != 'Title') {
+      $(container)
+      .find('.selector-wrapper:eq(0)')
+      .prepend('<label>' + product.options[0] + '</label>');
     }
   });
 }
