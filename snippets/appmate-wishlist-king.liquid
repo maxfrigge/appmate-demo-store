@@ -30,13 +30,13 @@
     },
     'click [data-wk-share]': function(){
       var wishlist = this.getAttribute('data-wk-share');
-      Appmate.wk.createShareUrl(wishlist)
-      .then(function(result){
-        var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + result.url;
-        window.open(shareUrl, 'facebook');
-        console.log(result.url);
-        console.log(shareUrl);
-      });
+      var service = this.getAttribute('data-wk-share-service');
+      var shareUrl = Appmate.wk.createShareUrl(wishlist, service);
+      window.open(
+        shareUrl,
+        'wishlist_share',
+        'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
+      );
     },
     'click [data-wk-move-to-cart]': function(event){
       var $elem = $(this);
@@ -82,10 +82,34 @@
 
 {% raw %}
 
-<script id="wishlist-share-button" data="wishlist" type="text/x-template" app="wishlist-king">
+<script id="wishlist-share-button-fb" data="wishlist" type="text/x-template" app="wishlist-king">
 {% unless wishlist.empty %}
-<button type="button" class="wk-button-share" title="Share this wishlist" data-wk-share="{{ wishlist.id }}">
-  <span class="wk-label">Share</span>
+<button type="button" class="wk-button-share" title="Share on Facebook" data-wk-share-service="facebook" data-wk-share="{{ wishlist.permaId }}">
+  <span class="wk-label">Share on Facebook</span>
+</button>
+{% endunless %}
+</script>
+
+<script id="wishlist-share-button-twitter" data="wishlist" type="text/x-template" app="wishlist-king">
+{% unless wishlist.empty %}
+<button type="button" class="wk-button-share" title="Share on Twitter" data-wk-share-service="twitter" data-wk-share="{{ wishlist.permaId }}">
+  <span class="wk-label">Share on Twitter</span>
+</button>
+{% endunless %}
+</script>
+
+<script id="wishlist-share-button-pinterest" data="wishlist" type="text/x-template" app="wishlist-king">
+{% unless wishlist.empty %}
+<button type="button" class="wk-button-share" title="Share on Pinterest" data-wk-share-service="pinterest" data-wk-share="{{ wishlist.permaId }}">
+  <span class="wk-label">Share on Pinterest</span>
+</button>
+{% endunless %}
+</script>
+
+<script id="wishlist-share-button-email" data="wishlist" type="text/x-template" app="wishlist-king">
+{% unless wishlist.empty %}
+<button type="button" class="wk-button-share" title="Share by email" data-wk-share-service="email" data-wk-share="{{ wishlist.permaId }}">
+  <span class="wk-label">Share by email</span>
 </button>
 {% endunless %}
 </script>
@@ -199,7 +223,7 @@
 {% assign btn_title = 'Clear Wishlist' %}
 {% assign btn_class = 'wk-button-wishlist-clear' %}
 
-<button type="button" class="{{ btn_class }}" title="{{ btn_title }}" data-wk-clear-wishlist="{{ wishlist.id }}">
+<button type="button" class="{{ btn_class }}" title="{{ btn_title }}" data-wk-clear-wishlist="{{ wishlist.permaId }}">
   <span class="wk-label">{{ btn_text }}</span>
 </button>
 </script>
