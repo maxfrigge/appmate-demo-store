@@ -14,7 +14,7 @@ See the Facebook Linter: http://developers.facebook.com/tools/debug
   <meta property="og:price:currency" content="{{ shop.currency }}" />
 {% elsif template contains 'article' %}
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="{{ article.title | strip_html | escape }}" />  
+  <meta property="og:title" content="{{ article.title | strip_html | escape }}" />
   {% assign img_tag = '<' | append: 'img' %}
   {% if article.content contains img_tag %}
     {% assign src = article.content | split: 'src="' %}
