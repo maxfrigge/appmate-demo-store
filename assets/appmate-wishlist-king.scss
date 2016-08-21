@@ -3,16 +3,18 @@
 /*////////////////////////////////////////////////////////////////////////////*/
 
 /* -- Wishlist button collection -- */
-$wk-button-collection-icon-color: 'rgb(66,66,66)';
+$wk-button-collection-icon-color: #424242;
 $wk-button-collection-backgrund-color: rgba(0,0,0,0.1);
+$wk-button-collection-icon-size: 15px;
 
 /* -- Wishlist button product -- */
-$wk-button-product-icon-color: 'rgb(66,66,66)';
+$wk-button-product-icon-color: #424242;
 $wk-button-product-text-color: #333333;
 $wk-button-product-icon-size: 15px;
+$wk-button-product-icon-padding: 2px 5px 2px 0;
 
 /* -- Wishlist button wishlist page -- */
-$wk-button-wishlist-page-icon-color: 'rgb(66,66,66)';
+$wk-button-wishlist-page-icon-color: #424242;
 $wk-button-wishlist-page-backgrund-color: rgba(0,0,0,0.1);
 $wk-button-wishlist-page-icon-size: 15px;
 
@@ -23,9 +25,10 @@ $wk-button-wishlist-clear-background-hover: #555555;
 $wk-button-wishlist-clear-text-color-hover: #ffffff;
 
 /* -- Wishlist link (in header) -- */
-$wk-header-link-icon-color: 'rgb(66,66,66)';
-$wk-header-link-icon-color-hover: 'rgb(66,66,66)';
+$wk-header-link-icon-color: #424242;
+$wk-header-link-icon-color-hover: #424242;
 $wk-header-link-icon-size: 15px;
+$wk-header-link-icon-padding: 0 5px 0 0;
 
 /* -- Wishlist page -- */
 $wk-page-price-color: #555555;
@@ -50,6 +53,25 @@ $wk-add-to-cart-color: #ffffff;
   overflow: hidden;
 }
 
+@mixin wk-icon($color: #000, $icon-size: 15px, $icon-padding: 5px) {
+  .wk-icon {
+    display: inline-block;
+    width: $icon-size;
+    height: $icon-size;
+    padding: $icon-padding;
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        fill: $color;
+        stroke: $color;
+      }
+    }
+  }
+}
+
 @mixin wk-button($text-color: #000, $background-color: rgba(0,0,0,0)) {
   width: auto;
   height: auto;
@@ -70,56 +92,22 @@ $wk-add-to-cart-color: #ffffff;
   }
 }
 
-@mixin wk-icon-button($backgrund-color, $width: 25px, $height: 25px) {
+@mixin wk-icon-button($color, $backgrund-color, $icon-size: 15px, $icon-padding: 5px) {
   @include wk-button(#000, $backgrund-color);
+  @include wk-icon($color, $icon-size, $icon-padding);
 
   .wk-label {
     display: none;
   }
 
   border-radius: 50%;
-  width: $width;
-  height: $height;
   padding: 0;
   margin: 0;
 }
 
-@mixin wk-text-button($text-color, $background-color: rgba(0,0,0,0)) {
-  @include wk-button($text-color, $background-color);
-}
-
-@mixin wk-svg-icon($svg, $width, $height, $position: absolute){
-  &:before {
-    content: '';
-    display: inline-block;
-    width: $width;
-    height: $height;
-    background-image: url("data:image/svg+xml;charset=UTF-8,#{$svg}");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-
-    position: $position;
-    @if $position == absolute {
-      left: calc(50% - #{$width} * .5);
-      top: calc(50% - #{$height} * .5);
-    }
-    @else {
-      margin-right: 5px;
-    }
-  }
-}
-
-@mixin wk-heart-full-icon($color, $width: 15px, $height: 15px, $position: absolute) {
-  $wk-heart-full-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64'%20height%3D'64'%20viewBox%3D'0%200%2064%2064'%3E%3Cpath%20d%3D'M47.199%204c-6.727%200-12.516%205.472-15.198%2011.188-2.684-5.715-8.474-11.188-15.201-11.188-9.274%200-16.8%207.527-16.8%2016.802%200%2018.865%2019.031%2023.812%2032.001%2042.464%2012.26-18.536%2031.999-24.2%2031.999-42.464%200-9.274-7.527-16.802-16.801-16.802z'%20fill%3D'#{$color}'%3E%3C%2Fpath%3E%3C%2Fsvg%3E";
-
-  @include wk-svg-icon($wk-heart-full-svg, $width, $height, $position);
-}
-
-@mixin wk-heart-empty-icon($color, $width: 15px, $height: 15px, $position: absolute) {
-  $wk-heart-empty-svg: "%3Csvg%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'64px'%20height%3D'60.833px'%20viewBox%3D'0%200%2064%2060.833'%3E%3Cpath%20stroke%3D'#{$color}'%20stroke-width%3D'5'%20stroke-miterlimit%3D'10'%20fill-opacity%3D'0'%20d%3D'M45.684%2C2.654c-6.057%2C0-11.27%2C4.927-13.684%2C10.073%20c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349%2C0-15.125%2C6.776-15.125%2C15.127c0%2C16.983%2C17.134%2C21.438%2C28.812%2C38.231%20c11.038-16.688%2C28.811-21.787%2C28.811-38.231C60.811%2C9.431%2C54.033%2C2.654%2C45.684%2C2.654z'%2F%3E%3C%2Fsvg%3E";
-
-  @include wk-svg-icon($wk-heart-empty-svg, $width, $height, $position);
+@mixin wk-text-button($icon-color, $text-color, $icon-size: 15px, $icon-padding: 5px) {
+  @include wk-button($text-color);
+  @include wk-icon($icon-color, $icon-size, $icon-padding);
 }
 
 
@@ -128,13 +116,7 @@ $wk-add-to-cart-color: #ffffff;
 /*////////////////////////////////////////////////////////////////////////////*/
 
 button.wk-button-collection {
-  @include wk-icon-button($wk-button-collection-backgrund-color, 25px, 25px);
-  &.wk-add-product {
-    @include wk-heart-empty-icon($wk-button-collection-icon-color, 15px, 15px);
-  }
-  &.wk-remove-product {
-    @include wk-heart-full-icon($wk-button-collection-icon-color, 15px, 15px);
-  }
+  @include wk-icon-button($wk-button-collection-icon-color, $wk-button-collection-backgrund-color, $wk-button-collection-icon-size);
 
   position: absolute;
   z-index: 1;
@@ -158,13 +140,7 @@ button.wk-button-collection {
 }
 
 button.wk-button-product {
-  @include wk-text-button($wk-button-product-text-color);
-  &.wk-add-product {
-    @include wk-heart-empty-icon($wk-button-product-icon-color, $wk-button-product-icon-size, $wk-button-product-icon-size, relative);
-  }
-  &.wk-remove-product {
-    @include wk-heart-full-icon($wk-button-product-icon-color, $wk-button-product-icon-size, $wk-button-product-icon-size, relative);
-  }
+  @include wk-text-button($wk-button-product-icon-color, $wk-button-product-text-color, $wk-button-product-icon-size, $wk-button-product-icon-padding);
 
   margin-bottom: 1em;
 
@@ -174,14 +150,7 @@ button.wk-button-product {
 }
 
 button.wk-button-wishlist-page {
-  @include wk-icon-button($wk-button-wishlist-page-backgrund-color, 25px, 25px);
-  &.wk-add-product {
-    @include wk-heart-empty-icon($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-icon-size, $wk-button-wishlist-page-icon-size);
-  }
-  &.wk-remove-product,
-  &.wk-remove-item {
-    @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-icon-size, $wk-button-wishlist-page-icon-size);
-  }
+  @include wk-icon-button($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-backgrund-color, $wk-button-wishlist-page-icon-size);
 
   position: absolute;
   z-index: 5;
@@ -198,8 +167,7 @@ button.wk-button-wishlist-page {
 
 button.wk-button-wishlist-clear {
   @include wk-button($wk-button-wishlist-clear-text-color, $wk-button-wishlist-clear-background);
-  border-radius: 5px;
-  padding: 3px 20px;
+  padding: 5px 20px;
   text-align: center;
   margin: 5px auto;
   width: auto;
@@ -216,21 +184,17 @@ button.wk-button-wishlist-clear {
 /*////////////////////////////////////////////////////////////////////////////*/
 
 a.wk-link {
+  @include wk-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-padding);
   vertical-align: middle;
 
-  &.wk-filled {
-    @include wk-heart-full-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
-  }
-  &.wk-empty {
-    @include wk-heart-empty-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
+  .wk-icon svg path {
+    transition: 0.3s all;
   }
 
   &:hover {
-    &.wk-filled {
-      @include wk-heart-full-icon($wk-header-link-icon-color-hover, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
-    }
-    &.wk-empty {
-      @include wk-heart-empty-icon($wk-header-link-icon-color-hover, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
+    .wk-icon svg path {
+      fill: $wk-header-link-icon-color-hover;
+      stroke: $wk-header-link-icon-color-hover;
     }
   }
 
