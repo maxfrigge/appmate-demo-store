@@ -1,4 +1,4 @@
-{{ 'https://toolkit-appmate.fwd.wf/appmate.js' | script_tag }}
+{{ 'http://toolkit-appmate.eu.ngrok.io/appmate.js' | script_tag }}
 
 <script type="text/javascript">
 ;(function(){
@@ -16,6 +16,14 @@
       cookie_policy_handle: '{{ pages.cookie-policy.handle }}',
       customer: '{{ customer.id }}',
       customer_accounts_enabled: {{ shop.customer_accounts_enabled }}
+    },
+    wishlist: {
+      share: {
+        title: 'My Wishlist',
+        description: 'Check out some of my favourite things @ {{ shop.name }}.',
+        imageTitle: '{{ shop.name }}',
+        hashTags: 'wishlist'
+      }
     }
   });
 })();
