@@ -9,10 +9,12 @@ $wk-button-collection-backgrund-color: rgba(0,0,0,0.1);
 /* -- Wishlist button product -- */
 $wk-button-product-icon-color: 'rgb(66,66,66)';
 $wk-button-product-text-color: #333333;
+$wk-button-product-icon-size: 15px;
 
 /* -- Wishlist button wishlist page -- */
 $wk-button-wishlist-page-icon-color: 'rgb(66,66,66)';
 $wk-button-wishlist-page-backgrund-color: rgba(0,0,0,0.1);
+$wk-button-wishlist-page-icon-size: 15px;
 
 /* -- Clear wishlist button (on wishlist page) -- */
 $wk-button-wishlist-clear-background: #333333;
@@ -22,21 +24,8 @@ $wk-button-wishlist-clear-text-color-hover: #ffffff;
 
 /* -- Wishlist link (in header) -- */
 $wk-header-link-icon-color: 'rgb(66,66,66)';
-$wk-header-link-text-color: #333333;
-
-/* -- Wishlist dropdown -- */
-$wk-dropdown-background: #ffffff;
-$wk-dropdown-text-color: #555555;
-$wk-dropdown-border: 1px solid #dedede;
-$wk-dropdown-border-radius: 4px;
-$wk-dropdown-item-border-bottom: 1px solid #eeeeee;
-$wk-dropdown-price-color: #999999;
-
-/* -- View wishlist button (in dropdown) -- */
-$wk-button-view-all-background: #333333;
-$wk-button-view-all-text-color: #ffffff;
-$wk-button-view-all-background-hover: #555555;
-$wk-button-view-all-text-color-hover: #ffffff;
+$wk-header-link-icon-color-hover: 'rgb(66,66,66)';
+$wk-header-link-icon-size: 15px;
 
 /* -- Wishlist page -- */
 $wk-page-price-color: #555555;
@@ -171,10 +160,10 @@ button.wk-button-collection {
 button.wk-button-product {
   @include wk-text-button($wk-button-product-text-color);
   &.wk-add-product {
-    @include wk-heart-empty-icon($wk-button-product-icon-color, 15px, 15px, relative);
+    @include wk-heart-empty-icon($wk-button-product-icon-color, $wk-button-product-icon-size, $wk-button-product-icon-size, relative);
   }
   &.wk-remove-product {
-    @include wk-heart-full-icon($wk-button-product-icon-color, 15px, 15px, relative);
+    @include wk-heart-full-icon($wk-button-product-icon-color, $wk-button-product-icon-size, $wk-button-product-icon-size, relative);
   }
 
   margin-bottom: 1em;
@@ -187,11 +176,11 @@ button.wk-button-product {
 button.wk-button-wishlist-page {
   @include wk-icon-button($wk-button-wishlist-page-backgrund-color, 25px, 25px);
   &.wk-add-product {
-    @include wk-heart-empty-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
+    @include wk-heart-empty-icon($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-icon-size, $wk-button-wishlist-page-icon-size);
   }
   &.wk-remove-product,
   &.wk-remove-item {
-    @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, 15px, 15px);
+    @include wk-heart-full-icon($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-icon-size, $wk-button-wishlist-page-icon-size);
   }
 
   position: absolute;
@@ -221,39 +210,28 @@ button.wk-button-wishlist-clear {
   }
 }
 
-span.wk-button-wishlist-view {
-  @include wk-button($wk-button-view-all-text-color, $wk-button-view-all-background);
-  border-radius: 5px;
-  padding: 5px 10px;
-  text-align: center;
-  display: block;
-  line-height: 1;
-  cursor: default;
-}
-
-a.wk-button-wishlist-view {
-  @extend span.wk-button-wishlist-view;
-  cursor: pointer;
-
-  &:hover {
-    background: $wk-button-view-all-background-hover;
-    color: $wk-button-view-all-text-color-hover;
-  }
-}
-
 
 /*/////////////////////////////////////////////////////////////////////////////*/
-/* !Wishlist Link & Dropdown in header / top bar */
+/* !Wishlist Link in header / top bar */
 /*////////////////////////////////////////////////////////////////////////////*/
 
 a.wk-link {
   vertical-align: middle;
 
   &.wk-filled {
-    @include wk-heart-full-icon($wk-header-link-icon-color, 15px, 15px, relative);
+    @include wk-heart-full-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
   }
   &.wk-empty {
-    @include wk-heart-empty-icon($wk-header-link-icon-color, 15px, 15px, relative);
+    @include wk-heart-empty-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
+  }
+
+  &:hover {
+    &.wk-filled {
+      @include wk-heart-full-icon($wk-header-link-icon-color-hover, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
+    }
+    &.wk-empty {
+      @include wk-heart-empty-icon($wk-header-link-icon-color-hover, $wk-header-link-icon-size, $wk-header-link-icon-size, relative);
+    }
   }
 
   .wk-label {
@@ -271,90 +249,10 @@ a.wk-link {
   }
 }
 
-#wk-dropdown-wrapper {
-  background: $wk-dropdown-background;
-  position: absolute;
-  top: 100%;
-  left: -130px;
-  width: 301px;
-  z-index: 999999;
-  color: $wk-dropdown-text-color;
-  border: $wk-dropdown-border;
-  padding: 10px;
-  border-radius: $wk-dropdown-border-radius;
-  display: none;
-  line-height: 1 !important;
-}
-
-.wk-dropdown-toggle {
-  display: inline-block;
-  position: relative;
-  margin-right: 6px;
-
-  &:hover #wk-dropdown-wrapper {
-    display: block;
-  }
-}
-
 .wk-variant-image {
   max-width: 100%;
   max-height: 100%;
 }
-
-ul.wk-dropdown {
-  display: block;
-  width: 100%;
-  margin: 0;
-  line-height: 1 !important;
-  @include wk-clearfix;
-
-  li.wk-dropdown-item {
-    display: block;
-    background: none;
-    margin-bottom: 13px !important;
-    width: 100%;
-    border-bottom: $wk-dropdown-item-border-bottom;
-    padding: 0 0 13px 0 !important;
-    line-height: 1 !important;
-    white-space: normal;
-    @include wk-clearfix;
-
-    &:hover {
-      opacity: .8;
-    }
-
-    p.wk-dd-title,
-    p.wk-dd-price {
-      margin: 0;
-    }
-
-    p.wk-dd-title {
-      margin-bottom: 5px;
-    }
-
-    .wk-dropdown-thumb {
-      float: left;
-      width: 35%;
-      margin: 0 12px 0 0;
-      padding: 0;
-      opacity: 1;
-
-      &:hover {
-        opacity: 1;
-      }
-
-    }
-
-    .wk-dropdown-details {
-      p.wk-dd-price {
-        font-size: .9em;
-        font-style: italic;
-        color: $wk-dropdown-price-color;
-      }
-    }
-  }
-}
-
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Grid System */
@@ -421,21 +319,23 @@ p.wk-login-note {
 
   .wk-product-options {
     border-bottom: none;
-  }
 
-  .wk-select {
     label {
       display: block;
       text-align: center;
     }
 
     select {
-      box-sizing: content-box;
+      box-sizing: border-box;
       display: block;
       width: 100%;
       border-radius: 0;
       margin-bottom: 10px;
     }
+  }
+
+  .wk-purchase-section {
+    margin-top: 1em;
   }
 }
 
@@ -459,8 +359,6 @@ p.wk-login-note {
     margin: 0;
     padding: 5px 20px;
     color: $wk-add-to-cart-color;
-    // font-weight: $wk-add-to-cart-font-weight;
-    // font-size: $wk-add-to-cart-font-size;
     background: $wk-add-to-cart-background;
     width: auto;
   }
@@ -472,6 +370,116 @@ p.wk-login-note {
   }
 }
 
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Share Buttons */
+/*////////////////////////////////////////////////////////////////////////////*/
+.wk-button-share {
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.resp-sharing-button__link,
+.resp-sharing-button__icon {
+  display: inline-block;
+}
+
+.resp-sharing-button__link {
+  font-size: 12px;
+  text-decoration: none;
+  color: #fff;
+  margin: 0.5em;
+}
+
+.resp-sharing-button {
+  transition: 25ms ease-out;
+  padding: 0.5em 0.75em;
+}
+
+.resp-sharing-button__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.resp-sharing-button span {
+  padding-left: 0.4em;
+}
+
+/* Non solid icons get a stroke */
+.resp-sharing-button__icon {
+  stroke: #fff;
+  fill: none;
+
+  svg {
+    position: relative;
+    top: 2px;
+  }
+}
+
+/* Solid icons get a fill */
+.resp-sharing-button__icon--solid,
+.resp-sharing-button__icon--solidcircle {
+  fill: #fff;
+  stroke: none;
+}
+
+.resp-sharing-button--twitter {
+  background-color: #55acee;
+}
+
+.resp-sharing-button--twitter:hover {
+  background-color: #2795e9;
+}
+
+.resp-sharing-button--pinterest {
+  background-color: #bd081c;
+}
+
+.resp-sharing-button--pinterest:hover {
+  background-color: #8c0615;
+}
+
+.resp-sharing-button--facebook {
+  background-color: #3b5998;
+}
+
+.resp-sharing-button--facebook:hover {
+  background-color: #2d4373;
+}
+
+.resp-sharing-button--email {
+  background-color: #777;
+}
+
+.resp-sharing-button--email:hover {
+  background-color: #5e5e5e;
+}
+
+.resp-sharing-button--whatsapp {
+  background-color: #25D366;
+}
+
+.resp-sharing-button--whatsapp:hover {
+  background-color: #1da851;
+}
+
+.resp-sharing-button--pinterest {
+  background-color: #bd081c;
+  border-color: #bd081c;
+}
+
+.resp-sharing-button--pinterest:hover,
+.resp-sharing-button--pinterest:active {
+  background-color: #8c0615;
+  border-color: #8c0615;
+}
+
+
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Responsive Styles */
+/*////////////////////////////////////////////////////////////////////////////*/
 @media (max-width: 1024px) {
   button.wk-button-collection,
   button.wk-button-product {
@@ -480,12 +488,13 @@ p.wk-login-note {
       opacity: 1;
     }
   }
+
+  .wk-add-item-form {
+    position: static;
+    opacity: 1;
+  }
 }
 
 @media (max-width: 480px) {
-  .wk-dropdown-toggle {
-    &:hover #wk-dropdown-wrapper {
-      display: none;
-    }
-  }
+
 }
