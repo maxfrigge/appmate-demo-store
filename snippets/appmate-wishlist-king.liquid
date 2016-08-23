@@ -30,6 +30,7 @@
       var wishlist = this.getAttribute('data-wk-clear-wishlist');
       Appmate.wk.clear(wishlist);
       event.preventDefault();
+      event.stopPropagation();
     },
     'click [data-wk-share]': function(){
       var wishlist = this.getAttribute('data-wk-share');
@@ -40,16 +41,8 @@
         'wishlist_share',
         'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
       );
-    },
-    'click [data-wk-share]': function(){
-      var wishlist = this.getAttribute('data-wk-share');
-      var service = this.getAttribute('data-wk-share-service');
-      var shareUrl = Appmate.wk.createShareUrl(wishlist, service);
-      window.open(
-        shareUrl,
-        'wishlist_share',
-        'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
-      );
+      event.preventDefault();
+      event.stopPropagation();
     },
     'click [data-wk-move-to-cart]': function(event){
       var $elem = $(this);
@@ -77,6 +70,7 @@
         // });
       });
       event.preventDefault();
+      event.stopPropagation();
     },
     'render .wk-option-select': function(elem){
       appmateOptionSelect(elem);
