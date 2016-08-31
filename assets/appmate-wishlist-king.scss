@@ -345,9 +345,11 @@ p.wk-login-note {
 /*////////////////////////////////////////////////////////////////////////////*/
 
 h3#wk-share-head {
-    font-size: 1.7em;
+    font-size: 1.1em;
     text-align: center;
-    margin: 5px 0 19px 0;
+    margin: 5px 0 7px 0;
+    padding: 0;
+    text-transform: uppercase;
 }
 
 ul#wk-share-list {
@@ -386,7 +388,7 @@ ul#wk-share-list {
 
 .resp-sharing-button {
   transition: 25ms ease-out;
-  padding: 0.35em 0.7em;
+  padding: 5px 8px 3px;
 }
 
 .resp-sharing-button__icon svg {
@@ -396,6 +398,7 @@ ul#wk-share-list {
 
 .resp-sharing-button span {
   padding-left: 0.4em;
+  display:none;
 }
 
 /* Non solid icons get a stroke */
