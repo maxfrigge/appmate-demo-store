@@ -185,6 +185,7 @@ button.wk-button-wishlist-clear {
 
 a.wk-link {
   @include wk-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-padding);
+
   vertical-align: middle;
 
   .wk-icon svg path {
@@ -358,7 +359,7 @@ ul#wk-share-list {
   margin: 0 0 35px 0;
   padding:0;
   text-align:center;
-  
+
   li {
   	display: inline-block;
     margin:0;
@@ -413,40 +414,31 @@ ul#wk-share-list {
 }
 
 /* Solid icons get a fill */
-.resp-sharing-button__icon--solid,
-.resp-sharing-button__icon--solidcircle {
+.resp-sharing-button__icon--solid {
   fill: #fff;
   stroke: none;
 }
 
-
 .resp-sharing-button--facebook {
-  /*background-color: #3b5998;*/
   background-color: #333;
 }
 
 .resp-sharing-button--pinterest {
-  /*background-color: #bd081c;
-  border-color: #bd081c;*/
   background-color: #333;
 }
 
 .resp-sharing-button--twitter {
-  /*background-color: #55acee;*/
   background-color: #333;
 }
 
 .resp-sharing-button--email {
-  /*background-color: #777;*/
   background-color: #333;
 }
 
 .resp-sharing-button--whatsapp {
-  /*background-color: #25D366;*/
   background-color: #333;
+  display: none;
 }
-
-
 
 .resp-sharing-button--facebook:hover {
   background-color: #3b5998;
@@ -468,7 +460,17 @@ ul#wk-share-list {
   background-color: #25D366;
 }
 
-
+.wk-touch {
+  .resp-sharing-button--facebook,
+  .resp-sharing-button--pinterest,
+  .resp-sharing-button--twitter,
+  .resp-sharing-button--email,
+  .resp-sharing-button--whatsapp {
+    &:hover {
+      background-color: #333;
+    }
+  }
+}
 
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -487,10 +489,13 @@ ul#wk-share-list {
     position: static;
     opacity: 1;
   }
+
+  .wk-touch {
+    .resp-sharing-button--whatsapp {
+      display: inline-block;
+    }
+  }
 }
 
 @media (max-width: 480px) {
-	
-  
-  
 }

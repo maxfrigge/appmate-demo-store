@@ -105,10 +105,10 @@
 </script>
 
 <script id="wishlist-link" data="wishlist" type="text/x-template" app="wishlist-king">
-{% if wishlist.empty %}
-  {% assign link_icon = 'wishlist-icon-empty' %}
-{% else %}
+{% if wishlist.item_count %}
   {% assign link_icon = 'wishlist-icon-filled' %}
+{% else %}
+  {% assign link_icon = 'wishlist-icon-empty' %}
 {% endif %}
 
 <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist"><div class="wk-icon">{% include link_icon %}</div><span class="wk-label">Wishlist</span> <span class="wk-count">({{ wishlist.item_count }})</span></a>
@@ -217,6 +217,9 @@
   {% if customer_accounts_enabled and customer == false and wishlist.read_only == false %}
     {% include 'wishlist-collection-login-note' %}
   {% endif %}
+  {% unless wishlist.read_only %}
+    {% include 'wishlist-collection-share' %}
+  {% endunless %}
   {% include 'wishlist-collection-loop' %}
   {% unless wishlist.read_only %}
     {% include 'wishlist-button-wishlist-clear' %}
@@ -239,6 +242,17 @@
     To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">sign up</a>.
   </p>
 </div>
+</script>
+
+<script id="wishlist-collection-share" data="wishlist" type="text/x-template" app="wishlist-king">
+  <h3 id="wk-share-head">Share Wishlist</h3>
+  <ul id="wk-share-list">
+      <li><!-- include 'wishlist-share-button-fb' --></li>
+      <li><!-- include 'wishlist-share-button-pinterest' --></li>
+      <li><!-- include 'wishlist-share-button-twitter' --></li>
+    <li><!-- include 'wishlist-share-button-email' --></li>
+    <li><!-- include 'wishlist-share-button-whatsapp' --></li>
+  </ul>
 </script>
 
 <script id="wishlist-collection-loop" data="wishlist" type="text/x-template" app="wishlist-king">
