@@ -65,8 +65,6 @@
     "currency_format": "money_with_currency_format",
     "supported_currencies": "EUR AUD USD",
     "default_currency": "EUR",
-    "appmate_enabled": true,
-    "appmate_wishlist_enabled": true,
     "checkout_use_header_image": false,
     "checkout_header_image": "",
     "checkout_logo": "",
@@ -98,8 +96,7 @@
     "display_slide_3": "false",
     "display_slide_4": "false",
     "enable_slideshowbanner": "true",
-    "appamte_enabled": "true",
-    "appamte_wishlist_enabled": "true"
+    "app_wk_enabled": "true"
   },
   "presets": {
     "Red and black": {
@@ -173,9 +170,7 @@
       "button_text_color": "#ffffff",
       "tooltip_header_color": "#ffffff",
       "tooltip_body_color": "#96a7b6",
-      "tooltip_link_color": "#479ccf",
-      "appamte_enabled": true,
-      "appamte_wishlist_enabled": true
+      "tooltip_link_color": "#479ccf"
     }
   }
 }

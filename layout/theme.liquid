@@ -53,7 +53,10 @@
   {% endif %}
 
   {{ 'scripts.js' | asset_url | script_tag }}
-  {% include 'appmate-apps' %}
+
+  {% if settings.app_wk_enabled %}
+  {% include 'appmate-wishlist-king' %}
+  {% endif %}
 
 </head>
 

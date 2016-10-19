@@ -1,4 +1,40 @@
-{{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.13/appmate.js' | script_tag }}
+
+{% assign wkShopName = shop.name | replace: '&amp;', '&' %}
+<script type="text/javascript">
+;(function(){
+  if (typeof Appmate === 'undefined') return; // In case lib didn't load.
+
+  Appmate.init({
+    shop: {
+      domain: '{{ shop.domain }}'
+    },
+    session: {
+      customer: '{{ customer.id }}'
+    },
+    globals: {
+      settings: {
+        display_quantity_dropdown: {{ settings.display_quantity_dropdown }}
+      },
+      customer: '{{ customer.id }}',
+      customer_accounts_enabled: {{ shop.customer_accounts_enabled }}
+    },
+    wishlist: {
+      loginRequired: false,
+      handle: "/pages/wishlist",
+      proxyHandle: "/a/wk",
+      share: {
+        handle: "/pages/shared-wishlist",
+        title: 'My Wishlist',
+        description: 'Check out some of my favourite things @ {{ wkShopName }}.',
+        imageTitle: '{{ wkShopName }}',
+        hashTags: 'wishlist',
+        twitterUser: false // will be used with via
+      }
+    }
+  });
+})();
+</script>
 
 <script type="text/javascript">
 ;(function(){
@@ -87,8 +123,6 @@
 })();
 
 </script>
-
-
 
 {% raw %}
 
@@ -500,3 +534,5 @@ function appmateOptionSelect(el){
 }
 
 </script>
+
+{{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}

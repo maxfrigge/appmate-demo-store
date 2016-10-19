@@ -817,18 +817,12 @@
     ]
   },
   {
-    "name": "Appmate support",
+    "name": "Wishlist King",
     "settings": [
       {
         "type": "checkbox",
-        "id": "appmate_enabled",
-        "label": "Enable Appmate support",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "appmate_wishlist_enabled",
-        "label": "Wish List Pro",
+        "id": "app_wk_enabled",
+        "label": "Enable Wishlist King",
         "default": true
       }
     ]
