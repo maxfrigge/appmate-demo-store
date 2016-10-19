@@ -36,6 +36,8 @@ $wk-page-title-color: #333333;
 $wk-variant-form-background: rgba(255,255,255,0.95);
 $wk-add-to-cart-background: #333333;
 $wk-add-to-cart-color: #ffffff;
+$wk-add-to-cart-background-hover: #333333;
+$wk-add-to-cart-color-hover: #ffffff;
 
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -100,7 +102,12 @@ $wk-add-to-cart-color: #ffffff;
     display: none;
   }
 
-  border-radius: 50%;
+  /*circular button*/
+  /*border-radius: 50%;*/
+  
+  /*square button*/
+  border-radius: 0;
+  
   padding: 0;
   margin: 0;
 }
@@ -120,8 +127,33 @@ button.wk-button-collection {
 
   position: absolute;
   z-index: 1;
-  top: 5px;
-  right: 5px;
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: auto;
+  line-height: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  
+  .wk-icon-label {
+    margin: 0 auto;
+    text-transform: uppercase;
+  }
+  
+  .wk-icon {
+    display: inline-block;
+    padding: 0;
+    margin: 0 auto !important;
+  }
+  
+  .wk-label {
+    /*display: inline-block;
+    color: #FFF;
+    font-size: 22px;
+    text-transform: lowercase;*/
+    display: none;
+  }
 
   &:hover {
     opacity: .8;
@@ -142,7 +174,31 @@ button.wk-button-collection {
 button.wk-button-product {
   @include wk-text-button($wk-button-product-icon-color, $wk-button-product-text-color, $wk-button-product-icon-size, $wk-button-product-icon-padding);
 
-  margin-bottom: 1em;
+  margin: 0 0 0 10px !important;
+  display: inline-block;
+  width: auto;
+  border: 1px solid #f45b4f;
+  border-radius: 2px;
+  padding: 8px 12px !important;
+  vertical-align: bottom;
+
+  .wk-icon {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .wk-label {
+    text-align: center;
+    margin: 0;
+    display: inline;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: normal;
+    display: none;
+  }
 
   &:hover {
     opacity: .8;
@@ -153,9 +209,34 @@ button.wk-button-wishlist-page {
   @include wk-icon-button($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-backgrund-color, $wk-button-wishlist-page-icon-size);
 
   position: absolute;
-  z-index: 5;
-  top: 5px;
-  right: 5px;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: auto;
+  line-height: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  
+  .wk-icon-label {
+    margin: 0 auto;
+    text-transform: uppercase;
+  }
+  
+  .wk-icon {
+    display: inline-block;
+    padding: 0;
+    margin: 0 auto !important;
+  }
+  
+  .wk-label {
+    /*display: inline-block;
+    color: #FFF;
+    font-size: 22px;
+    text-transform: lowercase;*/
+    display: none;
+  }
 
   &:hover {
     opacity: .8;
@@ -167,10 +248,16 @@ button.wk-button-wishlist-page {
 
 button.wk-button-wishlist-clear {
   @include wk-button($wk-button-wishlist-clear-text-color, $wk-button-wishlist-clear-background);
-  padding: 8px 22px;
+  
+  padding: 8px 12px;
   text-align: center;
   margin: 5px auto;
   width: auto;
+  text-transform: capitalize;
+  box-shadow: none;
+  border: none;
+  border-radius:2px;
+  text-shadow: none;
 
   &:hover {
     background: $wk-button-wishlist-clear-background-hover;
@@ -185,8 +272,10 @@ button.wk-button-wishlist-clear {
 
 a.wk-link {
   @include wk-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-padding);
-
+	
+  display: inline-block;
   vertical-align: middle;
+  /*margin: 0 10px 0 0;*/
 
   .wk-icon svg path {
     transition: 0.3s all;
@@ -198,13 +287,19 @@ a.wk-link {
       stroke: $wk-header-link-icon-color-hover;
     }
   }
+  
+  .wk-icon {
+  	width: 13px;
+    height: 13px;
+    margin: 0;
+  }
 
   .wk-label {
-
+	/*display: none;*/
   }
 
   .wk-count {
-
+	/*display: none;*/
   }
 
   &.wk-empty {
@@ -257,6 +352,14 @@ a.wk-link {
 /* !Wishlist Page */
 /*////////////////////////////////////////////////////////////////////////////*/
 
+h1#wk-page-title {
+    display: block;
+    text-align: center;
+    margin: 0 0 25px 0;
+    padding: 0;
+    border: none;
+}
+  
 .wk-wishlist-empty-note {
   text-align: center;
   margin-bottom: 35px;
@@ -266,9 +369,13 @@ p.wk-login-note {
   text-align: center;
   margin-bottom: 35px;
   background: rgba(0,0,0,.02);
-    padding: 10px;
-    margin-bottom: 45px;
-    font-style: italic;
+  padding: 10px;
+  margin-bottom: 30px;
+  font-style: italic;
+  
+  a {
+    text-decoration: underline;
+  }
 }
 
 .wk-item {
@@ -327,11 +434,17 @@ p.wk-login-note {
   input.wk-add-to-cart {
     box-sizing: content-box;
     border: none;
+    border-radius: 2px;
     margin: 0;
     padding: 5px 20px;
     color: $wk-add-to-cart-color;
     background: $wk-add-to-cart-background;
     width: auto;
+    
+    &:hover {
+      color: $wk-add-to-cart-color-hover;
+      background: $wk-add-to-cart-background-hover;
+    }
   }
 }
 
@@ -354,15 +467,15 @@ h3#wk-share-head {
 }
 
 ul#wk-share-list {
-  list-style:none;
-  width:100%;
-  margin: 0 0 35px 0;
-  padding:0;
-  text-align:center;
+  list-style: none;
+  width: 100%;
+  margin: 0 0 50px 0;
+  padding: 0;
+  text-align: center;
 
   li {
   	display: inline-block;
-    margin:0;
+    margin: 0;
     padding: 0 5px;
   }
 }
@@ -498,4 +611,5 @@ ul#wk-share-list {
 }
 
 @media (max-width: 480px) {
+  
 }

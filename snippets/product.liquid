@@ -110,7 +110,7 @@
           {% endif %}
           <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
 
-            <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
+            
             
             <div class="purchase">
               {% unless product.available %}
@@ -119,6 +119,7 @@
               <input type="submit" id="add-to-cart" class="btn addtocart" name="add" value="Add to cart" />
               <div id="cart-animation" style="display:none">1</div>
               {% endunless %}
+              <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
             </div>
           </div>
 
