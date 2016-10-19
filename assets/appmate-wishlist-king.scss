@@ -104,10 +104,10 @@ $wk-add-to-cart-color-hover: #ffffff;
 
   /*circular button*/
   /*border-radius: 50%;*/
-  
+
   /*square button*/
   border-radius: 0;
-  
+
   padding: 0;
   margin: 0;
 }
@@ -135,18 +135,18 @@ button.wk-button-collection {
   width: 30px;
   height: 30px;
   text-align: center;
-  
+
   .wk-icon-label {
     margin: 0 auto;
     text-transform: uppercase;
   }
-  
+
   .wk-icon {
     display: inline-block;
     padding: 0;
     margin: 0 auto !important;
   }
-  
+
   .wk-label {
     /*display: inline-block;
     color: #FFF;
@@ -218,18 +218,18 @@ button.wk-button-wishlist-page {
   width: 30px;
   height: 30px;
   text-align: center;
-  
+
   .wk-icon-label {
     margin: 0 auto;
     text-transform: uppercase;
   }
-  
+
   .wk-icon {
     display: inline-block;
     padding: 0;
     margin: 0 auto !important;
   }
-  
+
   .wk-label {
     /*display: inline-block;
     color: #FFF;
@@ -248,7 +248,7 @@ button.wk-button-wishlist-page {
 
 button.wk-button-wishlist-clear {
   @include wk-button($wk-button-wishlist-clear-text-color, $wk-button-wishlist-clear-background);
-  
+
   padding: 8px 12px;
   text-align: center;
   margin: 5px auto;
@@ -272,7 +272,7 @@ button.wk-button-wishlist-clear {
 
 a.wk-link {
   @include wk-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-padding);
-	
+
   display: inline-block;
   vertical-align: middle;
   /*margin: 0 10px 0 0;*/
@@ -287,19 +287,19 @@ a.wk-link {
       stroke: $wk-header-link-icon-color-hover;
     }
   }
-  
+
   .wk-icon {
-  	width: 13px;
+    width: 13px;
     height: 13px;
     margin: 0;
   }
 
   .wk-label {
-	/*display: none;*/
+  /*display: none;*/
   }
 
   .wk-count {
-	/*display: none;*/
+  /*display: none;*/
   }
 
   &.wk-empty {
@@ -359,7 +359,7 @@ h1#wk-page-title {
     padding: 0;
     border: none;
 }
-  
+
 .wk-wishlist-empty-note {
   text-align: center;
   margin-bottom: 35px;
@@ -372,7 +372,7 @@ p.wk-login-note {
   padding: 10px;
   margin-bottom: 30px;
   font-style: italic;
-  
+
   a {
     text-decoration: underline;
   }
@@ -440,7 +440,7 @@ p.wk-login-note {
     color: $wk-add-to-cart-color;
     background: $wk-add-to-cart-background;
     width: auto;
-    
+
     &:hover {
       color: $wk-add-to-cart-color-hover;
       background: $wk-add-to-cart-background-hover;
@@ -474,7 +474,7 @@ ul#wk-share-list {
   text-align: center;
 
   li {
-  	display: inline-block;
+    display: inline-block;
     margin: 0;
     padding: 0 5px;
   }
@@ -611,5 +611,5 @@ ul#wk-share-list {
 }
 
 @media (max-width: 480px) {
-  
+
 }
