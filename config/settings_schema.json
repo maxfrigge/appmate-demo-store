@@ -820,15 +820,15 @@
     "name": "Wishlist King",
     "settings": [
       {
+        "type": "header",
+        "content": "Styling & Customisations",
+        "info": "Please note: Wishlist King is 100% customisable to integrate seamlessly with any theme. If you need customisations beyond what you can change below, please get in touch: support@appmate.io"
+      },
+      {
         "type": "checkbox",
         "id": "app_wk_enabled",
         "label": "Enable Wishlist King",
         "default": true
-      },
-      {
-        "type": "header",
-        "content": "Styling & Customisations",
-        "info": "Please note: Wishlist King is 100% customisable to integrate seamlessly with any theme. If you need customisations beyond what you can change below, please get in touch: support@appmate.io"
       },
       {
         "type": "checkbox",
@@ -837,14 +837,10 @@
         "default": false
       },
       {
-        "type": "header",
-        "content": "Icon",
-        "info": "Choose between Heart or Star icon. For your own custom icon, please contact support@appmate.io"
-      },
-      {
-        "type": "radio",
+        "type": "select",
         "id": "wk_icon",
-        "label": "Please select...",
+        "label": "Wishlist Icon",
+        "info": "Choose between Heart or Star icon. For your own custom icon, please contact support@appmate.io",
         "options": [
           {
             "value": "wk_icon_heart",
@@ -862,7 +858,7 @@
         "content": "Button - Collection"
       },
       {
-        "type": "radio",
+        "type": "select",
         "id": "wk_col_icon_shape",
         "label": "Button Shape",
         "options": [
@@ -873,40 +869,20 @@
           {
             "value": "wk_col_circle",
             "label": "Circle"
+          },
+          {
+            "value": "wk_col_shape_none",
+            "label": "No Background"
           }
         ],
         "default": "wk_col_square"
-      },
-      {
-        "type": "radio",
-        "id": "wk_col_icon_pos",
-        "label": "Button Position",
-        "options": [
-          {
-            "value": "wk_col_pos_top_left",
-            "label": "Top Left"
-          },
-          {
-            "value": "wk_col_pos_top_right",
-            "label": "Top Right"
-          },
-          {
-            "value": "wk_col_pos_bottom_left",
-            "label": "Bottom Left"
-          },
-          {
-            "value": "wk_col_pos_bottom_right",
-            "label": "Bottom Right"
-          }
-        ],
-        "default": "wk_col_pos_top_right"
       },
       {
         "type": "header",
         "content": "Wishlist Page"
       },
       {
-        "type": "radio",
+        "type": "select",
         "id": "wk_share_position",
         "label": "Share Wishlist Position",
         "options": [
@@ -917,12 +893,16 @@
           {
             "value": "wk_share_position_bottom",
             "label": "Bottom"
+          },
+          {
+            "value": "wk_share_position_hidden",
+            "label": "Hidden"
           }
         ],
         "default": "wk_share_position_top"
       },
       {
-        "type": "radio",
+        "type": "select",
         "id": "wk_products_per_row",
         "label": "Products per Row",
         "options": [
