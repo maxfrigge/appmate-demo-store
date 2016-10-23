@@ -102,10 +102,12 @@ $wk-add-to-cart-color-hover: #ffffff;
     display: none;
   }
 
-  {% if settings.wk_col_icon_shape == "wk_col_square" %}
-  	border-radius: 0;
-  {% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
-  	border-radius: 50%;
+  {% if settings.app_wk_col_bg_shape == "square" %}
+    border-radius: 0;
+  {% elsif settings.app_wk_col_bg_shape == "circle" %}
+    border-radius: 50%;
+  {% elsif settings.app_wk_col_bg_shape == "none" %}
+    background: transparent;
   {% endif %}
 
   padding: 0;
@@ -128,54 +130,16 @@ button.wk-button-collection {
   position: absolute;
   z-index: 1;
 
-  {% if settings.wk_col_icon_pos == "wk_col_pos_top_left" %}
-  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
-      top: 0;
-      left: 0;
-      right: auto;
-      bottom: auto;
-  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
-  	  top: 5px;
-      left: 5px;
-      right: auto;
-      bottom: auto;
-  	{% endif %}
-  {% elsif settings.wk_col_icon_pos == "wk_col_pos_top_right" %}
-  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
-      top: 0;
-      right: 0;
-      left: auto;
-      bottom: auto;
-  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
-  	  top: 5px;
-      right: 5px;
-      left: auto;
-      bottom: auto;
-  	{% endif %}
-  {% elsif settings.wk_col_icon_pos == "wk_col_pos_bottom_left" %}
-  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
-      bottom: 0;
-      left: 0;
-      top: auto;
-      right: auto;
-  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
-  	  bottom: 5px;
-      left: 5px;
-      top: auto;
-      right: auto;
-  	{% endif %}
-  {% elsif settings.wk_col_icon_pos == "wk_col_pos_bottom_right" %}
-  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
-      bottom: 0;
-      right: 0;
-      top: auto;
-      left: auto;
-  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
-  	  bottom: 5px;
-      right: 5px;
-      top: auto;
-      left: auto;
-  	{% endif %}
+  {% if settings.app_wk_col_bg_shape == "square" %}
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: auto;
+  {% else %}
+    top: 5px;
+    right: 5px;
+    left: auto;
+    bottom: auto;
   {% endif %}
 
   line-height: 0;

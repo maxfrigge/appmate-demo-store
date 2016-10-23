@@ -832,26 +832,26 @@
       },
       {
         "type": "checkbox",
-        "id": "wk_login_required",
+        "id": "app_wk_login_required",
         "label": "Customer Login Required",
         "default": false
       },
       {
         "type": "select",
-        "id": "wk_icon",
+        "id": "app_wk_icon",
         "label": "Wishlist Icon",
         "info": "Choose between Heart or Star icon. For your own custom icon, please contact support@appmate.io",
         "options": [
           {
-            "value": "wk_icon_heart",
+            "value": "heart",
             "label": "Heart"
           },
           {
-            "value": "wk_icon_star",
+            "value": "star",
             "label": "Star"
           }
         ],
-        "default": "wk_icon_heart"
+        "default": "heart"
       },
       {
         "type": "header",
@@ -859,23 +859,23 @@
       },
       {
         "type": "select",
-        "id": "wk_col_icon_shape",
+        "id": "app_wk_col_bg_shape",
         "label": "Button Shape",
         "options": [
           {
-            "value": "wk_col_square",
+            "value": "square",
             "label": "Square"
           },
           {
-            "value": "wk_col_circle",
+            "value": "circle",
             "label": "Circle"
           },
           {
-            "value": "wk_col_shape_none",
+            "value": "none",
             "label": "No Background"
           }
         ],
-        "default": "wk_col_square"
+        "default": "square"
       },
       {
         "type": "header",
@@ -883,27 +883,27 @@
       },
       {
         "type": "select",
-        "id": "wk_share_position",
+        "id": "app_wk_share_position",
         "label": "Share Wishlist Position",
         "options": [
           {
-            "value": "wk_share_position_top",
+            "value": "top",
             "label": "Top"
           },
           {
-            "value": "wk_share_position_bottom",
+            "value": "bottom",
             "label": "Bottom"
           },
           {
-            "value": "wk_share_position_hidden",
+            "value": "hidden",
             "label": "Hidden"
           }
         ],
-        "default": "wk_share_position_top"
+        "default": "top"
       },
       {
         "type": "select",
-        "id": "wk_products_per_row",
+        "id": "app_wk_products_per_row",
         "label": "Products per Row",
         "options": [
           {
