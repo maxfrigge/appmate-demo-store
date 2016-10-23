@@ -101,13 +101,13 @@ $wk-add-to-cart-color-hover: #ffffff;
   .wk-label {
     display: none;
   }
-
-  /*circular button*/
-  /*border-radius: 50%;*/
-
-  /*square button*/
-  border-radius: 0;
-
+	
+  {% if settings.wk_col_icon_shape == "wk_col_square" %}
+  	border-radius: 0;
+  {% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
+  	border-radius: 50%;
+  {% endif %}
+  
   padding: 0;
   margin: 0;
 }
@@ -127,10 +127,57 @@ button.wk-button-collection {
 
   position: absolute;
   z-index: 1;
-  top: 0;
-  right: 0;
-  left: auto;
-  bottom: auto;
+
+  {% if settings.wk_col_icon_pos == "wk_col_pos_top_left" %}
+  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
+      top: 0;
+      left: 0;
+      right: auto;
+      bottom: auto;
+  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
+  	  top: 5px;
+      left: 5px;
+      right: auto;
+      bottom: auto;
+  	{% endif %}
+  {% elsif settings.wk_col_icon_pos == "wk_col_pos_top_right" %}
+  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
+      top: 0;
+      right: 0;
+      left: auto;
+      bottom: auto;
+  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
+  	  top: 5px;
+      right: 5px;
+      left: auto;
+      bottom: auto;
+  	{% endif %}
+  {% elsif settings.wk_col_icon_pos == "wk_col_pos_bottom_left" %}
+  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
+      bottom: 0;
+      left: 0;
+      top: auto;
+      right: auto;
+  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
+  	  bottom: 5px;
+      left: 5px;
+      top: auto;
+      right: auto;
+  	{% endif %}
+  {% elsif settings.wk_col_icon_pos == "wk_col_pos_bottom_right" %}
+  	{% if settings.wk_col_icon_shape == "wk_col_square" %}
+      bottom: 0;
+      right: 0;
+      top: auto;
+      left: auto;
+  	{% elsif settings.wk_col_icon_shape == "wk_col_circle" %}
+  	  bottom: 5px;
+      right: 5px;
+      top: auto;
+      left: auto;
+  	{% endif %}
+  {% endif %}
+  
   line-height: 0;
   width: 30px;
   height: 30px;
@@ -173,13 +220,23 @@ button.wk-button-collection {
 
 button.wk-button-product {
   @include wk-text-button($wk-button-product-icon-color, $wk-button-product-text-color, $wk-button-product-icon-size, $wk-button-product-icon-padding);
-
-  margin: 0 0 0 10px !important;
+	
+  /* Icon and Text */
+  /* display: block;
+  margin: 18px 0 0 0 !important;
+  padding: 0;
+  border: none;
+  border-radius: 0; */
+  
+  /* Icon ONLY */
+  background: #FFFFFF;
   display: inline-block;
-  width: auto;
-  border: 1px solid #f45b4f;
-  border-radius: 2px;
+  margin: 0 0 0 10px !important;
   padding: 8px 12px !important;
+  width: auto;
+  border: 1px solid #333333;
+  border-radius: 0;
+  
   vertical-align: bottom;
 
   .wk-icon {
@@ -197,7 +254,7 @@ button.wk-button-product {
     text-transform: capitalize;
     font-size: 13px;
     font-weight: normal;
-    display: none;
+    display:  none;
   }
 
   &:hover {
@@ -256,7 +313,7 @@ button.wk-button-wishlist-clear {
   text-transform: capitalize;
   box-shadow: none;
   border: none;
-  border-radius:2px;
+  border-radius:0;
   text-shadow: none;
 
   &:hover {
@@ -272,7 +329,8 @@ button.wk-button-wishlist-clear {
 
 a.wk-link {
   @include wk-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-padding);
-
+	
+  
   display: inline-block;
   vertical-align: middle;
   /*margin: 0 10px 0 0;*/
@@ -289,17 +347,19 @@ a.wk-link {
   }
 
   .wk-icon {
-    width: 13px;
-    height: 13px;
-    margin: 0;
+    width: $wk-header-link-icon-size;
+    height: $wk-header-link-icon-size;
+    
+    margin: 0 5px 0 0;
+    padding: 0;
   }
 
   .wk-label {
-  /*display: none;*/
+    /* display: none; */
   }
 
   .wk-count {
-  /*display: none;*/
+    /* display: none; */
   }
 
   &.wk-empty {
@@ -434,16 +494,17 @@ p.wk-login-note {
   input.wk-add-to-cart {
     box-sizing: content-box;
     border: none;
-    border-radius: 2px;
+    border-radius: 0;
     margin: 0;
     padding: 5px 20px;
     color: $wk-add-to-cart-color;
     background: $wk-add-to-cart-background;
+    color: $wk-add-to-cart-color;
     width: auto;
 
     &:hover {
-      color: $wk-add-to-cart-color-hover;
       background: $wk-add-to-cart-background-hover;
+      color: $wk-add-to-cart-color-hover;
     }
   }
 }
