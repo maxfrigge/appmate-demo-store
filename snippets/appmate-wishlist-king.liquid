@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.13/appmate.js' | script_tag }}
+{{ 'https://toolkit-appmate.eu.ngrok.io/appmate.js' | script_tag }}
 
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 <script type="text/javascript">
@@ -43,34 +43,26 @@
   if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
   Appmate.wk.on({
-    'click [data-wk-add-product]': function(event){
+    'click [data-wk-add-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-add-product');
       var variant = $(this).parents('form').find('select[name="id"]').val();
       Appmate.wk.addProduct(product, variant);
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    'click [data-wk-remove-product]': function(event){
+    }),
+    'click [data-wk-remove-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-remove-product');
       Appmate.wk.removeProduct(product);
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    'click [data-wk-remove-item]': function(event){
+    }),
+    'click [data-wk-remove-item]': eventHandler(function(){
       var item = this.getAttribute('data-wk-remove-item');
       fadeOrNot($(this), function() {
         Appmate.wk.removeItem(item);
       });
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    'click [data-wk-clear-wishlist]': function(event){
+    }),
+    'click [data-wk-clear-wishlist]': eventHandler(function(){
       var wishlist = this.getAttribute('data-wk-clear-wishlist');
       Appmate.wk.clear(wishlist);
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    'click [data-wk-share]': function(){
+    }),
+    'click [data-wk-share]': eventHandler(function(){
       var wishlist = this.getAttribute('data-wk-share');
       var service = this.getAttribute('data-wk-share-service');
       var shareUrl = Appmate.wk.createShareUrl(wishlist, service);
@@ -79,10 +71,8 @@
         'wishlist_share',
         'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
       );
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    'click [data-wk-move-to-cart]': function(event){
+    }),
+    'click [data-wk-move-to-cart]': eventHandler(function(){
       var $elem = $(this);
       $form = $elem.parents('form');
       $elem.prop("disabled", true);
@@ -91,7 +81,6 @@
       var formData = $form.serialize();
 
       fadeOrNot($elem, function(){
-        // Version A: Stay in wishlist when done
         Appmate.wk
         .moveToCart(item, formData)
         .then(function(){
@@ -99,21 +88,27 @@
           location.reload();
           $elem.prop("disabled", false);
         });
-        // Version B: Navigate to cart when done
-        // Appmate.wk
-        // .removeItem(item)
-        // .then(function(){
-        //   $elem.prop("disabled", false);
-        //   $form.submit();
-        // });
       });
-      event.preventDefault();
-      event.stopPropagation();
-    },
+    }),
     'render .wk-option-select': function(elem){
       appmateOptionSelect(elem);
+    },
+    'login-required': function () {
+      window.location = '/account/login'
     }
   });
+
+  function eventHandler (callback) {
+    return function (event) {
+      if (typeof callback === 'function') {
+        callback.call(this, event)
+      }
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+  }
 
   function fadeOrNot($elem, callback){
     if ($elem.parents('.wk-fadeout').length) {
@@ -161,7 +156,6 @@
 {% else %}
   {% assign link_icon = 'wishlist-icon-empty' %}
 {% endif %}
-
 <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist"><div class="wk-icon">{% include link_icon %}</div><span class="wk-label">Wishlist</span> <span class="wk-count">({{ wishlist.item_count }})</span></a>
 </script>
 
@@ -268,21 +262,21 @@
   {% if customer_accounts_enabled and customer == false and wishlist.read_only == false %}
     {% include 'wishlist-collection-login-note' %}
   {% endif %}
-  
+
   {% if settings.wk_share_position == "wk_share_position_top" %}
     {% unless wishlist.read_only %}
       {% include 'wishlist-collection-share' %}
     {% endunless %}
   {% endif %}
-  
+
   {% include 'wishlist-collection-loop' %}
-  
+
   {% if settings.wk_share_position == "wk_share_position_bottom" %}
     {% unless wishlist.read_only %}
       {% include 'wishlist-collection-share' %}
     {% endunless %}
   {% endif %}
-  
+
   {% unless wishlist.read_only %}
     {% include 'wishlist-button-wishlist-clear' %}
   {% endunless %}
@@ -324,7 +318,7 @@
     {% if product.variants.length == 1 and product.variants[0].title contains 'Default' %}
       {% assign hide_default_title = true %}
     {% endif %}
-	    
+
     {% assign items_per_row = settings.wk_products_per_row %}
     {% assign wk_item_width = 100 | devide_by: items_per_row %}
 
