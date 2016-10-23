@@ -264,7 +264,10 @@ button.wk-button-product {
 
 button.wk-button-wishlist-page {
   @include wk-icon-button($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-backgrund-color, $wk-button-wishlist-page-icon-size);
-  opacity: 0;
+
+  &.wk-with-hover {
+    opacity: 0;
+  }
 
   position: absolute;
   z-index: 1;

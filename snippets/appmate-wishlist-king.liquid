@@ -220,24 +220,27 @@
   {% assign item_id = product.wishlist_item_id %}
 {% endif %}
 
+{% assign add_class = '' %}
 {% if product.in_wishlist and wishlist.read_only == true %}
   {% assign btn_text = 'In Wishlist' %}
   {% assign btn_title = 'Remove from Wishlist' %}
   {% assign btn_action = 'wk-remove-product' %}
-  {% assign btn_icon = 'wishlist-icon-remove' %}
+  {% assign btn_icon = 'wishlist-icon-filled' %}
 {% elsif product.in_wishlist and wishlist.read_only == false %}
   {% assign btn_text = 'In Wishlist' %}
   {% assign btn_title = 'Remove from Wishlist' %}
   {% assign btn_action = 'wk-remove-item' %}
   {% assign btn_icon = 'wishlist-icon-remove' %}
+  {% assign add_class = 'wk-with-hover' %}
 {% else %}
   {% assign btn_text = 'Add to Wishlist' %}
   {% assign btn_title = 'Add to Wishlist' %}
   {% assign btn_action = 'wk-add-product' %}
   {% assign btn_icon = 'wishlist-icon-empty' %}
+  {% assign add_class = 'wk-with-hover' %}
 {% endif %}
 
-<button type="button" class="wk-button-wishlist-page {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ item_id }}">
+<button type="button" class="wk-button-wishlist-page {{ btn_action }} {{ add_class }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ item_id }}">
   <div class="wk-icon">
     {% include btn_icon %}
   </div>
