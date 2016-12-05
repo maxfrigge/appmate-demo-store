@@ -46,11 +46,15 @@
     'click [data-wk-add-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-add-product');
       var variant = $(this).parents('form').find('select[name="id"]').val();
+      if (!variant) {
+        variant = this.getAttribute('data-wk-variant');
+      }
       Appmate.wk.addProduct(product, variant);
     }),
     'click [data-wk-remove-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-remove-product');
-      Appmate.wk.removeProduct(product);
+      var variant = this.getAttribute('data-wk-variant');
+      Appmate.wk.removeProduct(product, variant);
     }),
     'click [data-wk-remove-item]': eventHandler(function(){
       var item = this.getAttribute('data-wk-remove-item');
@@ -205,7 +209,7 @@
   {% assign btn_icon = 'wishlist-icon-empty' %}
 {% endif %}
 
-<button type="button" class="wk-button-collection {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
+<button type="button" class="wk-button-collection {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}" data-wk-variant="{{ product.variant }}">
   <div class="wk-icon">
     {% include btn_icon %}
   </div>
