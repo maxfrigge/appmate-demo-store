@@ -39,6 +39,9 @@ $wk-add-to-cart-color: #ffffff;
 $wk-add-to-cart-background-hover: #333333;
 $wk-add-to-cart-color-hover: #ffffff;
 
+/* -- Link Sharing --*/
+$link-sharing-color: #333;
+$link-sharing-background: #eee;
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Mixins */
@@ -123,6 +126,11 @@ $wk-add-to-cart-color-hover: #ffffff;
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Buttons */
 /*////////////////////////////////////////////////////////////////////////////*/
+
+.wk-disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
 
 button.wk-button-collection {
   @include wk-icon-button($wk-button-collection-icon-color, $wk-button-collection-backgrund-color, $wk-button-collection-icon-size);
@@ -513,6 +521,40 @@ ul#wk-share-list {
   }
 }
 
+#wk-share-link-text {
+  margin-top: -30px;
+  margin-bottom: 40px;
+  color: $link-sharing-color;
+  padding: 3px 10px;
+  display: none;
+  text-align: center;
+  font-size: .8em;
+  font-style: italic;
+
+  .wk-text {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .wk-clipboard {
+    margin-left: 10px;
+    background: #999;
+    border: none;
+    color: #fff;
+    padding: 4px 7px;
+    border-radius: 0px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &.wk-visible {
+    display: block;
+  }
+}
+
 .wk-button-share {
   cursor: pointer;
 
@@ -577,7 +619,7 @@ ul#wk-share-list {
   background-color: #333;
 }
 
-.resp-sharing-button--email {
+.resp-sharing-button--link {
   background-color: #333;
 }
 
@@ -598,7 +640,7 @@ ul#wk-share-list {
   background-color: #55acee;
 }
 
-.resp-sharing-button--email:hover {
+.resp-sharing-button--link:hover {
   background-color: #777;
 }
 
