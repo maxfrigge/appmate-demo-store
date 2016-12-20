@@ -75,6 +75,7 @@
           'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
         );
       } else {
+        button.removeClass('wk-disabled');
         Appmate.wk.createShareLink(wishlist).then(function(result) {
           $('#wk-share-link-text').addClass('wk-visible').find('.wk-text').html('' + result.data.url);
           var copyButton = $('#wk-share-link-text .wk-clipboard');
