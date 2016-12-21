@@ -38,6 +38,9 @@
 
   {{ 'html5shiv.js' | asset_url | script_tag }}
 
+  {% if settings.app_wk_enabled %}
+  {% include 'appmate-wishlist-king' %}
+  {% endif %}
   {{ content_for_header }}
 
   {{ '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' | script_tag }}
@@ -53,11 +56,6 @@
   {% endif %}
 
   {{ 'scripts.js' | asset_url | script_tag }}
-
-  {% if settings.app_wk_enabled %}
-  {% include 'appmate-wishlist-king' %}
-  {% endif %}
-
 </head>
 
 <body class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
@@ -276,6 +274,7 @@
       </div>
     </footer>
   </div>
+  <script>if(Appmate){Appmate.domReady()}</script>
   <!-- End footer -->
 
   {{ 'jquery.flexslider-min.js' | asset_url | script_tag }}
