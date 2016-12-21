@@ -110,8 +110,8 @@
           {% endif %}
           <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
 
-            
-            
+
+
             <div class="purchase">
               {% unless product.available %}
               <p>Sold Out</p>
@@ -119,7 +119,7 @@
               <input type="submit" id="add-to-cart" class="btn addtocart" name="add" value="Add to cart" />
               <div id="cart-animation" style="display:none">1</div>
               {% endunless %}
-              <!-- include 'wishlist-button-product' with '{{ product.id }}' -->
+              <!-- include 'wishlist-button-product' id: {{ product.id }} wishlist_count: {{ product.metafields.appmate.wishlist_count }} -->
             </div>
           </div>
 

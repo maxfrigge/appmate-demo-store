@@ -208,6 +208,9 @@
     {% include btn_icon %}
   </div>
   <span class="wk-label">{{ btn_text }}</span>
+  {% if product.wishlist_count %}
+  <span class="wk-count">{{ product.wishlist_count }}</span>
+  {% endif %}
 </button>
 </script>
 
@@ -229,6 +232,9 @@
     {% include btn_icon %}
   </div>
   <span class="wk-label">{{ btn_text }}</span>
+  {% if product.wishlist_count %}
+  <span class="wk-count">{{ product.wishlist_count }}</span>
+  {% endif %}
 </button>
 </script>
 
