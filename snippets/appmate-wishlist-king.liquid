@@ -349,7 +349,7 @@
     {% endif %}
 
     {% assign items_per_row = settings.app_wk_products_per_row %}
-    {% assign wk_item_width = 100 | devide_by: items_per_row %}
+    {% assign wk_item_width = 100 | divided_by: items_per_row %}
 
     <div class="wk-item-column" style="width: {{ wk_item_width }}%">
       <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} {% unless wishlist.read_only %}wk-fadeout{% endunless %}" data-wk-item="{{ product.wishlist_item_id }}">
