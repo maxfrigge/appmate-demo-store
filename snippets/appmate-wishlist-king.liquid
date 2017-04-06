@@ -311,6 +311,15 @@
 </div>
 </script>
 
+<script id="wishlist-row" data="wishlist" type="text/x-template" app="wishlist-king">
+<div class='wk-wishlist-row'>
+  {% if wishlist.item_count != 0 %}
+  <h2 class="wk-wishlist-row-title">Your wishlist</h2>
+  {% include 'wishlist-collection-loop' limit: 4 %}
+  {% endif %}
+</div>
+</script>
+
 <script id="wishlist-collection-empty" data="wishlist" type="text/x-template" app="wishlist-king">
 <div class="wk-row">
   <div class="wk-span12">
@@ -342,25 +351,29 @@
 
 <script id="wishlist-collection-loop" data="wishlist" type="text/x-template" app="wishlist-king">
 <div class="wk-row">
+  {% assign item_count = 0 %}
   {% for product in wishlist.products %}
-    {% assign hide_default_title = false %}
-    {% if product.variants.length == 1 and product.variants[0].title contains 'Default' %}
-      {% assign hide_default_title = true %}
-    {% endif %}
+    {% assign item_count = item_count | plus: 1 %}
+    {% unless limit and item_count > limit %}
+      {% assign hide_default_title = false %}
+      {% if product.variants.length == 1 and product.variants[0].title contains 'Default' %}
+        {% assign hide_default_title = true %}
+      {% endif %}
 
-    {% assign items_per_row = settings.app_wk_products_per_row %}
-    {% assign wk_item_width = 100 | divided_by: items_per_row %}
+      {% assign items_per_row = settings.app_wk_products_per_row %}
+      {% assign wk_item_width = 100 | divided_by: items_per_row %}
 
-    <div class="wk-item-column" style="width: {{ wk_item_width }}%">
-      <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} {% unless wishlist.read_only %}wk-fadeout{% endunless %}" data-wk-item="{{ product.wishlist_item_id }}">
+      <div class="wk-item-column" style="width: {{ wk_item_width }}%">
+        <div id="wk-item-{{ product.wishlist_item_id }}" class="wk-item {{ wk_item_class }} {% unless wishlist.read_only %}wk-fadeout{% endunless %}" data-wk-item="{{ product.wishlist_item_id }}">
 
-        {% include 'wishlist-collection-product-image' with product %}
-        {% include 'wishlist-button-wishlist-page' with product %}
-        {% include 'wishlist-collection-product-title' with product %}
-        {% include 'wishlist-collection-product-price' %}
-        {% include 'wishlist-collection-product-form' with product %}
+          {% include 'wishlist-collection-product-image' with product %}
+          {% include 'wishlist-button-wishlist-page' with product %}
+          {% include 'wishlist-collection-product-title' with product %}
+          {% include 'wishlist-collection-product-price' %}
+          {% include 'wishlist-collection-product-form' with product %}
+        </div>
       </div>
-    </div>
+    {% endunless %}
   {% endfor %}
 </div>
 </script>
