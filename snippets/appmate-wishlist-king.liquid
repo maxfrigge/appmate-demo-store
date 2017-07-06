@@ -111,8 +111,32 @@
     'render .wk-option-select': function(elem){
       appmateOptionSelect(elem);
     },
-    'login-required': function () {
-      window.location = '/account/login'
+    'login-required': function (intent) {
+      var redirect = {
+        path: window.location.pathname,
+        intent: intent
+      };
+      window.location = '/account/login?wk-redirect=' + encodeURIComponent(JSON.stringify(redirect));
+    },
+    'ready': function () {
+      var redirect = Appmate.wk.getQueryParam('wk-redirect');
+      if (redirect) {
+        Appmate.wk.addLoginRedirect($('#customer_login'), JSON.parse(redirect));
+      }
+      var intent = Appmate.wk.getQueryParam('wk-intent');
+      if (intent) {
+        intent = JSON.parse(intent);
+        switch (intent.action) {
+          case 'addProduct':
+            Appmate.wk.addProduct(intent.product, intent.variant)
+            break;
+          default:
+            console.warn('Wishlist King: Intent not implemented', intent)
+        }
+        if (window.history && window.history.pushState) {
+          history.pushState(null, null, window.location.pathname);
+        }
+      }
     }
   });
 
