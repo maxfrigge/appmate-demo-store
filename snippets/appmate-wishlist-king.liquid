@@ -118,7 +118,12 @@
       };
       window.location = '/account/login?wk-redirect=' + encodeURIComponent(JSON.stringify(redirect));
     },
+    'render .swiper-container': function (elem) {
+      initSlider()
+    },
     'ready': function () {
+      $(document).ready(initSlider);
+
       var redirect = Appmate.wk.getQueryParam('wk-redirect');
       if (redirect) {
         Appmate.wk.addLoginRedirect($('#customer_login'), JSON.parse(redirect));
@@ -139,6 +144,30 @@
       }
     }
   });
+
+  function initSlider () {
+    if (Swiper) {
+      var mySwiper = new Swiper ('.swiper-container', {
+        direction: 'horizontal',
+        loop: false,
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        spaceBetween: 20,
+        slidesPerView: 4,
+        breakpoints: {
+          380: {
+            slidesPerView: 1,
+            spaceBetween: 0,
+          },
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          }
+        }
+      })
+    }
+  }
 
   function eventHandler (callback) {
     return function (event) {
@@ -338,8 +367,34 @@
 <script id="wishlist-row" data="wishlist" type="text/x-template" app="wishlist-king">
 <div class='wk-wishlist-row'>
   {% if wishlist.item_count != 0 %}
-  <h2 class="wk-wishlist-row-title">Your wishlist</h2>
-  {% include 'wishlist-collection-loop' limit: 4 %}
+  <h2 class="wk-wishlist-row-title">Add more from Wishlist</h2>
+  <div class="swiper-container">
+      <!-- Additional required wrapper -->
+      <div class="swiper-wrapper">
+          <!-- Slides -->
+          {% for product in wishlist.products %}
+            {% assign hide_default_title = false %}
+            {% if product.variants.length == 1 and product.variants[0].title contains 'Default' %}
+              {% assign hide_default_title = true %}
+            {% endif %}
+            <div
+              id="wk-item-{{ product.wishlist_item_id }}"
+              class="swiper-slide wk-item wk-fadeout"
+              data-wk-item="{{ product.wishlist_item_id }}"
+            >
+              {% include 'wishlist-collection-product-image' with product %}
+              {% include 'wishlist-collection-product-title' with product %}
+              {% include 'wishlist-collection-product-price' %}
+              {% include 'wishlist-collection-product-form' with product %}
+            </div>
+          {% endfor %}
+      </div>
+      <!-- If we need pagination -->
+      <!-- <div class="swiper-pagination"></div> -->
+      <!-- If we need navigation buttons -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+  </div>
   {% endif %}
 </div>
 </script>

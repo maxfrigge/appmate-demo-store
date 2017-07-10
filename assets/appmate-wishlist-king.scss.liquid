@@ -365,12 +365,20 @@ a.wk-link {
 .wk-wishlist-row {
   padding: 0 15px;
   margin-top: 2em;
+
+  .wk-item {
+    margin: 0;
+  }
+
+  .swiper-button-next.swiper-button-disabled,
+  .swiper-button-prev.swiper-button-disabled {
+    pointer-events: all;
+  }
 }
 
 .wk-wishlist-row-title {
   // text-align: center;
 }
-
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Grid System */
