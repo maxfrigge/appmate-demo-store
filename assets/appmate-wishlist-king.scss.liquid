@@ -11,7 +11,7 @@ $wk-button-collection-icon-size: 15px;
 $wk-button-product-icon-color: #424242;
 $wk-button-product-text-color: #333333;
 $wk-button-product-icon-size: 15px;
-$wk-button-product-icon-padding: 2px 5px 2px 0;
+$wk-button-product-icon-padding: 0;
 
 /* -- Wishlist button wishlist page -- */
 $wk-button-wishlist-page-icon-color: #424242;
@@ -28,7 +28,7 @@ $wk-button-wishlist-clear-text-color-hover: #ffffff;
 $wk-header-link-icon-color: #424242;
 $wk-header-link-icon-color-hover: #424242;
 $wk-header-link-icon-size: 15px;
-$wk-header-link-icon-padding: 0 5px 0 0;
+$wk-header-link-icon-padding: 0;
 
 /* -- Wishlist page -- */
 $wk-page-price-color: #555555;
@@ -43,6 +43,9 @@ $wk-add-to-cart-color-hover: #ffffff;
 $link-sharing-color: #333;
 $copy-link-color: #fff;
 $copy-link-background: #999;
+
+/* -- Upsell Widget --*/
+$swiper-button-color: #999;
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Mixins */
@@ -133,6 +136,10 @@ $copy-link-background: #999;
   opacity: 0.8;
 }
 
+.wk-col-item {
+  position: relative;
+}
+
 button.wk-button-collection {
   @include wk-icon-button($wk-button-collection-icon-color, $wk-button-collection-backgrund-color, $wk-button-collection-icon-size);
   display: inline-block;
@@ -156,6 +163,7 @@ button.wk-button-collection {
   width: 30px;
   height: 30px;
   text-align: center;
+  min-width: 0;
 
   .wk-icon-label {
     margin: 0 auto;
@@ -215,20 +223,21 @@ button.wk-button-product {
 
   .wk-icon {
     display: inline-block;
+
+    margin: 0 5px 0 0;
+    padding: 0;
+
     position: relative;
     top: 2px;
-    margin: 0;
-    padding: 0;
   }
 
   .wk-label {
     text-align: center;
     margin: 0;
     display: inline;
-    text-transform: capitalize;
+    text-transform: uppercase;
     font-size: 13px;
     font-weight: normal;
-    display:  none;
   }
 
   &:hover {
@@ -246,14 +255,24 @@ button.wk-button-wishlist-page {
 
   position: absolute;
   z-index: 1;
-  top: 0;
-  right: 0;
-  left: auto;
-  bottom: auto;
+
+  {% if settings.app_wk_col_bg_shape == "square" %}
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: auto;
+  {% else %}
+    top: 5px;
+    right: 5px;
+    left: auto;
+    bottom: auto;
+  {% endif %}
+
   line-height: 0;
   width: 30px;
   height: 30px;
   text-align: center;
+  min-width: 0;
 
   .wk-icon-label {
     margin: 0 auto;
@@ -293,11 +312,12 @@ button.wk-button-wishlist-clear {
   text-align: center;
   margin: 5px auto;
   width: auto;
-  text-transform: capitalize;
+  min-width: 0;
   box-shadow: none;
   border: none;
-  border-radius:0;
   text-shadow: none;
+  text-transform: initial;
+  border-radius:0;
 
   &:hover {
     background: $wk-button-wishlist-clear-background-hover;
@@ -363,6 +383,7 @@ a.wk-link {
 /*////////////////////////////////////////////////////////////////////////////*/
 
 .wk-wishlist-row {
+  position: relative;
   padding: 0 15px;
   margin-top: 2em;
 
@@ -455,10 +476,12 @@ p.wk-login-note {
     float: none;
     text-decoration: none;
     color: $wk-page-title-color;
+    border: none;
   }
 
   .wk-price {
     color: $wk-page-price-color;
+    border: none;
   }
 
   .wk-product-options {
@@ -472,7 +495,7 @@ p.wk-login-note {
     select {
       box-sizing: border-box;
       display: block;
-      width: 100%;
+      width: 100% !important;
       border-radius: 0;
       margin-bottom: 10px;
     }
@@ -500,13 +523,15 @@ p.wk-login-note {
   input.wk-add-to-cart {
     box-sizing: content-box;
     border: none;
-    border-radius: 0;
     margin: 0;
-    padding: 5px 20px;
+    padding: 8px 20px;
     color: $wk-add-to-cart-color;
     background: $wk-add-to-cart-background;
     color: $wk-add-to-cart-color;
     width: auto;
+    min-width: 0;
+    border-radius: 0;
+    text-transform: initial;
 
     &:hover {
       background: $wk-add-to-cart-background-hover;
@@ -531,6 +556,7 @@ h3#wk-share-head {
     margin: 5px 0 7px 0;
     padding: 0;
     text-transform: uppercase;
+  	border: none;
 }
 
 ul#wk-share-list {
@@ -710,6 +736,35 @@ ul#wk-share-list {
   }
 }
 
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* !Upsell Widget */
+/*////////////////////////////////////////////////////////////////////////////*/
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next {
+  left: -24px;
+  background: none;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    fill: $swiper-button-color;
+  }
+}
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev {
+  right: -24px;
+  background: none;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    fill: $swiper-button-color;
+  }
+}
+
+
+
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Responsive Styles */
@@ -722,6 +777,10 @@ ul#wk-share-list {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767px) {
+
+}
+
+@media (max-width: 320px) {
 
 }

@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.23/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.29/appmate.js' | script_tag }}
 
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 <script type="text/javascript">
@@ -28,7 +28,7 @@
       share: {
         handle: "/pages/shared-wishlist",
         title: 'My Wishlist',
-        description: 'Check out some of my favourite things @ {{ wkShopName }}.',
+        description: 'Check out some of my favorite things @ {{ wkShopName }}.',
         imageTitle: '{{ wkShopName }}',
         hashTags: 'wishlist',
         twitterUser: false // will be used with via
@@ -391,9 +391,18 @@
       </div>
       <!-- If we need pagination -->
       <!-- <div class="swiper-pagination"></div> -->
-      <!-- If we need navigation buttons -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
+  </div>
+  <div class="swiper-button-prev">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>
+  </div>
+  <div class="swiper-button-next">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>
   </div>
   {% endif %}
 </div>
@@ -521,7 +530,7 @@
         {% if wishlist.read_only %}
           {% assign cart_action = 'wk-add-to-cart' %}
         {% endif %}
-        <input type="submit" class="wk-add-to-cart" data-{{ cart_action }}="{{ product.wishlist_item_id }}" name="add" value="Add to cart" />
+        <input type="submit" class="wk-add-to-cart" data-{{ cart_action }}="{{ product.wishlist_item_id }}" name="add" value="Add to Cart" />
       {% endunless %}
     </div>
   </div>
@@ -648,9 +657,9 @@ var appmateSelectCallback = function(variant, selector) {
   var imageUrl = '';
 
   if (variant && variant.image) {
-    imageUrl = Appmate.wk.filters.img_url(variant, 'large');
+    imageUrl = Appmate.wk.filters.img_url(variant, '1024x');
   } else if (product) {
-    imageUrl = Appmate.wk.filters.img_url(product, 'large');
+    imageUrl = Appmate.wk.filters.img_url(product, '1024x');
   }
 
   if (imageUrl) {
@@ -658,7 +667,7 @@ var appmateSelectCallback = function(variant, selector) {
   }
   var formatMoney = Appmate.wk.filters.money;
   if (variant && (variant.available || variant.inventory_policy === 'continue')) {
-    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to cart');
+    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to Cart');
     if(variant.price < variant.compare_at_price){
       container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
     } else {
@@ -703,4 +712,6 @@ function appmateOptionSelect(el){
 
 </script>
 
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css' | stylesheet_tag }}
 {{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js' | script_tag }}
