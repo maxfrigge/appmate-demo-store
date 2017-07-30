@@ -68,8 +68,8 @@
       var service = button.attr('data-wk-share-service');
       if (service === 'contact') {
         Appmate.wk.createShareLink(wishlist).then(function(result) {
-          var contactUrl = '/pages/contact';
-          var message = 'Here is link to my list:\n' + result.data.url;
+          var contactUrl = '/pages/contact-us';
+          var message = 'Here is the link to my list:\n' + result.data.url;
           window.location.href=contactUrl + '?message=' + encodeURIComponent(message);
         });
       } else if (service != 'link') {
