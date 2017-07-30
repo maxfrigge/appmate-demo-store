@@ -66,7 +66,13 @@
       var button = $(this);
       var wishlist = button.attr('data-wk-share');
       var service = button.attr('data-wk-share-service');
-      if (service != 'link') {
+      if (service === 'contact') {
+        Appmate.wk.createShareLink(wishlist).then(function(result) {
+          var contactUrl = '/pages/contact';
+          var message = 'Here is link to my list:\n' + result.data.url;
+          window.location.href=contactUrl + '?message=' + encodeURIComponent(message);
+        });
+      } else if (service != 'link') {
         var shareUrl = Appmate.wk.createShareUrl(wishlist, service);
         window.open(
           shareUrl,
@@ -123,6 +129,7 @@
     },
     'ready': function () {
       $(document).ready(initSlider);
+      $(document).ready(fillContactForm);
 
       var redirect = Appmate.wk.getQueryParam('wk-redirect');
       if (redirect) {
@@ -166,6 +173,16 @@
           }
         }
       })
+    }
+  }
+
+  function fillContactForm() {
+    if (document.getElementById('contact_form')) {
+      var message = Appmate.wk.getQueryParam('message');
+      var bodyElement = document.querySelector("#contact_form textarea[name='contact[body]']");
+      if (bodyElement && message) {
+        bodyElement.value = message;
+      }
     }
   }
 
@@ -432,6 +449,9 @@
     <li>{% include 'wishlist-share-button-twitter' %}</li>
     <li>{% include 'wishlist-share-button-email' %}</li>
     <li>{% include 'wishlist-share-button-link' %}</li>
+    {% comment %}
+    <li>{% include 'wishlist-share-button-contact' %}</li>
+    {% endcomment %}
     <li>{% include 'wishlist-share-button-whatsapp' %}</li>
   </ul>
   <div id="wk-share-link-text"><span class="wk-text"></span><button class="wk-clipboard" data-clipboard-target="#wk-share-link-text .wk-text">copy link</button></div>
@@ -513,7 +533,7 @@
       </select>
     </div>
 
-  {% comment %}
+    {% comment %}
       {% if settings.display_quantity_dropdown and product.available %}
       <div class="wk-selector-wrapper">
         <label>Quantity</label>
@@ -632,6 +652,22 @@
         c2.375-1.375,4.813-2.5,6.813-4.5l42.063-42.047c-5.375-9.156-11.563-17.969-19.438-25.828c-49.969-49.984-131.031-49.984-181.016,0
         l-90.5,90.5c-49.984,50-49.984,131.031,0,181.031c49.984,49.969,131.031,49.969,181.016,0l68.594-68.594
         C274.561,395.092,246.42,392.342,220.326,382.186z'/>
+      </svg>
+    </div>
+    <span>E-Mail</span>
+  </div>
+</a>
+{% endunless %}
+</script>
+
+<script id="wishlist-share-button-contact" data="wishlist" type="text/x-template" app="wishlist-king">
+{% unless wishlist.empty %}
+<a href class="wk-button-share resp-sharing-button__link" title="Send to customer service" data-wk-share-service="contact" data-wk-share="{{ wishlist.permaId }}">
+  <div class="resp-sharing-button resp-sharing-button--link resp-sharing-button--large">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 16h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 11.9 13 12.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
       </svg>
     </div>
     <span>E-Mail</span>
