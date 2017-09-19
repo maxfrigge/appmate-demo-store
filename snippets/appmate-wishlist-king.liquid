@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.29/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.35/appmate.js' | script_tag }}
 
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 <script type="text/javascript">
@@ -680,7 +680,7 @@
 
 
 <script>
-var appmateSelectCallback = function(variant, selector) {
+function appmateSelectCallback(variant, selector) {
   var shop = Appmate.wk.globals.shop;
   var product = Appmate.wk.getProduct(variant.product_id);
   var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
@@ -693,25 +693,25 @@ var appmateSelectCallback = function(variant, selector) {
   var imageUrl = '';
 
   if (variant && variant.image) {
-    imageUrl = Appmate.wk.filters.img_url(variant, '1024x');
+    imageUrl = Appmate.wk.filters.img_url(variant, 'large');
   } else if (product) {
-    imageUrl = Appmate.wk.filters.img_url(product, '1024x');
+    imageUrl = Appmate.wk.filters.img_url(product, 'large');
   }
 
   if (imageUrl) {
     container.find('.wk-variant-image').attr('src', imageUrl);
   }
   var formatMoney = Appmate.wk.filters.money;
-  if (variant && (variant.available || variant.inventory_policy === 'continue')) {
-    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to Cart');
+  if (!product.hidden && variant && (variant.available || variant.inventory_policy === 'continue')) {
+    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to cart');
     if(variant.price < variant.compare_at_price){
       container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
     } else {
       container.find('.wk-price-preview').html(formatMoney(variant.price));
     }
   } else {
-    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled').attr('value', 'Sold Out');
-    var message = variant ? "Sold Out" : "Unavailable";
+    var message = variant && !product.hidden ? "Sold Out" : "Unavailable";
+    container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled').attr('value', message);
     container.find('.wk-price-preview').text(message);
   }
 
