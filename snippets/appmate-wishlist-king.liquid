@@ -703,7 +703,7 @@ function appmateSelectCallback(variant, selector) {
   }
   var formatMoney = Appmate.wk.filters.money;
   if (!product.hidden && variant && (variant.available || variant.inventory_policy === 'continue')) {
-    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to cart');
+    container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to Cart');
     if(variant.price < variant.compare_at_price){
       container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
     } else {
@@ -748,6 +748,8 @@ function appmateOptionSelect(el){
 
 </script>
 
-{{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css' | stylesheet_tag }}
 {{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
+{% comment %}
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css' | stylesheet_tag }}
 {{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js' | script_tag }}
+{% endcomment %}
