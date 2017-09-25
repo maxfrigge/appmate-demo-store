@@ -153,7 +153,7 @@
   });
 
   function initSlider () {
-    if (Swiper) {
+    if (typeof Swiper !== 'undefined') {
       var mySwiper = new Swiper ('.swiper-container', {
         direction: 'horizontal',
         loop: false,
