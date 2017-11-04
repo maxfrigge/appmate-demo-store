@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.39/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.42/appmate.js' | script_tag }}
 
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 <script type="text/javascript">
@@ -63,26 +63,12 @@
       Appmate.wk.clear(wishlist);
     }),
     'click [data-wk-share]': eventHandler(function(){
-      var button = $(this);
-      var wishlist = button.attr('data-wk-share');
-      var service = button.attr('data-wk-share-service');
-      if (service === 'contact') {
-        Appmate.wk.createShareLink(wishlist).then(function(result) {
-          var contactUrl = '/pages/contact-us';
-          var message = 'Here is the link to my list:\n' + result.data.url;
-          window.location.href=contactUrl + '?message=' + encodeURIComponent(message);
-        });
-      } else if (service != 'link') {
-        var shareUrl = Appmate.wk.createShareUrl(wishlist, service);
-        window.open(
-          shareUrl,
-          'wishlist_share',
-          'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
-        );
-      } else {
-        button.removeClass('wk-disabled');
-        Appmate.wk.createShareLink(wishlist).then(function(result) {
-          $('#wk-share-link-text').addClass('wk-visible').find('.wk-text').html('' + result.data.url);
+      var params = $(this).data();
+      var shareLink = Appmate.wk.getShareLink(params);
+
+      switch (params.wkShareService) {
+        case 'link':
+          $('#wk-share-link-text').addClass('wk-visible').find('.wk-text').html(shareLink);
           var copyButton = $('#wk-share-link-text .wk-clipboard');
           var copyText = copyButton.html();
           var clipboard = Appmate.wk.clipboard(copyButton[0]);
@@ -92,8 +78,16 @@
               copyButton.html(copyText);
             }, 2000);
           });
-          button.removeClass('wk-disabled');
-        });
+          break;
+        case 'email':
+          window.location.href = shareLink;
+          break;
+        default:
+          window.open(
+            shareLink,
+            'wishlist_share',
+            'height=590, width=770, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'
+          );
       }
     }),
     'click [data-wk-move-to-cart]': eventHandler(function(){
@@ -558,7 +552,7 @@
 </form>
 </script>
 
-<script id="wishlist-share-button-fb" data="wishlist" type="text/x-template" app="wishlist-king">
+<script id="wishlist-share-button-fb" data="wishlist" type="text/x-template" app="wishlist-king" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
 {% unless wishlist.empty %}
 <a href class="wk-button-share resp-sharing-button__link" title="Share on Facebook" data-wk-share-service="facebook" data-wk-share="{{ wishlist.permaId }}">
   <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--large">
@@ -594,7 +588,7 @@
 
 <script id="wishlist-share-button-pinterest" data="wishlist" type="text/x-template" app="wishlist-king">
 {% unless wishlist.empty %}
-<a href class="wk-button-share resp-sharing-button__link" title="Share on Pinterest" data-wk-share-service="pinterest" data-wk-share="{{ wishlist.permaId }}">
+<a href class="wk-button-share resp-sharing-button__link" title="Share on Pinterest" data-wk-share-service="pinterest" data-wk-share="{{ wishlist.permaId }}" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
   <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--large">
     <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
