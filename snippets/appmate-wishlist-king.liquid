@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.42/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.43/appmate.js' | script_tag }}
 
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 <script type="text/javascript">
@@ -552,9 +552,9 @@
 </form>
 </script>
 
-<script id="wishlist-share-button-fb" data="wishlist" type="text/x-template" app="wishlist-king" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
+<script id="wishlist-share-button-fb" data="wishlist" type="text/x-template" app="wishlist-king">
 {% unless wishlist.empty %}
-<a href class="wk-button-share resp-sharing-button__link" title="Share on Facebook" data-wk-share-service="facebook" data-wk-share="{{ wishlist.permaId }}">
+<a href class="wk-button-share resp-sharing-button__link" title="Share on Facebook" data-wk-share-service="facebook" data-wk-share="{{ wishlist.permaId }}" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
   <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--large">
     <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
