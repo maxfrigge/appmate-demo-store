@@ -1,4 +1,4 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.43/appmate.js' | script_tag }}
+{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.44/appmate.js' | script_tag }}
 
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 <script type="text/javascript">
@@ -446,7 +446,7 @@
     {% comment %}
     <li>{% include 'wishlist-share-button-contact' %}</li>
     {% endcomment %}
-    <li>{% include 'wishlist-share-button-whatsapp' %}</li>
+    <li id="wk-share-whatsapp">{% include 'wishlist-share-button-whatsapp' %}</li>
   </ul>
   <div id="wk-share-link-text"><span class="wk-text"></span><button class="wk-clipboard" data-clipboard-target="#wk-share-link-text .wk-text">copy link</button></div>
 </script>
@@ -680,9 +680,12 @@ function appmateSelectCallback(variant, selector) {
   var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
   var container = $('#wk-item-' + itemId);
 
+
+  {% if page.template_suffix == 'wishlist' %}
   if (variant) {
     Appmate.wk.updateItem(itemId, {selected_variant_id: variant.id});
   }
+  {% endif %}
 
   var imageUrl = '';
 
