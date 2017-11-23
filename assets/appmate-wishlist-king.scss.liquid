@@ -440,11 +440,11 @@ a.wk-link {
 /*////////////////////////////////////////////////////////////////////////////*/
 
 h1#wk-page-title {
-    display: block;
-    text-align: center;
-    margin: 0 0 25px 0;
-    padding: 0;
-    border: none;
+  display: block;
+  text-align: center;
+  margin: 0 0 25px 0;
+  padding: 0;
+  border: none;
 }
 
 .wk-wishlist-empty-note {
@@ -524,12 +524,15 @@ p.wk-login-note {
     box-sizing: content-box;
     border: none;
     margin: 0;
-    padding: 8px 20px;
+    padding: 12px 22px;
     color: $wk-add-to-cart-color;
     background: $wk-add-to-cart-background;
     color: $wk-add-to-cart-color;
     width: auto;
     min-width: 0;
+    height: auto;
+    min-height: 0;
+    line-height: 1;
     border-radius: 0;
     text-transform: initial;
 
@@ -551,12 +554,12 @@ p.wk-login-note {
 /*////////////////////////////////////////////////////////////////////////////*/
 
 h3#wk-share-head {
-    font-size: 1.1em;
-    text-align: center;
-    margin: 5px 0 7px 0;
-    padding: 0;
-    text-transform: uppercase;
-  	border: none;
+  font-size: 1.1em;
+  text-align: center;
+  margin: 5px 0 7px 0;
+  padding: 0;
+  text-transform: uppercase;
+  border: none;
 }
 
 ul#wk-share-list {
@@ -683,6 +686,10 @@ ul#wk-share-list {
   background-color: #333;
 }
 
+#wk-share-whatsapp {
+  display: none !important;
+}
+
 .resp-sharing-button--facebook:hover {
   background-color: #3b5998;
 }
@@ -770,8 +777,8 @@ ul#wk-share-list {
 /*////////////////////////////////////////////////////////////////////////////*/
 @media (max-width: 1024px) {
   .wk-touch {
-    .resp-sharing-button--whatsapp {
-      display: inline-block;
+    #wk-share-whatsapp {
+      display: inline-block !important;
     }
   }
 }
