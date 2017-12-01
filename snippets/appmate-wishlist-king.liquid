@@ -484,7 +484,7 @@
 <div class="wk-image">
   <a href="{{ product | variant_url }}" class="wk-variant-link wk-content" title="View product">
     <img class="wk-variant-image"
-       src="{{ product | variant_img_url: 'large' }}"
+       src="{{ product | variant_img_url: '1000x' }}"
        alt="{{ product.title }}" />
   </a>
 </div>
@@ -690,9 +690,9 @@ function appmateSelectCallback(variant, selector) {
   var imageUrl = '';
 
   if (variant && variant.image) {
-    imageUrl = Appmate.wk.filters.img_url(variant, 'large');
+    imageUrl = Appmate.wk.filters.img_url(variant, '1000x');
   } else if (product) {
-    imageUrl = Appmate.wk.filters.img_url(product, 'large');
+    imageUrl = Appmate.wk.filters.img_url(product, '1000x');
   }
 
   if (imageUrl) {
