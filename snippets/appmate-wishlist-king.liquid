@@ -119,10 +119,10 @@
       window.location = '/account/login?wk-redirect=' + encodeURIComponent(JSON.stringify(redirect));
     },
     'render .swiper-container': function (elem) {
-      initSlider()
+      // initSlider()
     },
     'ready': function () {
-      $(document).ready(initSlider);
+      // $(document).ready(initSlider);
       $(document).ready(fillContactForm);
 
       var redirect = Appmate.wk.getQueryParam('wk-redirect');
