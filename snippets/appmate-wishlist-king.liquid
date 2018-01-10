@@ -1,8 +1,7 @@
-{{ 'https://az814789.vo.msecnd.net/toolkit/1.2.47/appmate.js' | script_tag }}
-
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
+
 <script type="text/javascript">
-;(function(){
+function initAppmate(){
   if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
   Appmate.init({
@@ -35,12 +34,6 @@
       }
     }
   });
-})();
-</script>
-
-<script type="text/javascript">
-;(function(){
-  if (typeof Appmate === 'undefined') return; // In case lib didn't load.
 
   Appmate.wk.on({
     'click [data-wk-add-product]': eventHandler(function(){
@@ -199,8 +192,7 @@
       callback();
     }
   }
-})();
-
+}
 </script>
 
 {% raw %}
@@ -745,8 +737,9 @@ function appmateOptionSelect(el){
 
 </script>
 
-{{ 'appmate-wishlist-king.scss.css' | asset_url | stylesheet_tag }}
+<script src="https://az814789.vo.msecnd.net/toolkit/1.2.48/appmate.js" async onload="initAppmate()"></script>
+<link href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}" rel="stylesheet">
 {% comment %}
-{{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css' | stylesheet_tag }}
-{{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js' | script_tag }}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js" async></script>
 {% endcomment %}
