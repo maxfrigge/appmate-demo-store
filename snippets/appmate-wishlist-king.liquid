@@ -1,9 +1,7 @@
 {% assign wkShopName = shop.name | replace: '&amp;', '&' %}
 
 <script type="text/javascript">
-function initAppmate(){
-  if (typeof Appmate === 'undefined') return; // In case lib didn't load.
-
+function initAppmate(Appmate){
   Appmate.init({
     shop: {
       domain: '{{ shop.domain }}'
@@ -737,7 +735,7 @@ function appmateOptionSelect(el){
 
 </script>
 
-<script src="https://az814789.vo.msecnd.net/toolkit/1.2.48/appmate.js" async onload="initAppmate()"></script>
+<script src="https://az814789.vo.msecnd.net/toolkit/1.2.49/appmate.js" async></script>
 <link href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}" rel="stylesheet">
 {% comment %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
