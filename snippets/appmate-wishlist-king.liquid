@@ -42,6 +42,11 @@ function initAppmate(Appmate){
         case 'email':
           window.location.href = shareLink;
           break;
+        case 'contact':
+          var contactUrl = '/pages/contact';
+          var message = 'Here is the link to my list:\n' + shareLink;
+          window.location.href=contactUrl + '?message=' + encodeURIComponent(message);
+          break;
         default:
           window.open(
             shareLink,
@@ -736,7 +741,7 @@ function appmateOptionSelect(el){
 
 </script>
 
-<script src="https://az814789.vo.msecnd.net/toolkit/1.2.60/appmate.js" async></script>
+<script src="https://az814789.vo.msecnd.net/toolkit/1.2.61/appmate.js" async></script>
 <link href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}" rel="stylesheet">
 {% comment %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
