@@ -2,37 +2,6 @@
 
 <script type="text/javascript">
 function initAppmate(Appmate){
-  Appmate.init({
-    shop: {
-      domain: '{{ shop.domain }}'
-    },
-    session: {
-      customer: '{{ customer.id }}'
-    },
-    globals: {
-      settings: {
-        app_wk_icon: '{{ settings.app_wk_icon }}',
-        app_wk_share_position: '{{ settings.app_wk_share_position }}',
-        app_wk_products_per_row: {{ settings.app_wk_products_per_row }}
-      },
-      customer: '{{ customer.id }}',
-      customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
-    },
-    wishlist: {
-      loginRequired: {{ settings.app_wk_login_required }},
-      handle: "/pages/wishlist",
-      proxyHandle: "/a/wk",
-      share: {
-        handle: "/pages/shared-wishlist",
-        title: 'My Wishlist',
-        description: 'Check out some of my favorite things @ {{ wkShopName }}.',
-        imageTitle: '{{ wkShopName }}',
-        hashTags: 'wishlist',
-        twitterUser: false // will be used with via
-      }
-    }
-  });
-
   Appmate.wk.on({
     'click [data-wk-add-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-add-product');
@@ -133,6 +102,37 @@ function initAppmate(Appmate){
         if (window.history && window.history.pushState) {
           history.pushState(null, null, window.location.pathname);
         }
+      }
+    }
+  });
+
+  Appmate.init({
+    shop: {
+      domain: '{{ shop.domain }}'
+    },
+    session: {
+      customer: '{{ customer.id }}'
+    },
+    globals: {
+      settings: {
+        app_wk_icon: '{{ settings.app_wk_icon }}',
+        app_wk_share_position: '{{ settings.app_wk_share_position }}',
+        app_wk_products_per_row: {{ settings.app_wk_products_per_row }}
+      },
+      customer: '{{ customer.id }}',
+      customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
+    },
+    wishlist: {
+      loginRequired: {{ settings.app_wk_login_required }},
+      handle: "/pages/wishlist",
+      proxyHandle: "/a/wk",
+      share: {
+        handle: "/pages/shared-wishlist",
+        title: 'My Wishlist',
+        description: 'Check out some of my favorite things @ {{ wkShopName }}.',
+        imageTitle: '{{ wkShopName }}',
+        hashTags: 'wishlist',
+        twitterUser: false // will be used with via
       }
     }
   });
@@ -735,7 +735,7 @@ function appmateOptionSelect(el){
 
 </script>
 
-<script src="https://az814789.vo.msecnd.net/toolkit/1.2.49/appmate.js" async></script>
+<script src="https://az814789.vo.msecnd.net/toolkit/1.2.51/appmate.js" async></script>
 <link href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}" rel="stylesheet">
 {% comment %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
