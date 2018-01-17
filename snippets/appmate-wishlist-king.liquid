@@ -83,7 +83,7 @@ function initAppmate(Appmate){
     },
     'ready': function () {
       // $(document).ready(initSlider);
-      $(document).ready(fillContactForm);
+      fillContactForm();
 
       var redirect = Appmate.wk.getQueryParam('wk-redirect');
       if (redirect) {
@@ -162,6 +162,7 @@ function initAppmate(Appmate){
   }
 
   function fillContactForm() {
+    document.addEventListener('DOMContentLoaded', fillContactForm)
     if (document.getElementById('contact_form')) {
       var message = Appmate.wk.getQueryParam('message');
       var bodyElement = document.querySelector("#contact_form textarea[name='contact[body]']");
@@ -735,7 +736,7 @@ function appmateOptionSelect(el){
 
 </script>
 
-<script src="https://az814789.vo.msecnd.net/toolkit/1.2.56/appmate.js" async></script>
+<script src="https://az814789.vo.msecnd.net/toolkit/1.2.60/appmate.js" async></script>
 <link href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}" rel="stylesheet">
 {% comment %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
