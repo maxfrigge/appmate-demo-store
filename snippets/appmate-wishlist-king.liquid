@@ -5,7 +5,7 @@ function initAppmate(Appmate){
   Appmate.wk.on({
     'click [data-wk-add-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-add-product');
-      var variant = $(this).parents('form').find('select[name="id"]').val();
+      var variant = Appmate.wk.$(this).parents('form').find('select[name="id"]').val();
       Appmate.wk.addProduct(product, variant);
     }),
     'click [data-wk-remove-product]': eventHandler(function(){
@@ -14,7 +14,7 @@ function initAppmate(Appmate){
     }),
     'click [data-wk-remove-item]': eventHandler(function(){
       var item = this.getAttribute('data-wk-remove-item');
-      fadeOrNot($(this), function() {
+      fadeOrNot(Appmate.wk.$(this), function() {
         Appmate.wk.removeItem(item);
       });
     }),
@@ -23,13 +23,13 @@ function initAppmate(Appmate){
       Appmate.wk.clear(wishlist);
     }),
     'click [data-wk-share]': eventHandler(function(){
-      var params = $(this).data();
+      var params = Appmate.wk.$(this).data();
       var shareLink = Appmate.wk.getShareLink(params);
 
       switch (params.wkShareService) {
         case 'link':
-          $('#wk-share-link-text').addClass('wk-visible').find('.wk-text').html(shareLink);
-          var copyButton = $('#wk-share-link-text .wk-clipboard');
+          Appmate.wk.$('#wk-share-link-text').addClass('wk-visible').find('.wk-text').html(shareLink);
+          var copyButton = Appmate.wk.$('#wk-share-link-text .wk-clipboard');
           var copyText = copyButton.html();
           var clipboard = Appmate.wk.clipboard(copyButton[0]);
           clipboard.on('success', function(e) {
@@ -56,7 +56,7 @@ function initAppmate(Appmate){
       }
     }),
     'click [data-wk-move-to-cart]': eventHandler(function(){
-      var $elem = $(this);
+      var $elem = Appmate.wk.$(this);
       $form = $elem.parents('form');
       $elem.prop("disabled", true);
 
@@ -87,12 +87,12 @@ function initAppmate(Appmate){
       // initSlider()
     },
     'ready': function () {
-      // $(document).ready(initSlider);
+      // Appmate.wk.$(document).ready(initSlider);
       fillContactForm();
 
       var redirect = Appmate.wk.getQueryParam('wk-redirect');
       if (redirect) {
-        Appmate.wk.addLoginRedirect($('#customer_login'), JSON.parse(redirect));
+        Appmate.wk.addLoginRedirect(Appmate.wk.$('#customer_login'), JSON.parse(redirect));
       }
       var intent = Appmate.wk.getQueryParam('wk-intent');
       if (intent) {
@@ -673,8 +673,8 @@ function initAppmate(Appmate){
 function appmateSelectCallback(variant, selector) {
   var shop = Appmate.wk.globals.shop;
   var product = Appmate.wk.getProduct(variant.product_id);
-  var itemId = $(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
-  var container = $('#wk-item-' + itemId);
+  var itemId = Appmate.wk.$(selector.variantIdField).parents('[data-wk-item]').attr('data-wk-item');
+  var container = Appmate.wk.$('#wk-item-' + itemId);
 
 
   {% if page.template_suffix == 'wishlist' %}
@@ -716,8 +716,8 @@ function appmateOptionSelect(el){
   }
 
   var id = el.getAttribute('id');
-  var itemId = $(el).parents('[data-wk-item]').attr('data-wk-item');
-  var container = $('#wk-item-' + itemId);
+  var itemId = Appmate.wk.$(el).parents('[data-wk-item]').attr('data-wk-item');
+  var container = Appmate.wk.$('#wk-item-' + itemId);
 
   Appmate.wk.getItem(itemId).then(function(product){
     var selector = new Shopify.OptionSelectors(id, {
@@ -732,8 +732,8 @@ function appmateOptionSelect(el){
 
     // Add label if only one product option and it isn't 'Title'.
     if (product.options.length == 1 && product.options[0] != 'Title') {
-      $(container)
-      .find('.selector-wrapper:eq(0)')
+      Appmate.wk.$(container)
+      .find('.selector-wrapper:first-child')
       .prepend('<label>' + product.options[0] + '</label>');
     }
   });
@@ -741,7 +741,7 @@ function appmateOptionSelect(el){
 
 </script>
 
-<script src="https://az814789.vo.msecnd.net/toolkit/1.2.61/appmate.js" async></script>
+<script src="https://az814789.vo.msecnd.net/toolkit/1.2.64/appmate.js" async></script>
 <link href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}" rel="stylesheet">
 {% comment %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
