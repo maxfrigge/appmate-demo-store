@@ -5,7 +5,8 @@ function initAppmate(Appmate){
   Appmate.wk.on({
     'click [data-wk-add-product]': eventHandler(function(){
       var product = this.getAttribute('data-wk-add-product');
-      var variant = Appmate.wk.$(this).parents('form').find('select[name="id"]').val();
+      var select = Appmate.wk.$(this).parents('form').find('select[name="id"]');
+      var variant = select.length ? select.val() : undefined;
       Appmate.wk.addProduct(product, variant);
     }),
     'click [data-wk-remove-product]': eventHandler(function(){
@@ -190,11 +191,12 @@ function initAppmate(Appmate){
   }
 
   function fadeOrNot($elem, callback){
-    if ($elem.parents('.wk-fadeout').length) {
+    callback();
+    /*if ($elem.parents('.wk-fadeout').length) {
       $elem.parents('.wk-fadeout').fadeOut(callback);
     } else {
       callback();
-    }
+    }*/
   }
 }
 </script>
