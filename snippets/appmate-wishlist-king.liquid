@@ -24,7 +24,7 @@ function initAppmate(Appmate){
       Appmate.wk.clear(wishlist);
     }),
     'click [data-wk-share]': eventHandler(function(){
-      var params = Appmate.wk.$(this).data();
+      var params = $(this).data();
       var shareLink = Appmate.wk.getShareLink(params);
 
       switch (params.wkShareService) {
