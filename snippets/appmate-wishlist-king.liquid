@@ -190,13 +190,13 @@ function initAppmate(Appmate){
     }
   }
 
-  function fadeOrNot($elem, callback){
-    callback();
-    /*if ($elem.parents('.wk-fadeout').length) {
+  function fadeOrNot(elem, callback){
+    var $elem = $(elem);
+	  if ($elem.parents('.wk-fadeout').length) {
       $elem.parents('.wk-fadeout').fadeOut(callback);
     } else {
       callback();
-    }*/
+    }
   }
 }
 </script>
