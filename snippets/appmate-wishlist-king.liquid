@@ -3,30 +3,120 @@
 <script type="text/javascript">
 function initAppmate(Appmate){
   Appmate.wk.on({
+    'click .wk-variant-link': eventHandler(function(){
+      var id = $(this).closest('[data-wk-item]').data('wk-item');
+      var href = this.href;
+      var product = Appmate.wk.getItem(id).then(function(product){
+        var variant = product.selected_or_first_available_variant || {};
+        sendTracking({
+          hitType: 'event',
+          eventCategory: 'Product',
+          eventAction: 'click',
+          eventLabel: 'Wishlist King',
+          hitCallback: function() {
+            document.location = href;
+          }
+        }, {
+          id: variant.sku || variant.id,
+          name: product.title,
+          category: product.type,
+          brand: product.vendor,
+          variant: variant.title,
+          price: variant.price,
+        }, {
+          list: "{{ wkListTitle }}" || undefined
+        });
+      })
+    }),
     'click [data-wk-add-product]': eventHandler(function(){
-      var product = this.getAttribute('data-wk-add-product');
+      var productId = this.getAttribute('data-wk-add-product');
       var select = Appmate.wk.$(this).parents('form').find('select[name="id"]');
-      var variant = select.length ? select.val() : undefined;
-      Appmate.wk.addProduct(product, variant);
+      var variantId = select.length ? select.val() : undefined;
+      Appmate.wk.addProduct(productId, variantId).then(function(product) {
+        var variant = product.selected_or_first_available_variant || {};
+        sendTracking({
+          hitType: 'event',
+          eventCategory: 'Product',
+          eventAction: 'add-to-wishlist',
+          eventLabel: 'Wishlist King',
+        }, {
+          id: variant.sku || variant.id,
+          name: product.title,
+          category: product.type,
+          brand: product.vendor,
+          variant: variant.title,
+          price: variant.price,
+        }, {
+          list: "{{ wkListTitle }}" || undefined
+        });
+      });
     }),
     'click [data-wk-remove-product]': eventHandler(function(){
-      var product = this.getAttribute('data-wk-remove-product');
-      Appmate.wk.removeProduct(product);
+      var productId = this.getAttribute('data-wk-remove-product');
+      Appmate.wk.removeProduct(productId).then(function(product) {
+        var variant = product.selected_or_first_available_variant || {};
+        sendTracking({
+          hitType: 'event',
+          eventCategory: 'Product',
+          eventAction: 'remove-from-wishlist',
+          eventLabel: 'Wishlist King',
+        }, {
+          id: variant.sku || variant.id,
+          name: product.title,
+          category: product.type,
+          brand: product.vendor,
+          variant: variant.title,
+          price: variant.price,
+        }, {
+          list: "{{ wkListTitle }}" || undefined
+        });
+      });
     }),
     'click [data-wk-remove-item]': eventHandler(function(){
-      var item = this.getAttribute('data-wk-remove-item');
-      fadeOrNot(Appmate.wk.$(this), function() {
-        Appmate.wk.removeItem(item);
+      var itemId = this.getAttribute('data-wk-remove-item');
+      fadeOrNot(this, function() {
+        Appmate.wk.removeItem(itemId).then(function(product){
+          var variant = product.selected_or_first_available_variant || {};
+          sendTracking({
+            hitType: 'event',
+            eventCategory: 'Product',
+            eventAction: 'remove-from-wishlist',
+            eventLabel: 'Wishlist King',
+          }, {
+            id: variant.sku || variant.id,
+            name: product.title,
+            category: product.type,
+            brand: product.vendor,
+            variant: variant.title,
+            price: variant.price,
+          }, {
+            list: "{{ wkListTitle }}" || undefined
+          });
+        });
       });
     }),
     'click [data-wk-clear-wishlist]': eventHandler(function(){
-      var wishlist = this.getAttribute('data-wk-clear-wishlist');
-      Appmate.wk.clear(wishlist);
+      var wishlistId = this.getAttribute('data-wk-clear-wishlist');
+      Appmate.wk.clear(wishlistId).then(function() {
+        sendTracking({
+          hitType: 'event',
+          eventCategory: 'Wishlist',
+          eventAction: 'clear-wishlist',
+          eventLabel: 'Wishlist King',
+        });
+      });
     }),
     'click [data-wk-share]': eventHandler(function(){
       var params = $(this).data();
       var shareLink = Appmate.wk.getShareLink(params);
-
+	  
+      sendTracking({
+        hitType: 'event',
+        eventCategory: 'Wishlist',
+        eventAction: 'share-wishlist-' + params.wkShareService,
+        eventLabel: 'Wishlist King',
+      });
+      
       switch (params.wkShareService) {
         case 'link':
           Appmate.wk.$('#wk-share-link-text').addClass('wk-visible').find('.wk-text').html(shareLink);
@@ -64,13 +154,32 @@ function initAppmate(Appmate){
       var item = this.getAttribute('data-wk-move-to-cart');
       var formData = $form.serialize();
 
-      fadeOrNot($elem, function(){
+      fadeOrNot(this, function(){
         Appmate.wk
         .moveToCart(item, formData)
-        .then(function(){
-          window.scrollTo(0, 0);
-          location.reload();
+        .then(function(product){
           $elem.prop("disabled", false);
+          
+          var variant = product.selected_or_first_available_variant || {};
+          sendTracking({
+            hitType: 'event',
+            eventCategory: 'Product',
+            eventAction: 'from-wishlist-to-cart',
+            eventLabel: 'Wishlist King',
+            hitCallback: function() {
+              window.scrollTo(0, 0);
+              location.reload();
+            }
+          }, {
+            id: variant.sku || variant.id,
+            name: product.title,
+            category: product.type,
+            brand: product.vendor,
+            variant: variant.title,
+            price: variant.price,
+          }, {
+            list: "{{ wkListTitle }}" || undefined
+          });
         });
       });
     }),
@@ -142,6 +251,28 @@ function initAppmate(Appmate){
       }
     }
   });
+
+  function sendTracking(event, product, action) {
+    if (typeof ga === 'function') {
+      if (product) {
+        ga('ec:addProduct', product);
+      }
+
+      if (action) {
+        ga('ec:setAction', 'click', action);
+      }
+
+      if (event) {
+        ga('send', event);
+      }
+
+      if (!ga.loaded) {
+        event && event.hitCallback && event.hitCallback()
+      }
+    } else {
+      event && event.hitCallback && event.hitCallback()
+    }
+  }
 
   function initSlider () {
     if (typeof Swiper !== 'undefined') {
