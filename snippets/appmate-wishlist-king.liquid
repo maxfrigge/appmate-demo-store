@@ -4,7 +4,7 @@
   function initAppmate(Appmate){
     Appmate.wk.on({
       'click .wk-variant-link': eventHandler(function(){
-        var id = $(this).closest('[data-wk-item]').data('wk-item');
+        var id = Appmate.wk.$(this).closest('[data-wk-item]').attr("data-wk-item");
         var href = this.href;
         var product = Appmate.wk.getItem(id).then(function(product){
           var variant = product.selected_or_first_available_variant || {};
@@ -103,7 +103,11 @@
         });
       }),
       'click [data-wk-share]': eventHandler(function(){
-        var params = $(this).data();
+        var params = {
+          wkShareService: this.getAttribute("data-wk-share-service"),
+          wkShare: this.getAttribute("data-wk-share"),
+          wkShareImage: this.getAttribute("data-wk-share-image")
+        };
         var shareLink = Appmate.wk.getShareLink(params);
 
         sendTracking({
@@ -1011,11 +1015,13 @@
         selector.selectVariant(product.selected_variant_id);
       }
 
-      selector.selectors.forEach(function(selector){
-        if (selector.values.length < 2) {
-          $(selector.element).parents(".selector-wrapper").hide();
-        }
-      });
+      if (typeof $ === "function") {
+        selector.selectors.forEach(function(selector){
+          if (selector.values.length < 2) {
+            $(selector.element).parents(".selector-wrapper").hide();
+          }
+        });
+      }
 
       // Add label if only one product option and it isn't 'Title'.
       if (product.options.length == 1 && product.options[0] != 'Title') {
