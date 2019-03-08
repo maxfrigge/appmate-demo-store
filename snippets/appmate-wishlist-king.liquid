@@ -335,6 +335,10 @@
     }
 
     function fadeOrNot(elem, callback){
+      if (typeof $ !== "function") {
+        callback();
+        return;
+      }
       var $elem = $(elem);
   	  if ($elem.parents('.wk-fadeout').length) {
         $elem.parents('.wk-fadeout').fadeOut(callback);
