@@ -1015,13 +1015,11 @@
         selector.selectVariant(product.selected_variant_id);
       }
 
-      if (typeof $ === "function") {
-        selector.selectors.forEach(function(selector){
-          if (selector.values.length < 2) {
-            $(selector.element).parents(".selector-wrapper").hide();
-          }
-        });
-      }
+      selector.selectors.forEach(function(selector){
+        if (selector.values.length < 2) {
+          Appmate.wk.$(selector.element).parents(".selector-wrapper").css({display: "none"});
+        }
+      });
 
       // Add label if only one product option and it isn't 'Title'.
       if (product.options.length == 1 && product.options[0] != 'Title') {
