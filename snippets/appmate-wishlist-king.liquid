@@ -256,14 +256,8 @@
     function sendTracking(event, product, action) {
       if (typeof fbq === 'function') {
         switch (event.eventAction) {
-          case "add-to-wishlist":
+          case "WK Added Product":
             fbq('track', 'AddToWishlist', {
-              value: product.price,
-              currency: '{{ shop.currency }}'
-            });
-            break;
-          case "from-wishlist-to-cart":
-            fbq('track', 'AddToCart', {
               value: product.price,
               currency: '{{ shop.currency }}'
             });
