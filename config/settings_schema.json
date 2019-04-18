@@ -79,7 +79,7 @@
       {
         "type": "color",
         "id": "link_color",
-        "label": "Link\/button color",
+        "label": "Link/button color",
         "default": "#f45b4f"
       },
       {
@@ -174,7 +174,7 @@
           },
           {
             "value": "Helvetica, Arial, sans-serif",
-            "label": "Helvetica\/Arial",
+            "label": "Helvetica/Arial",
             "group": "Sans-serif"
           },
           {
@@ -224,7 +224,7 @@
           },
           {
             "value": "Monaco, 'Lucida Console', 'DejaVu Sans Mono', monospace",
-            "label": "Monaco\/Lucida Console",
+            "label": "Monaco/Lucida Console",
             "group": "Monospace"
           }
         ]
@@ -311,7 +311,7 @@
           },
           {
             "value": "Helvetica, Arial, sans-serif",
-            "label": "Helvetica\/Arial",
+            "label": "Helvetica/Arial",
             "group": "Sans-serif"
           },
           {
@@ -361,7 +361,7 @@
           },
           {
             "value": "Monaco, 'Lucida Console', 'DejaVu Sans Mono', monospace",
-            "label": "Monaco\/Lucida Console",
+            "label": "Monaco/Lucida Console",
             "group": "Monospace"
           }
         ]
@@ -444,7 +444,7 @@
         "type": "text",
         "id": "slide_1_link",
         "label": "Links to",
-        "default": "\/collections\/all"
+        "default": "/collections/all"
       },
       {
         "type": "paragraph",
@@ -465,7 +465,7 @@
         "type": "text",
         "id": "slide_2_link",
         "label": "Links to",
-        "default": "\/collections\/all"
+        "default": "/collections/all"
       },
       {
         "type": "paragraph",
@@ -643,7 +643,7 @@
         "type": "text",
         "id": "mailing_list_form_action",
         "label": "Mailchimp form action URL",
-        "info": "[Where do I find my Mailchimp form action URL?](http:\/\/support.shopify.com\/customer\/portal\/articles\/640278)"
+        "info": "[Where do I find my Mailchimp form action URL?](http://support.shopify.com/customer/portal/articles/640278)"
       },
       {
         "type": "checkbox",
@@ -808,16 +808,16 @@
       },
       {
         "type": "paragraph",
-        "content": "Separate your currency codes with a space. Use the ISO 4217 3-letter currency code. Click [here](http:\/\/www.xe.com\/iso4217.php) for a complete list of currency codes. Example: CAD USD."
+        "content": "Separate your currency codes with a space. Use the ISO 4217 3-letter currency code. Click [here](http://www.xe.com/iso4217.php) for a complete list of currency codes. Example: CAD USD."
       },
       {
         "type": "paragraph",
-        "content": "* For this functionality to work in your shop, you are required to edit your money formats as per [these instructions](http:\/\/wiki.shopify.com\/Do_Tell_Where_The_Money_Is) (â€œDo tell where the money isâ€)."
+        "content": "* For this functionality to work in your shop, you are required to edit your money formats as per [these instructions](http://wiki.shopify.com/Do_Tell_Where_The_Money_Is) (â€œDo tell where the money isâ€)."
       }
     ]
   },
   {
-    "name": "Wishlist King",
+    "name": "App: Wishlist King",
     "settings": [
       {
         "type": "header",
