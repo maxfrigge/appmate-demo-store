@@ -736,10 +736,10 @@
   {% assign variant = product.selected_or_first_available_variant %}
   <div class="wk-purchase">
     <span class="wk-price wk-price-preview">
-      {% if variant.price < variant.compare_at_price %}
-      <span class="saleprice">{{ variant.price | money }}</span> <del>{{ variant.compare_at_price | money }}</del>
-      {% else %}
+      {% if variant.price >= variant.compare_at_price %}
       {{ variant.price | money }}
+      {% else %}
+      <span class="saleprice">{{ variant.price | money }}</span> <del>{{ variant.compare_at_price | money }}</del>
       {% endif %}
     </span>
   </div>
