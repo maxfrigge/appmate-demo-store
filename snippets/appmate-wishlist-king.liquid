@@ -22,6 +22,7 @@
             category: product.type,
             brand: product.vendor,
             variant: variant.title,
+            price: variant.price
           }, {
             list: "{{ wkListTitle }}" || undefined
           });
@@ -44,6 +45,7 @@
             category: product.type,
             brand: product.vendor,
             variant: variant.title,
+            price: variant.price
           }, {
             list: "{{ wkListTitle }}" || undefined
           });
@@ -64,6 +66,7 @@
             category: product.type,
             brand: product.vendor,
             variant: variant.title,
+            price: variant.price
           }, {
             list: "{{ wkListTitle }}" || undefined
           });
@@ -85,6 +88,7 @@
               category: product.type,
               brand: product.vendor,
               variant: variant.title,
+              price: variant.price
             }, {
               list: "{{ wkListTitle }}" || undefined
             });
@@ -266,6 +270,7 @@
       }
       if (typeof ga === 'function') {
         if (product) {
+          delete product.price;
           ga('ec:addProduct', product);
         }
 
