@@ -978,7 +978,20 @@
     if (imageUrl) {
       container.find('.wk-variant-image').attr('src', imageUrl);
     }
-    var formatMoney = Appmate.wk.filters.money;
+
+    var convertCurrency = function(price){
+      try {
+        var rate = parseFloat(Shopify.currency.rate);
+        return Math.ceil(price * rate);
+      } catch (error) {
+        return price;
+      }
+    }
+
+    var formatMoney = function(value) {
+      return Appmate.wk.filters.money(convertCurrency(value));
+    }
+
     if (!product.hidden && variant && (variant.available || variant.inventory_policy === 'continue')) {
       container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to Cart');
       if(variant.price < variant.compare_at_price){
