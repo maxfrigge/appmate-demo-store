@@ -237,7 +237,8 @@
         settings: {
           app_wk_icon: '{{ settings.app_wk_icon }}',
           app_wk_share_position: '{{ settings.app_wk_share_position }}',
-          app_wk_products_per_row: {{ settings.app_wk_products_per_row }}
+          app_wk_products_per_row: {{ settings.app_wk_products_per_row }},
+          money_format: '{{ shop.money_with_currency_format }}'
         },
         customer: '{{ customer.id }}',
         customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
@@ -1044,7 +1045,7 @@
 </script>
 
 <script
-  src="https://az814789.vo.msecnd.net/toolkit/1.4.21/appmate.js"
+  src="https://az814789.vo.msecnd.net/toolkit/1.4.31/appmate.js"
   async
 ></script>
 <link
