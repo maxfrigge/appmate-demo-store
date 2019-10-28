@@ -244,6 +244,9 @@
         customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
       },
       wishlist: {
+        filter: function(product) {
+          return !product.hidden;
+        },
         loginRequired: {{ settings.app_wk_login_required }},
         handle: "/pages/wishlist",
         proxyHandle: "/a/wk",
