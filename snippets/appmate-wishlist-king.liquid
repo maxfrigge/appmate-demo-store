@@ -987,7 +987,7 @@
 
     if (!product.hidden && variant && (variant.available || variant.inventory_policy === 'continue')) {
       container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to Cart');
-      if(variant.price < variant.compare_at_price){
+      if(parseFloat(variant.price) < parseFloat(variant.compare_at_price)){
         container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
       } else {
         container.find('.wk-price-preview').html(formatMoney(variant.price));
@@ -1037,7 +1037,7 @@
 </script>
 
 <script
-  src="https://az814789.vo.msecnd.net/toolkit/1.4.37/appmate.js"
+  src="https://az814789.vo.msecnd.net/toolkit/1.4.42/appmate.js"
   async
 ></script>
 <link
