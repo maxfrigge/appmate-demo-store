@@ -3,34 +3,9 @@
 <script type="text/javascript">
   function initAppmate(Appmate){
     Appmate.wk.on({
-      'click .wk-variant-link': eventHandler(function(){
-        var id = Appmate.wk.$(this).closest('[data-wk-item]').attr("data-wk-item");
-        var href = this.href;
-        var product = Appmate.wk.getItem(id).then(function(product){
-          var variant = product.selected_or_first_available_variant || {};
-          sendTracking({
-            hitType: 'event',
-            eventCategory: 'Wishlist',
-            eventAction: 'WK Clicked Product',
-            eventLabel: 'Wishlist King',
-            hitCallback: function() {
-              document.location = href;
-            }
-          }, {
-            id: variant.sku || variant.id,
-            name: product.title,
-            category: product.type,
-            brand: product.vendor,
-            variant: variant.title,
-            price: variant.price
-          }, {
-            list: "{{ wkListTitle }}" || undefined
-          });
-        })
-      }),
       'click [data-wk-add-product]': eventHandler(function(){
         var productId = this.getAttribute('data-wk-add-product');
-        var select = Appmate.wk.$(this).parents('form').find('select[name="id"]');
+        var select = Appmate.wk.$('form select[name="id"]');
         var variantId = select.length ? select.val() : undefined;
         Appmate.wk.addProduct(productId, variantId).then(function(product) {
           var variant = product.selected_or_first_available_variant || {};
@@ -667,11 +642,11 @@
     <li>{% include 'wishlist-share-button-pinterest' %}</li>
     <li>{% include 'wishlist-share-button-twitter' %}</li>
     <li>{% include 'wishlist-share-button-email' %}</li>
+    <li id="wk-share-whatsapp">{% include 'wishlist-share-button-whatsapp' %}</li>
     <li>{% include 'wishlist-share-button-link' %}</li>
     {% comment %}
     <li>{% include 'wishlist-share-button-contact' %}</li>
     {% endcomment %}
-    <li id="wk-share-whatsapp">{% include 'wishlist-share-button-whatsapp' %}</li>
   </ul>
   <div id="wk-share-link-text"><span class="wk-text"></span><button class="wk-clipboard" data-clipboard-target="#wk-share-link-text .wk-text">copy link</button></div>
 </script>
@@ -1037,7 +1012,7 @@
 </script>
 
 <script
-  src="https://az814789.vo.msecnd.net/toolkit/1.4.42/appmate.js"
+  src="https://az814789.vo.msecnd.net/toolkit/1.4.43/appmate.js"
   async
 ></script>
 <link
