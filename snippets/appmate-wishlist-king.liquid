@@ -213,7 +213,8 @@
           app_wk_icon: '{{ settings.app_wk_icon }}',
           app_wk_share_position: '{{ settings.app_wk_share_position }}',
           app_wk_products_per_row: {{ settings.app_wk_products_per_row }},
-          money_format: '{{ shop.money_with_currency_format }}'
+          money_format: '{{ shop.money_with_currency_format }}',
+          root_url: '{% unless request.locale.primary %}{{ request.locale.root_url }}{% endunless %}'
         },
         customer: '{{ customer.id }}',
         customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
@@ -223,10 +224,10 @@
           return !product.hidden;
         },
         loginRequired: {{ settings.app_wk_login_required }},
-        handle: "/pages/wishlist",
+        handle: '{{ pages["wishlist"].url }}',
         proxyHandle: "/a/wk",
         share: {
-          handle: "/pages/shared-wishlist",
+          handle: "'{{ pages["shared-wishlist"].url }}",
           title: 'My Wishlist',
           description: 'Check out some of my favorite things @ {{ wkShopName }}.',
           imageTitle: '{{ wkShopName }}',
@@ -1012,7 +1013,7 @@
 </script>
 
 <script
-  src="https://az814789.vo.msecnd.net/toolkit/1.4.43/appmate.js"
+  src="https://az814789.vo.msecnd.net/toolkit/1.4.44/appmate.js"
   async
 ></script>
 <link
