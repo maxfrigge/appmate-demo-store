@@ -173,11 +173,7 @@
         };
         window.location = '/account/login?wk-redirect=' + encodeURIComponent(JSON.stringify(redirect));
       },
-      'render .swiper-container': function (elem) {
-        // initSlider()
-      },
       'ready': function () {
-        // Appmate.wk.$(document).ready(initSlider);
         fillContactForm();
 
         var redirect = Appmate.wk.getQueryParam('wk-redirect');
@@ -267,30 +263,6 @@
         }
       } else {
         event && event.hitCallback && event.hitCallback()
-      }
-    }
-
-    function initSlider () {
-      if (typeof Swiper !== 'undefined') {
-        var mySwiper = new Swiper ('.swiper-container', {
-          direction: 'horizontal',
-          loop: false,
-          pagination: '.swiper-pagination',
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 20,
-          slidesPerView: 4,
-          breakpoints: {
-            380: {
-              slidesPerView: 1,
-              spaceBetween: 0,
-            },
-            480: {
-              slidesPerView: 2,
-              spaceBetween: 20,
-            }
-          }
-        })
       }
     }
 
@@ -553,55 +525,6 @@
       {% include 'wishlist-button-wishlist-clear' %}
     {% endunless %}
   {% endif %}
-  </div>
-</script>
-
-<script
-  id="wishlist-row"
-  data="wishlist"
-  type="text/x-template"
-  app="wishlist-king"
->
-  <div class='wk-wishlist-row'>
-    {% if wishlist.item_count != 0 %}
-    <h2 class="wk-wishlist-row-title">Add more from Wishlist</h2>
-    <div class="swiper-container">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-            <!-- Slides -->
-            {% for product in wishlist.products %}
-              {% assign hide_default_title = false %}
-              {% if product.variants.length == 1 and product.variants[0].title contains 'Default' %}
-                {% assign hide_default_title = true %}
-              {% endif %}
-              <div
-                id="wk-item-{{ product.wishlist_item_id }}"
-                class="swiper-slide wk-item wk-fadeout"
-                data-wk-item="{{ product.wishlist_item_id }}"
-              >
-                {% include 'wishlist-collection-product-image' with product %}
-                {% include 'wishlist-collection-product-title' with product %}
-                {% include 'wishlist-collection-product-price' %}
-                {% include 'wishlist-collection-product-form' with product %}
-              </div>
-            {% endfor %}
-        </div>
-        <!-- If we need pagination -->
-        <!-- <div class="swiper-pagination"></div> -->
-    </div>
-    <div class="swiper-button-prev">
-      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          <path d="M0 0h24v24H0z" fill="none"/>
-      </svg>
-    </div>
-    <div class="swiper-button-next">
-      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-          <path d="M0 0h24v24H0z" fill="none"/>
-      </svg>
-    </div>
-    {% endif %}
   </div>
 </script>
 
@@ -1020,13 +943,3 @@
   href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}"
   rel="stylesheet"
 />
-{% comment %}
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css"
-  rel="stylesheet"
-/>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"
-  async
-></script>
-{% endcomment %}
