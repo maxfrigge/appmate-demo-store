@@ -2,12 +2,95 @@
 
 <script type="text/javascript">
   function initAppmate(Appmate){
+    var wkSettings = {
+      shop: {
+        domain: '{{ shop.permanent_domain }}'
+      },
+      session: {
+        customer: '{{ customer.id }}'
+      },
+      globals: {
+        settings: {
+          app_wk_icon: '{{ settings.app_wk_icon }}',
+          app_wk_share_position: '{{ settings.app_wk_share_position }}',
+          app_wk_products_per_row: {{ settings.app_wk_products_per_row }},
+          money_format: '{{ shop.money_format }}',
+          root_url: '{% unless request.locale.root_url == "/"  %}{{ request.locale.root_url }}{% endunless %}'
+        },
+        locale: {
+          wishlist_empty_note: "{{ 'wishlist.general.wishlist_empty_note' | t }}",
+          add_to_wishlist: "{{ 'wishlist.general.add_to_wishlist' | t }}",
+          in_wishlist: "{{ 'wishlist.general.in_wishlist' | t }}",
+          share_wishlist: "{{ 'wishlist.general.share_wishlist' | t }}",
+          copy_share_link: "{{ 'wishlist.general.copy_share_link' | t }}",
+          share_link_copied: "{{ 'wishlist.general.share_link_copied' | t }}",
+          share_by_email_body: "{{ 'wishlist.general.share_by_email_body' | t }}",
+          login_or_signup_note: "{{ 'wishlist.general.login_or_signup_note_html' | t }}",
+          add_to_cart: "{{ 'wishlist.general.add_to_cart' | t }}",
+          sold_out: "{{ 'wishlist.general.sold_out' | t }}",
+          view_product: "{{ 'wishlist.general.view_product' | t }}",
+          view_wishlist: "{{ 'wishlist.general.view_wishlist' | t }}",
+          share_on_facebook: "{{ 'wishlist.general.share_on_facebook' | t }}",
+          share_on_twitter: "{{ 'wishlist.general.share_on_twitter' | t }}",
+          share_on_pinterest: "{{ 'wishlist.general.share_on_pinterest' | t }}",
+          share_with_whatsapp: "{{ 'wishlist.general.share_with_whatsapp' | t }}",
+          share_by_email: "{{ 'wishlist.general.share_by_email' | t }}",
+          get_link: "{{ 'wishlist.general.get_link' | t }}",
+          send_to_customer_service: "{{ 'wishlist.general.send_to_customer_service' | t }}"
+        },
+        customer: '{{ customer.id }}',
+        customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
+      },
+      wishlist: {
+        filter: function(product) {
+          return !product.hidden;
+        },
+        loginRequired: {{ settings.app_wk_login_required }},
+        handle: "/pages/wishlist",
+        proxyHandle: "/a/wk",
+        share: {
+          handle: "/pages/shared-wishlist",
+          title: "{{ 'wishlist.general.share_list_title' | t }}",
+          description: "{{ 'wishlist.general.share_list_description' | t: wkShopName: wkShopName }}",
+          imageTitle: '{{ wkShopName }}',
+          hashTags: 'wishlist',
+          twitterUser: false
+        }
+      }
+    };
+
     Appmate.wk.on({
+      'click .wk-variant-link': eventHandler(function(){
+        var id = Appmate.wk.$(this).closest('[data-wk-item]').attr("data-wk-item");
+        var href = this.href;
+        var product = Appmate.wk.getItem(id).then(function(product){
+          var variant = product.selected_or_first_available_variant || {};
+          sendTracking({
+            hitType: 'event',
+            eventCategory: 'Wishlist',
+            eventAction: 'WK Clicked Product',
+            eventLabel: 'Wishlist King',
+            hitCallback: function() {
+              document.location = href;
+            }
+          }, {
+            id: variant.sku || variant.id,
+            name: product.title,
+            category: product.type,
+            brand: product.vendor,
+            variant: variant.title,
+            price: variant.price
+          }, {
+            list: "{{ wkListTitle }}" || undefined
+          });
+        })
+      }),
       'click [data-wk-add-product]': eventHandler(function(){
         var productId = this.getAttribute('data-wk-add-product');
-        var select = Appmate.wk.$('form select[name="id"]');
+        var select = Appmate.wk.$(this).parents('form').find('select[name="id"]');
         var variantId = select.length ? select.val() : undefined;
         Appmate.wk.addProduct(productId, variantId).then(function(product) {
+
           var variant = product.selected_or_first_available_variant || {};
           sendTracking({
             hitType: 'event',
@@ -103,7 +186,7 @@
             var copyText = copyButton.html();
             var clipboard = Appmate.wk.clipboard(copyButton[0]);
             clipboard.on('success', function(e) {
-              copyButton.html('copied');
+              copyButton.html(Appmate.globals.locale.share_link_copied);
               setTimeout(function(){
                 copyButton.html(copyText);
               }, 2000);
@@ -114,7 +197,7 @@
             break;
           case 'contact':
             var contactUrl = '/pages/contact';
-            var message = 'Here is the link to my list:\n' + shareLink;
+            var message = Appmate.globals.locale.share_by_email_body + '\n' + shareLink;
             window.location.href=contactUrl + '?message=' + encodeURIComponent(message);
             break;
           default:
@@ -164,7 +247,32 @@
         });
       }),
       'render .wk-option-select': function(elem){
-        appmateOptionSelect(elem);
+        if (!Appmate.globals.settings.root_url) {
+          appmateOptionSelect(elem);
+        }
+      },
+      'render [data-wk-item]': function(elem){
+        if (Appmate.globals.settings.root_url) {
+          Appmate.wk.getItem(elem.getAttribute("data-wk-item")).then(function(product) {
+            window.fetch(
+              "https://" +
+              Appmate.wk.config.shop.domain +
+              Appmate.wk.globals.settings.root_url +
+              "/products/" +
+              product.handle +
+              ".js"
+            )
+            .then(function(response) {return response.json()})
+            .then(function(product) {
+              const select = Appmate.wk.$(elem).find(".wk-option-select")[0];
+              product.options = product.options.map(function(option){return option.name});
+              product.variants.forEach(function(variant){variant.product_id = product.id});
+              appmateOptionSelect(select, product);
+
+              Appmate.wk.$(elem).find(".wk-product-title a").html(product.title).css({opacity: 1});
+            })
+          });
+        }
       },
       'login-required': function (intent) {
         var redirect = {
@@ -174,6 +282,7 @@
         window.location = '/account/login?wk-redirect=' + encodeURIComponent(JSON.stringify(redirect));
       },
       'ready': function () {
+        // Appmate.wk.$(document).ready(initSlider);
         fillContactForm();
 
         var redirect = Appmate.wk.getQueryParam('wk-redirect');
@@ -197,41 +306,7 @@
       }
     });
 
-    Appmate.init({
-      shop: {
-        domain: '{{ shop.permanent_domain }}'
-      },
-      session: {
-        customer: '{{ customer.id }}'
-      },
-      globals: {
-        settings: {
-          app_wk_icon: '{{ settings.app_wk_icon }}',
-          app_wk_share_position: '{{ settings.app_wk_share_position }}',
-          app_wk_products_per_row: {{ settings.app_wk_products_per_row }},
-          money_format: '{{ shop.money_format }}',
-          root_url: '{% unless request.locale.primary %}{{ request.locale.root_url }}{% endunless %}'
-        },
-        customer: '{{ customer.id }}',
-        customer_accounts_enabled: {{ shop.customer_accounts_enabled }},
-      },
-      wishlist: {
-        filter: function(product) {
-          return !product.hidden;
-        },
-        loginRequired: {{ settings.app_wk_login_required }},
-        handle: '{{ pages["wishlist"].url }}',
-        proxyHandle: "/a/wk",
-        share: {
-          handle: "{{ pages["shared-wishlist"].url }}",
-          title: 'My Wishlist',
-          description: 'Check out some of my favorite things @ {{ wkShopName }}.',
-          imageTitle: '{{ wkShopName }}',
-          hashTags: 'wishlist',
-          twitterUser: false // will be used with via
-        }
-      }
-    });
+    Appmate.init(wkSettings);
 
     function sendTracking(event, product, action) {
       if (typeof fbq === 'function') {
@@ -362,7 +437,14 @@
   {% else %}
     {% assign link_icon = 'wishlist-icon-empty' %}
   {% endif %}
-  <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}" title="View Wishlist"><div class="wk-icon">{% include link_icon %}</div><span class="wk-label">Wishlist</span> <span class="wk-count">({{ wishlist.item_count }})</span></a>
+  <a href="{{ wishlist.url }}" class="wk-link wk-{{ wishlist.state }}"
+     title="{{ locale.view_wishlist }}">
+    <div class="wk-icon icon">{% include link_icon %}</div>
+    <span class="wk-label">
+      Wishlist
+    </span>
+    <span class="wk-count">({{ wishlist.item_count }})</span>
+  </a>
 </script>
 
 <script
@@ -383,21 +465,19 @@
   app="wishlist-king"
 >
   {% if product.in_wishlist %}
-    {% assign btn_text = 'In Wishlist' %}
-    {% assign btn_title = 'Remove from Wishlist' %}
+    {% assign btn_text = locale.in_wishlist %}
+    {% assign btn_title = locale.in_wishlist %}
     {% assign btn_action = 'wk-remove-product' %}
     {% assign btn_icon = 'wishlist-icon-filled' %}
   {% else %}
-    {% assign btn_text = 'Add to Wishlist' %}
-    {% assign btn_title = 'Add to Wishlist' %}
+    {% assign btn_text = locale.add_to_wishlist %}
+    {% assign btn_title = locale.add_to_wishlist %}
     {% assign btn_action = 'wk-add-product' %}
     {% assign btn_icon = 'wishlist-icon-empty' %}
   {% endif %}
 
   <button type="button" class="wk-button-product {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
-    <div class="wk-icon">
-      {% include btn_icon %}
-    </div>
+    <div class="wk-icon icon">{% include btn_icon %}</div>
     <span class="wk-label">{{ btn_text }}</span>
   </button>
 </script>
@@ -409,21 +489,19 @@
   app="wishlist-king"
 >
   {% if product.in_wishlist %}
-    {% assign btn_text = 'In Wishlist' %}
-    {% assign btn_title = 'Remove from Wishlist' %}
+    {% assign btn_text = locale.in_wishlist %}
+    {% assign btn_title = locale.in_wishlist %}
     {% assign btn_action = 'wk-remove-product' %}
     {% assign btn_icon = 'wishlist-icon-filled' %}
   {% else %}
-    {% assign btn_text = 'Add to Wishlist' %}
-    {% assign btn_title = 'Add to Wishlist' %}
+    {% assign btn_text = locale.add_to_wishlist %}
+    {% assign btn_title = locale.add_to_wishlist %}
     {% assign btn_action = 'wk-add-product' %}
     {% assign btn_icon = 'wishlist-icon-empty' %}
   {% endif %}
 
   <button type="button" class="wk-button-collection {{ btn_action }}" title="{{ btn_title }}" data-{{ btn_action }}="{{ product.id }}">
-    <div class="wk-icon">
-      {% include btn_icon %}
-    </div>
+    <div class="wk-icon">{% include btn_icon %}</div>
     <span class="wk-label">{{ btn_text }}</span>
   </button>
 </script>
@@ -442,19 +520,19 @@
 
   {% assign add_class = '' %}
   {% if product.in_wishlist and wishlist.read_only == true %}
-    {% assign btn_text = 'In Wishlist' %}
-    {% assign btn_title = 'Remove from Wishlist' %}
+    {% assign btn_text = locale.in_wishlist %}
+    {% assign btn_title = locale.in_wishlist %}
     {% assign btn_action = 'wk-remove-product' %}
     {% assign btn_icon = 'wishlist-icon-filled' %}
   {% elsif product.in_wishlist and wishlist.read_only == false %}
-    {% assign btn_text = 'In Wishlist' %}
-    {% assign btn_title = 'Remove from Wishlist' %}
+    {% assign btn_text = locale.in_wishlist %}
+    {% assign btn_title = locale.in_wishlist %}
     {% assign btn_action = 'wk-remove-item' %}
     {% assign btn_icon = 'wishlist-icon-remove' %}
     {% assign add_class = 'wk-with-hover' %}
   {% else %}
-    {% assign btn_text = 'Add to Wishlist' %}
-    {% assign btn_title = 'Add to Wishlist' %}
+    {% assign btn_text = locale.add_to_wishlist %}
+    {% assign btn_title = locale.add_to_wishlist %}
     {% assign btn_action = 'wk-add-product' %}
     {% assign btn_icon = 'wishlist-icon-empty' %}
     {% assign add_class = 'wk-with-hover' %}
@@ -536,7 +614,7 @@
 >
   <div class="wk-row">
     <div class="wk-span12">
-      <h3 class="wk-wishlist-empty-note">Your wishlist is empty!</h3>
+      <h3 class="wk-wishlist-empty-note">{{ locale.wishlist_empty_note }}</h3>
     </div>
   </div>
 </script>
@@ -549,7 +627,7 @@
 >
   <div class="wk-row">
     <p class="wk-span12 wk-login-note">
-      To permanently save your wishlist please <a href="/account/login">login</a> or <a href="/account/register">sign up</a>.
+      {{ locale.login_or_signup_note }}
     </p>
   </div>
 </script>
@@ -560,19 +638,19 @@
   type="text/x-template"
   app="wishlist-king"
 >
-  <h3 id="wk-share-head">Share Wishlist</h3>
+  <h3 id="wk-share-head">{{ locale.share_wishlist }}</h3>
   <ul id="wk-share-list">
     <li>{% include 'wishlist-share-button-fb' %}</li>
     <li>{% include 'wishlist-share-button-pinterest' %}</li>
     <li>{% include 'wishlist-share-button-twitter' %}</li>
     <li>{% include 'wishlist-share-button-email' %}</li>
-    <li id="wk-share-whatsapp">{% include 'wishlist-share-button-whatsapp' %}</li>
     <li>{% include 'wishlist-share-button-link' %}</li>
     {% comment %}
     <li>{% include 'wishlist-share-button-contact' %}</li>
     {% endcomment %}
+    <li id="wk-share-whatsapp">{% include 'wishlist-share-button-whatsapp' %}</li>
   </ul>
-  <div id="wk-share-link-text"><span class="wk-text"></span><button class="wk-clipboard" data-clipboard-target="#wk-share-link-text .wk-text">copy link</button></div>
+  <div id="wk-share-link-text"><span class="wk-text"></span><button class="wk-clipboard" data-clipboard-target="#wk-share-link-text .wk-text">{{ locale.copy_share_link }}</button></div>
 </script>
 
 <script
@@ -583,7 +661,8 @@
 >
   <div class="wk-row">
     {% assign item_count = 0 %}
-    {% for product in wishlist.products %}
+    {% assign products = wishlist.products | reverse %}
+    {% for product in products %}
       {% assign item_count = item_count | plus: 1 %}
       {% unless limit and item_count > limit %}
         {% assign hide_default_title = false %}
@@ -616,7 +695,7 @@
   app="wishlist-king"
 >
   <div class="wk-image">
-    <a href="{{ product | variant_url }}" class="wk-variant-link wk-content" title="View product">
+    <a href="{{ product | variant_url }}" class="wk-variant-link wk-content" title="{{ locale.view_product }}">
       <img class="wk-variant-image"
          src="{{ product | variant_img_url: '1000x' }}"
          alt="{{ product.title }}" />
@@ -631,7 +710,7 @@
   app="wishlist-king"
 >
   <div class="wk-product-title">
-    <a href="{{ product | variant_url }}" class="wk-variant-link" title="View product">{{ product.title }}</a>
+    <a href="{{ product | variant_url }}" class="wk-variant-link" {% if settings.root_url %}style="opacity: 0;"{% endif %}>{{ product.title }}</a>
   </div>
 </script>
 
@@ -668,7 +747,7 @@
         <select id="wk-option-select-{{ product.wishlist_item_id }}" class="wk-option-select" name="id">
 
           {% for variant in product.variants %}
-          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
+          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %} {% unless variant.available or variant.inventory_policy == "continue" %}disabled="disabled"{% endunless %}>
             {{ variant.title }} - {{ variant.price | money }}
           </option>
           {% endfor %}
@@ -677,12 +756,10 @@
       </div>
 
       {% comment %}
-        {% if settings.display_quantity_dropdown and product.available %}
         <div class="wk-selector-wrapper">
           <label>Quantity</label>
           <input class="wk-quantity" type="number" name="quantity" value="1" class="wk-item-quantity" />
         </div>
-        {% endif %}
       {% endcomment %}
 
       <div class="wk-purchase-section{% if product.variants.length > 1 %} wk-multiple{% endif %}">
@@ -693,7 +770,7 @@
           {% if wishlist.read_only %}
             {% assign cart_action = 'wk-add-to-cart' %}
           {% endif %}
-          <input type="submit" class="wk-add-to-cart" data-{{ cart_action }}="{{ product.wishlist_item_id }}" name="add" value="Add to Cart" />
+          <input type="submit" class="wk-add-to-cart" data-{{ cart_action }}="{{ product.wishlist_item_id }}" name="add" value="{{ locale.add_to_wishlist }}" />
         {% endunless %}
       </div>
     </div>
@@ -708,7 +785,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Share on Facebook" data-wk-share-service="facebook" data-wk-share="{{ wishlist.permaId }}" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.share_on_facebook }}" data-wk-share-service="facebook" data-wk-share="{{ wishlist.permaId }}" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
     <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
@@ -730,7 +807,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Share on Twitter" data-wk-share-service="twitter" data-wk-share="{{ wishlist.permaId }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.share_on_twitter }}" data-wk-share-service="twitter" data-wk-share="{{ wishlist.permaId }}">
     <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
@@ -752,7 +829,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Share on Pinterest" data-wk-share-service="pinterest" data-wk-share="{{ wishlist.permaId }}" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.share_on_pinterest }}" data-wk-share-service="pinterest" data-wk-share="{{ wishlist.permaId }}" data-wk-share-image="{{ wishlist.products[0] | variant_img_url: '1200x630' }}">
     <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
@@ -772,7 +849,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Share via WhatsApp" data-wk-share-service="whatsapp" data-wk-share="{{ wishlist.permaId }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.share_with_whatsapp }}" data-wk-share-service="whatsapp" data-wk-share="{{ wishlist.permaId }}">
     <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -792,7 +869,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Share via Email" data-wk-share-service="email" data-wk-share="{{ wishlist.permaId }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.share_by_email }}" data-wk-share-service="email" data-wk-share="{{ wishlist.permaId }}">
     <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
@@ -812,7 +889,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Share via link" data-wk-share-service="link" data-wk-share="{{ wishlist.permaId }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.get_link }}" data-wk-share-service="link" data-wk-share="{{ wishlist.permaId }}">
     <div class="resp-sharing-button resp-sharing-button--link resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg version='1.1' xmlns='https://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
@@ -840,7 +917,7 @@
   app="wishlist-king"
 >
   {% unless wishlist.empty %}
-  <a href="#" class="wk-button-share resp-sharing-button__link" title="Send to customer service" data-wk-share-service="contact" data-wk-share="{{ wishlist.permaId }}">
+  <a href="#" class="wk-button-share resp-sharing-button__link" title="{{ locale.send_to_customer_service }}" data-wk-share-service="contact" data-wk-share="{{ wishlist.permaId }}">
     <div class="resp-sharing-button resp-sharing-button--link resp-sharing-button--large">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -885,21 +962,20 @@
     var formatMoney = Appmate.wk.filters.money;
 
     if (!product.hidden && variant && (variant.available || variant.inventory_policy === 'continue')) {
-      container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', 'Add to Cart');
+      container.find('.wk-add-to-cart').removeAttr('disabled').removeClass('disabled').attr('value', Appmate.globals.locale.add_to_cart);
       if(parseFloat(variant.price) < parseFloat(variant.compare_at_price)){
         container.find('.wk-price-preview').html(formatMoney(variant.price) + " <del>" + formatMoney(variant.compare_at_price) + "</del>");
       } else {
         container.find('.wk-price-preview').html(formatMoney(variant.price));
       }
     } else {
-      var message = variant && !product.hidden ? "Sold Out" : "Unavailable";
       container.find('.wk-add-to-cart').addClass('disabled').attr('disabled', 'disabled').attr('value', message);
-      container.find('.wk-price-preview').text(message);
+      container.find('.wk-price-preview').text(Appmate.globals.locale.sold_out);
     }
 
   };
 
-  function appmateOptionSelect(el){
+  function appmateOptionSelect(el, translatedPoduct){
     if (!Shopify || !Shopify.OptionSelectors) {
       throw new Error('Missing option_selection.js! Please check templates/page.wishlist.liquid');
     }
@@ -910,7 +986,7 @@
 
     Appmate.wk.getItem(itemId).then(function(product){
       var selector = new Shopify.OptionSelectors(id, {
-        product: product,
+        product: translatedPoduct || product,
         onVariantSelected: appmateSelectCallback,
         enableHistoryState: false
       });
@@ -924,6 +1000,18 @@
           Appmate.wk.$(selector.element).parents(".selector-wrapper").css({display: "none"});
         }
       });
+
+      for (var i = 0; i < selector.selectors.length; i++) {
+        for (var j = 0; j < selector.selectors[i].values.length; j++) {
+          var originalIndex = (i + 1) * j;
+          var disabled = selector.variantIdField.options[originalIndex].getAttribute("disabled");
+          if (disabled) {
+            selector.selectors[i].element.options[j].setAttribute("disabled", disabled);
+          } else {
+            selector.selectors[i].element.options[j].removeAttribute("disabled");
+          }
+        }
+      }
 
       // Add label if only one product option and it isn't 'Title'.
       if (product.options.length == 1 && product.options[0] != 'Title') {
@@ -939,7 +1027,5 @@
   src="https://az814789.vo.msecnd.net/toolkit/1.4.44/appmate.js"
   async
 ></script>
-<link
-  href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}"
-  rel="stylesheet"
-/>
+
+<link rel="stylesheet" href="{{ 'appmate-wishlist-king.scss.css' | asset_url }}">
