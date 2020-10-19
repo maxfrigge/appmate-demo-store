@@ -1,9 +1,0 @@
-{
-  "test": {
-    "pagination": {
-      "summary": "Page {{ current_page }} of {{ pages }}",
-      "previous": "Previous",
-      "next": "Next"
-    }
-  }
-}

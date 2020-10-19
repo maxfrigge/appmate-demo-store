@@ -4,7 +4,7 @@
 
 /* -- Wishlist button collection -- */
 $wk-button-collection-icon-color: currentColor;
-$wk-button-collection-backgrund-color: rgba(0,0,0,0);
+$wk-button-collection-backgrund-color: rgba(0, 0, 0, 0);
 $wk-button-collection-icon-size: 16px;
 
 /* -- Wishlist button product -- */
@@ -15,7 +15,7 @@ $wk-button-product-icon-padding: 0;
 
 /* -- Wishlist button wishlist page -- */
 $wk-button-wishlist-page-icon-color: currentColor;
-$wk-button-wishlist-page-backgrund-color: rgba(0,0,0,0);
+$wk-button-wishlist-page-backgrund-color: rgba(0, 0, 0, 0);
 $wk-button-wishlist-page-icon-size: 18px;
 
 /* -- Clear wishlist button (on wishlist page) -- */
@@ -33,7 +33,7 @@ $wk-header-link-icon-padding: 0;
 /* -- Wishlist page -- */
 $wk-page-price-color: #555;
 $wk-page-title-color: #333;
-$wk-variant-form-background: rgba(255,255,255,0.95);
+$wk-variant-form-background: rgba(255, 255, 255, 0.95);
 $wk-add-to-cart-background: #333;
 $wk-add-to-cart-color: #fff;
 $wk-add-to-cart-background-hover: #333;
@@ -82,7 +82,7 @@ $swiper-button-color: #999;
   }
 }
 
-@mixin wk-button($text-color: #000, $background-color: rgba(0,0,0,0)) {
+@mixin wk-button($text-color: #000, $background-color: rgba(0, 0, 0, 0)) {
   width: auto;
   height: auto;
   background: none;
@@ -98,11 +98,16 @@ $swiper-button-color: #999;
   flex-direction: row;
 
   &:focus {
-    outline:0;
+    outline: 0;
   }
 }
 
-@mixin wk-icon-button($color, $backgrund-color, $icon-size: 15px, $icon-padding: 5px) {
+@mixin wk-icon-button(
+  $color,
+  $backgrund-color,
+  $icon-size: 15px,
+  $icon-padding: 5px
+) {
   @include wk-button(#000, $backgrund-color);
   @include wk-icon($color, $icon-size, $icon-padding);
 
@@ -110,23 +115,20 @@ $swiper-button-color: #999;
     display: none;
   }
 
-  {% if settings.app_wk_col_bg_shape == "square" %}
-    border-radius: 0;
-  {% elsif settings.app_wk_col_bg_shape == "circle" %}
-    border-radius: 50%;
-  {% elsif settings.app_wk_col_bg_shape == "none" %}
-    background: transparent;
-  {% endif %}
-
+  border-radius: 0;
   padding: 0;
   margin: 0;
 }
 
-@mixin wk-text-button($icon-color, $text-color, $icon-size: 15px, $icon-padding: 5px) {
+@mixin wk-text-button(
+  $icon-color,
+  $text-color,
+  $icon-size: 15px,
+  $icon-padding: 5px
+) {
   @include wk-button($text-color);
   @include wk-icon($icon-color, $icon-size, $icon-padding);
 }
-
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Buttons */
@@ -142,23 +144,20 @@ $swiper-button-color: #999;
 }
 
 button.wk-button-collection {
-  @include wk-icon-button($wk-button-collection-icon-color, $wk-button-collection-backgrund-color, $wk-button-collection-icon-size);
+  @include wk-icon-button(
+    $wk-button-collection-icon-color,
+    $wk-button-collection-backgrund-color,
+    $wk-button-collection-icon-size
+  );
   display: inline-block;
 
   position: absolute;
   z-index: 1;
 
-  {% if settings.app_wk_col_bg_shape == "square" %}
-    top: 0;
-    right: 0;
-    left: auto;
-    bottom: auto;
-  {% else %}
-    top: 5px;
-    right: 5px;
-    left: auto;
-    bottom: auto;
-  {% endif %}
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: auto;
 
   line-height: 0;
   width: 32px;
@@ -186,11 +185,11 @@ button.wk-button-collection {
   }
 
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 
-  -webkit-transition: opacity .3s;
-  transition: opacity .3s;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
 }
 
 * > button.wk-button-collection.wk-add-product {
@@ -202,7 +201,12 @@ button.wk-button-collection {
 }
 
 button.wk-button-product {
-  @include wk-text-button($wk-button-product-icon-color, $wk-button-product-text-color, $wk-button-product-icon-size, $wk-button-product-icon-padding);
+  @include wk-text-button(
+    $wk-button-product-icon-color,
+    $wk-button-product-text-color,
+    $wk-button-product-icon-size,
+    $wk-button-product-icon-padding
+  );
 
   /* Icon and Text */
   display: block;
@@ -241,12 +245,16 @@ button.wk-button-product {
   }
 
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
 button.wk-button-wishlist-page {
-  @include wk-icon-button($wk-button-wishlist-page-icon-color, $wk-button-wishlist-page-backgrund-color, $wk-button-wishlist-page-icon-size);
+  @include wk-icon-button(
+    $wk-button-wishlist-page-icon-color,
+    $wk-button-wishlist-page-backgrund-color,
+    $wk-button-wishlist-page-icon-size
+  );
   display: inline-block;
 
   &.wk-with-hover {
@@ -256,17 +264,10 @@ button.wk-button-wishlist-page {
   position: absolute;
   z-index: 1;
 
-  {% if settings.app_wk_col_bg_shape == "square" %}
-    top: 8px;
-    right: 8px;
-    left: auto;
-    bottom: auto;
-  {% else %}
-    top: 5px;
-    right: 5px;
-    left: auto;
-    bottom: auto;
-  {% endif %}
+  top: 8px;
+  right: 8px;
+  left: auto;
+  bottom: auto;
 
   line-height: 0;
   width: 32px;
@@ -294,11 +295,11 @@ button.wk-button-wishlist-page {
   }
 
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 
-  -webkit-transition: opacity .3s;
-  transition: opacity .3s;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
 }
 
 *:hover > button.wk-button-wishlist-page {
@@ -306,7 +307,10 @@ button.wk-button-wishlist-page {
 }
 
 button.wk-button-wishlist-clear {
-  @include wk-button($wk-button-wishlist-clear-text-color, $wk-button-wishlist-clear-background);
+  @include wk-button(
+    $wk-button-wishlist-clear-text-color,
+    $wk-button-wishlist-clear-background
+  );
 
   padding: 8px 12px;
   text-align: center;
@@ -317,7 +321,7 @@ button.wk-button-wishlist-clear {
   border: none;
   text-shadow: none;
   text-transform: initial;
-  border-radius:0;
+  border-radius: 0;
   display: none;
 
   &:hover {
@@ -326,13 +330,16 @@ button.wk-button-wishlist-clear {
   }
 }
 
-
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Wishlist Link in header / top bar */
 /*////////////////////////////////////////////////////////////////////////////*/
 
 a.wk-link {
-  @include wk-icon($wk-header-link-icon-color, $wk-header-link-icon-size, $wk-header-link-icon-padding);
+  @include wk-icon(
+    $wk-header-link-icon-color,
+    $wk-header-link-icon-size,
+    $wk-header-link-icon-padding
+  );
 
   display: inline-block;
   //margin: 0 10px 0 0;
@@ -434,27 +441,54 @@ a.wk-link {
   box-sizing: border-box;
 }
 
-.wk-span2 { width: 16.6666%; }
-.wk-span3 { width: 25%; }
-.wk-span4 { width: 33.3333%; }
-.wk-span6 { width: 50%; }
-.wk-span12 { width: 100%; }
+.wk-span2 {
+  width: 16.6666%;
+}
+.wk-span3 {
+  width: 25%;
+}
+.wk-span4 {
+  width: 33.3333%;
+}
+.wk-span6 {
+  width: 50%;
+}
+.wk-span12 {
+  width: 100%;
+}
 
 @media (max-width: 720px) {
-  .wk-span2 { width: 33.3333%; }
-  .wk-span3 { width: 50%; }
-  .wk-span4 { width: 50%; }
-  .wk-item-column { width: 50% !important; }
+  .wk-span2 {
+    width: 33.3333%;
+  }
+  .wk-span3 {
+    width: 50%;
+  }
+  .wk-span4 {
+    width: 50%;
+  }
+  .wk-item-column {
+    width: 50% !important;
+  }
 }
 
 @media (max-width: 480px) {
-  .wk-span2 { width: 100%; }
-  .wk-span3 { width: 100%; }
-  .wk-span4 { width: 100%; }
-  .wk-span6 { width: 100%; }
-  .wk-item-column { width: 100% !important; }
+  .wk-span2 {
+    width: 100%;
+  }
+  .wk-span3 {
+    width: 100%;
+  }
+  .wk-span4 {
+    width: 100%;
+  }
+  .wk-span6 {
+    width: 100%;
+  }
+  .wk-item-column {
+    width: 100% !important;
+  }
 }
-
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Wishlist Page */
@@ -476,7 +510,7 @@ h1#wk-page-title {
 p.wk-login-note {
   text-align: center;
   margin-bottom: 35px;
-  background: rgba(0,0,0,.02);
+  background: rgba(0, 0, 0, 0.02);
   padding: 10px;
   margin-bottom: 30px;
   font-style: italic;
@@ -542,8 +576,8 @@ p.wk-login-note {
   padding: 10px;
   opacity: 0;
 
-  -webkit-transition: opacity .5s;
-  transition: opacity .5s;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
 
   input.wk-add-to-cart {
     box-sizing: content-box;
@@ -610,7 +644,7 @@ ul#wk-share-list {
   padding: 3px 10px;
   display: none;
   text-align: center;
-  font-size: .8em;
+  font-size: 0.8em;
   font-style: italic;
 
   .wk-text {
@@ -673,7 +707,7 @@ ul#wk-share-list {
 
 .resp-sharing-button span {
   padding-left: 0.4em;
-  display:none;
+  display: none;
 }
 
 /* Non solid icons get a stroke */
@@ -742,7 +776,7 @@ ul#wk-share-list {
 }
 
 .resp-sharing-button--whatsapp:hover {
-  background-color: #25D366;
+  background-color: #25d366;
 }
 
 .wk-touch {
@@ -800,9 +834,6 @@ ul#wk-share-list {
   }
 }
 
-
-
-
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* !Responsive Styles */
 /*////////////////////////////////////////////////////////////////////////////*/
@@ -815,9 +846,7 @@ ul#wk-share-list {
 }
 
 @media (max-width: 767px) {
-
 }
 
 @media (max-width: 320px) {
-
 }
